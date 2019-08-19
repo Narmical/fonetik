@@ -1,4 +1,7 @@
-package com.hoardingsinc.phoneticskeyboard;
+package com.hoardingsinc.phoneticskeyboard.pronounceationdict;
+
+import android.arch.persistence.room.Room;
+import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,12 +18,16 @@ public class PronunciationDict {
     private Map<String, String> mArpabetToIpaMap;
     private Map<String, List<String>> mDictionary;
     private Pattern arpabetPattern = Pattern.compile("([A-Z]+)");
+    private PronunciationDB mDatabase;
 
-    public PronunciationDict(BufferedReader arpabetToIpaMap, BufferedReader pronunciationDictionary) throws IOException {
+    public PronunciationDict(Context context, BufferedReader arpabetToIpaMap, BufferedReader pronunciationDictionary) throws IOException {
         if (arpabetToIpaMap != null)
             this.mArpabetToIpaMap = this.loadArpabetToIpaMap(arpabetToIpaMap);
         if (pronunciationDictionary != null)
             this.mDictionary = this.loadDictionary(pronunciationDictionary);
+
+        this.mDatabase = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "PronunciationDb").build();
+
     }
 
     Map<String, String> loadArpabetToIpaMap(BufferedReader reader) throws IOException {
