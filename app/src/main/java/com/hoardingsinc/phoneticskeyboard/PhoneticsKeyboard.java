@@ -12,6 +12,11 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextInfo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private CandidateView mCandidateView;
     private List<String> mSuggestions;
     private boolean mCompletionOn;
+    private static PronunciationDict mDictionary;
     private CompletionInfo[] mCompletions;
     private boolean mPredictionOn;
     private StringBuilder mComposing = new StringBuilder();
@@ -73,8 +79,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private void updateCandidates() {
         if (!mCompletionOn) {
             if (mComposing.length() > 0) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(mComposing.toString());
+                List<String> list = this.mDictionary.lookaheadMatch(this.mComposing.toString());
                 Log.d("PhoneticsKeyboard", "updateCandidates: " + mComposing.toString());
                 setSuggestions(list, true, true);
             } else {
@@ -131,6 +136,34 @@ public class PhoneticsKeyboard extends InputMethodService
         mPredictionOn = true;
         mCompletionOn = false;
         mCompletions = null;
+        if (mDictionary == null) {
+            Log.d("PhoneticsKeyboard","Building Pronunciation Dictionary");
+            try {
+                mDictionary = new PronunciationDict(
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                        "UTF8"
+                                )
+
+                        ),
+                        new BufferedReader(
+                                new StringReader("PLUSH  P L AH1 SH\n" +
+                                        "PLUTA  P L UW1 T AH0\n" +
+                                        "PLUTH  P L UW1 TH\n" +
+                                        "PLUTO  P L UW1 T OW0\n" +
+                                        "PLUTO'S  P L UW1 T OW0 Z\n" +
+                                        "PLUTOCRAT  P L UW1 T AH0 K R AE2 T\n" +
+                                        "PLUTOCRATS  P L UW1 T AH0 K R AE2 T S\n" +
+                                        "PLUTONIAN  P L UW0 T OW1 N IY0 AH0 N\n")
+                        )
+                );
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
