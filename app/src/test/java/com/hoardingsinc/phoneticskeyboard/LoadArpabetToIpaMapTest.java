@@ -1,8 +1,9 @@
 package com.hoardingsinc.phoneticskeyboard;
+
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -12,10 +13,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
-public class PronunciationDictTest {
+public class LoadArpabetToIpaMapTest {
 
     @Test
-    public void loadArpabetToIpaMap() throws IOException {
+    public void loadArpabetToIpaMapTest() throws IOException {
         PronunciationDict dict = new PronunciationDict(null, null);
 
 
