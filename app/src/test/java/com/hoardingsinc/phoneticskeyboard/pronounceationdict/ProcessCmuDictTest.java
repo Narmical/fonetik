@@ -1,4 +1,4 @@
-package com.hoardingsinc.phoneticskeyboard;
+package com.hoardingsinc.phoneticskeyboard.pronounceationdict;
 
 import org.junit.Test;
 

@@ -1,16 +1,16 @@
-package com.hoardingsinc.phoneticskeyboard;
+package com.hoardingsinc.phoneticskeyboard.pronounceationdict;
 
 import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.isIn;
 
 
 public class LoadArpabetToIpaMapTest {

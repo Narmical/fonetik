@@ -2,9 +2,8 @@ package com.hoardingsinc.phoneticskeyboard;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -14,11 +13,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         TextView presentation = findViewById(R.id.presentation);

@@ -1,4 +1,4 @@
-package com.hoardingsinc.phoneticskeyboard;
+package com.hoardingsinc.phoneticskeyboard.pronounceationdict;
 
 import org.junit.Test;
 
@@ -7,16 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.isIn;
 
 
 public class LookupWordsFromPronunciationsTest {

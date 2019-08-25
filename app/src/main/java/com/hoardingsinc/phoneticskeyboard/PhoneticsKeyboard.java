@@ -10,7 +10,8 @@ import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textservice.TextInfo;
+
+import com.hoardingsinc.phoneticskeyboard.pronounceationdict.PronunciationDict;
 
 import java.io.BufferedReader;
 import java.io.IOException;
