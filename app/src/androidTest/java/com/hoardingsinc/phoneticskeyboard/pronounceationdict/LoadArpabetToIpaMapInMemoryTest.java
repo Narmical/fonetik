@@ -13,12 +13,11 @@ import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.isIn;
 
 
-public class LoadArpabetToIpaMapTest {
+public class LoadArpabetToIpaMapInMemoryTest {
 
     @Test
     public void loadArpabetToIpaMapTest() throws IOException {
-        PronunciationDict dict = new PronunciationDict(null, null);
-
+        ArpabetToIpaConverter arpabetToIpaConverter = new ArpabetToIpaConverter(null);
 
         Map<String, String> expected = new HashMap<String, String>() {
             {
@@ -28,7 +27,7 @@ public class LoadArpabetToIpaMapTest {
             }
         };
 
-        Map<String, String> actual = dict.loadArpabetToIpaMap(new BufferedReader(new StringReader("AA\tɑ\n" +
+        Map<String, String> actual = arpabetToIpaConverter.loadArpabetToIpaMap(new BufferedReader(new StringReader("AA\tɑ\n" +
                 "AE\tæ\n" +
                 "AH\tʌ")));
 

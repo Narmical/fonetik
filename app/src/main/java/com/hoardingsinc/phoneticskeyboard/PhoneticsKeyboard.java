@@ -1,8 +1,10 @@
 package com.hoardingsinc.phoneticskeyboard;
 
+
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,7 +13,10 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.PronunciationDict;
+import androidx.annotation.RequiresApi;
+
+import com.hoardingsinc.phoneticskeyboard.pronounceationdict.ArpabetToIpaConverter;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdict.InMemoryPronunciationDictionary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,14 +29,13 @@ import java.util.List;
 public class PhoneticsKeyboard extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
 
+    private static InMemoryPronunciationDictionary mDictionary;
     private KeyboardView kv;
     private Keyboard keyboard;
-
     private boolean caps = false;
     private CandidateView mCandidateView;
     private List<String> mSuggestions;
     private boolean mCompletionOn;
-    private static PronunciationDict mDictionary;
     private CompletionInfo[] mCompletions;
     private boolean mPredictionOn;
     private StringBuilder mComposing = new StringBuilder();
@@ -56,6 +60,7 @@ public class PhoneticsKeyboard extends InputMethodService
             if (mPredictionOn && mSuggestions != null && index >= 0) {
                 mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
             }
+            mComposing.append(" ");
             commitTyped(getCurrentInputConnection());
 
         }
@@ -77,16 +82,42 @@ public class PhoneticsKeyboard extends InputMethodService
      * text.  This will need to be filled in by however you are determining
      * candidates.
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateCandidates() {
         if (!mCompletionOn) {
             if (mComposing.length() > 0) {
-                List<String> list = this.mDictionary.lookaheadMatch(this.mComposing.toString());
+                List<String> list = this.mDictionary.lookaheadMatch(this.mComposing.toString(), 10);
                 Log.d("PhoneticsKeyboard", "updateCandidates: " + mComposing.toString());
                 setSuggestions(list, true, true);
             } else {
                 setSuggestions(null, false, false);
             }
         }
+    }
+
+    private void handleBackspace() {
+        final int length = mComposing.length();
+        if (length > 1) {
+            mComposing.delete(length - 1, length);
+            getCurrentInputConnection().setComposingText(mComposing, 1);
+            updateCandidates();
+        } else if (length > 0) {
+            mComposing.setLength(0);
+            getCurrentInputConnection().commitText("", 0);
+            updateCandidates();
+        } else {
+            keyDownUp(KeyEvent.KEYCODE_DEL);
+        }
+    }
+
+    /**
+     * Helper to send a key down / key up pair to the current editor.
+     */
+    private void keyDownUp(int keyEventCode) {
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
@@ -138,25 +169,22 @@ public class PhoneticsKeyboard extends InputMethodService
         mCompletionOn = false;
         mCompletions = null;
         if (mDictionary == null) {
-            Log.d("PhoneticsKeyboard","Building Pronunciation Dictionary");
+            Log.d("PhoneticsKeyboard", "Building Pronunciation Dictionary");
             try {
-                mDictionary = new PronunciationDict(
+                mDictionary = new InMemoryPronunciationDictionary(this,
+                        new ArpabetToIpaConverter(
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                                "UTF8"
+                                        )
+
+                                )),
                         new BufferedReader(
                                 new InputStreamReader(
-                                        this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                        this.getResources().openRawResource(R.raw.cmudict),
                                         "UTF8"
                                 )
-
-                        ),
-                        new BufferedReader(
-                                new StringReader("PLUSH  P L AH1 SH\n" +
-                                        "PLUTA  P L UW1 T AH0\n" +
-                                        "PLUTH  P L UW1 TH\n" +
-                                        "PLUTO  P L UW1 T OW0\n" +
-                                        "PLUTO'S  P L UW1 T OW0 Z\n" +
-                                        "PLUTOCRAT  P L UW1 T AH0 K R AE2 T\n" +
-                                        "PLUTOCRATS  P L UW1 T AH0 K R AE2 T S\n" +
-                                        "PLUTONIAN  P L UW0 T OW1 N IY0 AH0 N\n")
                         )
                 );
             } catch (UnsupportedEncodingException e) {
@@ -209,7 +237,8 @@ public class PhoneticsKeyboard extends InputMethodService
                 inputManager.showInputMethodPicker();
                 break;
             case Keyboard.KEYCODE_DELETE:
-                ic.deleteSurroundingText(1, 0);
+                //ic.deleteSurroundingText(1, 0);
+                handleBackspace();
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 caps = !caps;

@@ -9,6 +9,13 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Pronunciation {
 
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+    @ColumnInfo(name = "ipa")
+    private String ipa;
+    @ColumnInfo(name = "spellings")
+    private String spellings;
+
     @NonNull
     @Override
     public String toString() {
@@ -18,23 +25,18 @@ public class Pronunciation {
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Pronunciation) {
-            String otherIpa = ((Pronunciation)obj).getIpa();
-            return this.ipa == otherIpa;
+            String otherIpa = ((Pronunciation) obj).getIpa();
+            return this.ipa.equals(otherIpa);
         }
         return false;
     }
 
-    @PrimaryKey(autoGenerate = true)
-    private int uid;
-
-    @ColumnInfo(name = "ipa")
-    private String ipa;
-
-    @ColumnInfo(name = "spellings")
-    private String spellings;
-
     public int getUid() {
         return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getIpa() {
@@ -53,8 +55,11 @@ public class Pronunciation {
         this.spellings = spellings;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void addSpelling(String spelling) {
+        if (spellings == null || spellings == "")
+            spellings = spelling;
+        else
+            spellings = spellings + "," + spelling;
     }
 
     // getters and setters

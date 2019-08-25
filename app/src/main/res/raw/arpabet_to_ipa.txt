@@ -6,7 +6,7 @@ AW	aʊ
 AX	ə
 AXR	ɚ
 AY	aɪ
-EH	ɛ
+EH	ε
 ER	ɝ
 EY	eɪ
 IH	ɪ
@@ -22,11 +22,11 @@ CH	tʃ
 D	d
 DH	ð
 DX	ɾ
-EL	l̩
-EM	m̩
-EN	n̩
+EL	l
+EM	m
+EN	n
 F	f
-G	ɡ
+G	g
 H	h
 HH	h
 JH	dʒ
@@ -38,7 +38,7 @@ NG	ŋ
 NX	ɾ̃
 P	p
 Q	ʔ
-R	ɹ
+R	r
 S	s
 SH	ʃ
 T	t

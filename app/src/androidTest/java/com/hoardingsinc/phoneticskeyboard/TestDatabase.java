@@ -22,6 +22,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class TestDatabase {
@@ -51,6 +52,19 @@ public class TestDatabase {
         List<Pronunciation> allPronunciations = pronunciationDao.getAll();
         assertThat(allPronunciations, containsInAnyOrder(pronunciationList.toArray()));
     }
+
+    @Test
+    public void testGetOne() throws Exception {
+        Pronunciation pronunciation = new Pronunciation();
+        pronunciation.setIpa("Hello");
+        pronunciation.setSpellings("hello");
+        List<Pronunciation> pronunciationList = new ArrayList<>();
+        pronunciationList.add(pronunciation);
+        pronunciationDao.insertAll(pronunciationList);
+        List<Pronunciation> actual = pronunciationDao.get("Hello");
+        assertThat(actual.get(0).getIpa(), equalTo("Hello"));
+    }
+
 
     @Test
     public void testLikePronunciation() throws Exception {

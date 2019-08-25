@@ -15,14 +15,23 @@ public interface PronunciationDao {
     List<Pronunciation> getAll();
 
     @Insert
-    void insertAll(List<Pronunciation> products);
+    void insertAll(List<Pronunciation> pronunciations);
+
+    @Insert
+    void insert(Pronunciation pronunciation);
 
     @Update
-    void update(Pronunciation product);
+    void update(Pronunciation pronunciation);
 
     @Delete
-    void delete(Pronunciation product);
+    void delete(Pronunciation pronunciation);
 
-    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa LIMIT 1")
+    @Query("SELECT * FROM pronunciation WHERE ipa = :ipa")
+    List<Pronunciation> get(String ipa);
+
+    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa LIMIT 10")
     List<Pronunciation> getLikeIpa(String ipa);
+
+    @Query("SELECT count(distinct ipa) from pronunciation")
+    int numEntries();
 }
