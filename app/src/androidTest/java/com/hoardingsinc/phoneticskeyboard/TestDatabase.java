@@ -17,13 +17,14 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @RunWith(AndroidJUnit4.class)
-public class DatabaseTest {
+public class TestDatabase {
     private PronunciationDao pronunciationDao;
     private PronunciationDB db;
 
@@ -40,13 +41,43 @@ public class DatabaseTest {
     }
 
     @Test
-    public void writePronunciation() throws Exception {
+    public void testWritePronunciation() throws Exception {
         Pronunciation pronunciation = new Pronunciation();
         pronunciation.setIpa("Hello");
         pronunciation.setSpellings("hello");
         List<Pronunciation> pronunciationList = new ArrayList<>();
+        pronunciationList.add(pronunciation);
         pronunciationDao.insertAll(pronunciationList);
         List<Pronunciation> allPronunciations = pronunciationDao.getAll();
-        assertThat(allPronunciations, equalTo(pronunciationList));
+        assertThat(allPronunciations, containsInAnyOrder(pronunciationList.toArray()));
+    }
+
+    @Test
+    public void testLikePronunciation() throws Exception {
+
+        List<Pronunciation> pronunciationList = new ArrayList<>();
+        List<Pronunciation> expected = new ArrayList<>();
+
+        List<String> codas = new ArrayList<String>(Arrays.asList("r", "s", "t", "l", "n", "e"));
+
+        for (String coda : codas) {
+            Pronunciation pronunciation = new Pronunciation();
+            pronunciation.setIpa("Hell" + coda);
+            pronunciation.setSpellings("hell" + coda);
+            pronunciationList.add(pronunciation);
+            expected.add(pronunciation);
+        }
+
+        for (String coda : codas) {
+            Pronunciation pronunciation = new Pronunciation();
+            pronunciation.setIpa("Hall" + coda);
+            pronunciation.setSpellings("hall" + coda);
+            pronunciationList.add(pronunciation);
+        }
+
+
+        pronunciationDao.insertAll(pronunciationList);
+        List<Pronunciation> actual = pronunciationDao.getLikeIpa("Hell%");
+        assertThat(actual, containsInAnyOrder(expected.toArray()));
     }
 }

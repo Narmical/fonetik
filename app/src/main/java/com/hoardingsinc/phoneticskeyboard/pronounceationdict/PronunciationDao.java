@@ -14,9 +14,6 @@ public interface PronunciationDao {
     @Query("SELECT * FROM pronunciation")
     List<Pronunciation> getAll();
 
-    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa LIMIT 1")
-    Pronunciation findByIpa(String ipa);
-
     @Insert
     void insertAll(List<Pronunciation> products);
 
@@ -25,4 +22,7 @@ public interface PronunciationDao {
 
     @Delete
     void delete(Pronunciation product);
+
+    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa LIMIT 1")
+    List<Pronunciation> getLikeIpa(String ipa);
 }

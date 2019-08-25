@@ -1,9 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     packagingOptions {
@@ -29,6 +35,7 @@ android {
 
     defaultConfig {
         applicationId "com.hoardingsinc.phoneticskeyboard"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 5
@@ -38,6 +45,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
         }
     }
 }
@@ -50,17 +59,17 @@ dependencies {
     // Set this dependency if you want to use Hamcrest matching
     testImplementation 'org.hamcrest:hamcrest-library:2.1'
     // Optional -- Robolectric environment
-    testImplementation 'androidx.test:core:1.0.0'
+    testImplementation 'androidx.test:core:1.2.0'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:1.10.19'
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
     // Core library
-    androidTestImplementation 'androidx.test:core:1.0.0'
+    androidTestImplementation 'androidx.test:core:1.2.0'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
 
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.0.0'
