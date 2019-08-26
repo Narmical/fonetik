@@ -4,7 +4,6 @@ package com.hoardingsinc.phoneticskeyboard;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
-import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,15 +12,13 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.annotation.RequiresApi;
-
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.ArpabetToIpaConverter;
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.InMemoryPronunciationDictionary;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.InMemoryPronunciationDictionary;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyPronounciator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,71 +64,6 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     /**
-     * Helper function to commit any text being composed in to the editor.
-     */
-    private void commitTyped(InputConnection inputConnection) {
-        if (mComposing.length() > 0) {
-            inputConnection.commitText(mComposing, mComposing.length());
-            mComposing.setLength(0);
-            updateCandidates();
-        }
-    }
-
-    /**
-     * Update the list of available candidates from the current composing
-     * text.  This will need to be filled in by however you are determining
-     * candidates.
-     */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void updateCandidates() {
-        if (!mCompletionOn) {
-            if (mComposing.length() > 0) {
-                List<String> list = this.mDictionary.lookaheadMatch(this.mComposing.toString(), 10);
-                Log.d("PhoneticsKeyboard", "updateCandidates: " + mComposing.toString());
-                setSuggestions(list, true, true);
-            } else {
-                setSuggestions(null, false, false);
-            }
-        }
-    }
-
-    private void handleBackspace() {
-        final int length = mComposing.length();
-        if (length > 1) {
-            mComposing.delete(length - 1, length);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
-            updateCandidates();
-        } else if (length > 0) {
-            mComposing.setLength(0);
-            getCurrentInputConnection().commitText("", 0);
-            updateCandidates();
-        } else {
-            keyDownUp(KeyEvent.KEYCODE_DEL);
-        }
-    }
-
-    /**
-     * Helper to send a key down / key up pair to the current editor.
-     */
-    private void keyDownUp(int keyEventCode) {
-        getCurrentInputConnection().sendKeyEvent(
-                new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
-        getCurrentInputConnection().sendKeyEvent(
-                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
-    }
-
-    private void handleCharacter(int primaryCode, int[] keyCodes) {
-        if (mPredictionOn) {
-            mComposing.append((char) primaryCode);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
-            updateCandidates();
-        } else {
-            getCurrentInputConnection().commitText(
-                    String.valueOf((char) primaryCode), 1);
-        }
-    }
-
-    /**
      * This tells us about completions that the editor has determined based
      * on the current text in it.  We want to use this in fullscreen mode
      * to show the completions ourself, since the editor can not be seen
@@ -172,18 +104,21 @@ public class PhoneticsKeyboard extends InputMethodService
             Log.d("PhoneticsKeyboard", "Building Pronunciation Dictionary");
             try {
                 mDictionary = new InMemoryPronunciationDictionary(this,
-                        new ArpabetToIpaConverter(
+                        new MobyPronounciator(
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                                this.getResources().openRawResource(R.raw.cmudict),
                                                 "UTF8"
                                         )
+                                ),
+                                new ArpabetToIpaConverter(
+                                        new BufferedReader(
+                                                new InputStreamReader(
+                                                        this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                                        "UTF8"
+                                                )
 
-                                )),
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        this.getResources().openRawResource(R.raw.cmudict),
-                                        "UTF8"
+                                        )
                                 )
                         )
                 );
@@ -203,22 +138,6 @@ public class PhoneticsKeyboard extends InputMethodService
         kv.setOnKeyboardActionListener(this);
 
         return kv;
-    }
-
-    private int keyboardLayoutVersion() {
-        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
-        switch (keyboardPreferences.getLayout()) {
-            case KeyboardPreferences.LAYOUT_NORMAL:
-                return R.xml.phonetics_normal;
-            case KeyboardPreferences.LAYOUT_EXTENDED:
-                return R.xml.phonetics_extended;
-            case KeyboardPreferences.LAYOUT_EXTENDED_2:
-                return R.xml.phonetics_extended_2;
-            case KeyboardPreferences.LAYOUT_COMPACT:
-                return R.xml.phonetics_compact;
-            default:
-                return R.xml.phonetics_normal;
-        }
     }
 
     public boolean isWordSeparator(int code) {
@@ -290,8 +209,10 @@ public class PhoneticsKeyboard extends InputMethodService
     @Override
     public void onText(CharSequence text) {
         //getCurrentInputConnection().commitText(text, 1);
-        mComposing = new StringBuilder(text);
-        commitTyped(getCurrentInputConnection());
+        mComposing.append(text);
+        getCurrentInputConnection().setComposingText(mComposing, 1);
+        //commitTyped(getCurrentInputConnection());
+        updateCandidates();
     }
 
     @Override
@@ -315,5 +236,86 @@ public class PhoneticsKeyboard extends InputMethodService
         super.onStartInputView(info, restarting);
 
         setInputView(onCreateInputView());
+    }
+
+    /**
+     * Helper function to commit any text being composed in to the editor.
+     */
+    private void commitTyped(InputConnection inputConnection) {
+        if (mComposing.length() > 0) {
+            inputConnection.commitText(mComposing, mComposing.length());
+            mComposing.setLength(0);
+            updateCandidates();
+        }
+    }
+
+    /**
+     * Update the list of available candidates from the current composing
+     * text.  This will need to be filled in by however you are determining
+     * candidates.
+     */
+
+    private void updateCandidates() {
+        if (!mCompletionOn) {
+            if (mComposing.length() > 0) {
+                List<String> list = this.mDictionary.getSuggestions(this.mComposing.toString(), 10);
+                Log.d("PhoneticsKeyboard", "updateCandidates: " + mComposing.toString());
+                setSuggestions(list, true, true);
+            } else {
+                setSuggestions(null, false, false);
+            }
+        }
+    }
+
+    private void handleBackspace() {
+        final int length = mComposing.length();
+        if (length > 1) {
+            mComposing.delete(length - 1, length);
+            getCurrentInputConnection().setComposingText(mComposing, 1);
+            updateCandidates();
+        } else if (length > 0) {
+            mComposing.setLength(0);
+            getCurrentInputConnection().commitText("", 0);
+            updateCandidates();
+        } else {
+            keyDownUp(KeyEvent.KEYCODE_DEL);
+        }
+    }
+
+    /**
+     * Helper to send a key down / key up pair to the current editor.
+     */
+    private void keyDownUp(int keyEventCode) {
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
+    }
+
+    private void handleCharacter(int primaryCode, int[] keyCodes) {
+        if (mPredictionOn) {
+            mComposing.append((char) primaryCode);
+            getCurrentInputConnection().setComposingText(mComposing, 1);
+            updateCandidates();
+        } else {
+            getCurrentInputConnection().commitText(
+                    String.valueOf((char) primaryCode), 1);
+        }
+    }
+
+    private int keyboardLayoutVersion() {
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+        switch (keyboardPreferences.getLayout()) {
+            case KeyboardPreferences.LAYOUT_NORMAL:
+                return R.xml.phonetics_normal;
+            case KeyboardPreferences.LAYOUT_EXTENDED:
+                return R.xml.phonetics_extended;
+            case KeyboardPreferences.LAYOUT_EXTENDED_2:
+                return R.xml.phonetics_extended_2;
+            case KeyboardPreferences.LAYOUT_COMPACT:
+                return R.xml.phonetics_compact;
+            default:
+                return R.xml.phonetics_normal;
+        }
     }
 }

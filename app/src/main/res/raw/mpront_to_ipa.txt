@@ -1,0 +1,49 @@
+/&/	æ
+/-/	ə
+/@/	ʌ, ə
+/[@]/	ɜ, ə
+/A/	ɑ, ɑː
+/aI/	aɪ
+/AU/	aʊ
+b	b
+d	d
+/D/	ð
+/dZ/	dʒ
+/E/	ɛ
+/eI/	eɪ
+f	f
+g	ɡ
+h	h
+hw	hw
+/i/	iː
+/I/	ɪ
+/j/	j
+/ju/	juː
+k	k
+l	l
+m	m
+n	n
+/N/	ŋ
+/O/	ɔ, ɔː
+//Oi//	ɔɪ
+/oU/	oʊ
+p	p
+r	ɹ
+s	s
+/S/	ʃ
+t	t
+/T/	θ
+/tS/	tʃ
+/u/	uː
+/U/	ʊ
+v	v
+w	w
+z	z
+/Z/	ʒ
+A	a
+R	ʁ
+/x/	x
+/y/	ø
+Y	y
+/z/	ts
+Z	z

@@ -6,9 +6,9 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.Pronunciation;
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.PronunciationDB;
-import com.hoardingsinc.phoneticskeyboard.pronounceationdict.PronunciationDao;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.Pronunciation;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDB;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDao;
 
 import org.junit.After;
 import org.junit.Before;
