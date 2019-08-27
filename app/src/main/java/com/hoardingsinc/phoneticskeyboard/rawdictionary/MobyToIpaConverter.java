@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class MobyToIpaConverter implements IpaConverter {
 
     private Map<String, List<String>> mobyToIpaMap;
-    private Pattern arpabetPattern = Pattern.compile("([A-Z])");
+    private Pattern mobyPattern = Pattern.compile("([A-Z])");
 
     public MobyToIpaConverter(BufferedReader mobyToIpaMap) throws IOException {
         if (mobyToIpaMap != null)
@@ -28,10 +28,15 @@ public class MobyToIpaConverter implements IpaConverter {
     public List<String> convertToIpa(String moby) {
         List<StringBuilder> pronounciations = new ArrayList<>();
         pronounciations.add(new StringBuilder());
-        for (String mob : moby.replace("'", "")
-                .replace(",", "").split("/")) {
+        Pattern pattern = Pattern.compile("(//Oi//|/.*?/|[a-z])");
+        Matcher matcher = pattern.matcher(moby
+                .replace("'", "")
+                .replace(",", "")
+        );
 
-            String key = mob;
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            if (key.equals("//")) continue;
             if (this.mobyToIpaMap.containsKey(key)) {
                 List<String> ipas = this.mobyToIpaMap.get(key);
                 List<StringBuilder> adders = new ArrayList<>();
@@ -46,7 +51,7 @@ public class MobyToIpaConverter implements IpaConverter {
             } else if (key.equals("")) {
                 continue;
             } else {
-                throw new NoSuchElementException("cannot convert " + key + " to ipa");
+                throw new NoSuchElementException("cannot convert " + key + " to ipa from input " + moby);
 
             }
         }
@@ -58,13 +63,13 @@ public class MobyToIpaConverter implements IpaConverter {
 
     public Map<String, List<String>> loadMobyToIpaMap(BufferedReader reader) throws
             IOException {
-        Map<String, List<String>> arpabetToIpaMap = new HashMap<>();
+        Map<String, List<String>> mobyToIpaMap = new HashMap<>();
         String thisLine;
         while ((thisLine = reader.readLine()) != null) {
             String[] tokens = thisLine.split("\t");
-            arpabetToIpaMap.put(tokens[0].replace("/", ""), Arrays.asList(tokens[1].split(", ")));
+            mobyToIpaMap.put(tokens[0], Arrays.asList(tokens[1].split(", ")));
         }
-        return arpabetToIpaMap;
+        return mobyToIpaMap;
     }
 
 }

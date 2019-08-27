@@ -13,10 +13,6 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.isIn;
 
 
 public class LoadMobyToIpaMapInMemoryTest {
@@ -27,18 +23,18 @@ public class LoadMobyToIpaMapInMemoryTest {
 
         Map<String, ArrayList<String>> expected = new HashMap<String, ArrayList<String>>() {
             {
-                put("-", new ArrayList<>(Arrays.asList("ə")));
-                put("&", new ArrayList<>(Arrays.asList("æ")));
-                put("@", new ArrayList<>(Arrays.asList("ʌ", "ə")));
-                put("[@]", new ArrayList<>(Arrays.asList("ɜ", "ə")));
-                put("A", new ArrayList<>(Arrays.asList("ɑ", "ɑː")));
+                put("/-/", new ArrayList<>(Arrays.asList("ə")));
+                put("/&/", new ArrayList<>(Arrays.asList("æ")));
+                put("/@/", new ArrayList<>(Arrays.asList("ʌ", "ə")));
+                put("/[@]/", new ArrayList<>(Arrays.asList("ɜ", "ə")));
+                put("/A/", new ArrayList<>(Arrays.asList("ɑ", "ɑː")));
             }
         };
 
         Map<String, List<String>> actual = mobyToIpaConverter.loadMobyToIpaMap(new BufferedReader(new StringReader("/&/\tæ\n" +
                 "/-/\tə\n" +
                 "/@/\tʌ, ə\n" +
-                "/[@]/r\tɜr, ər\n" +
+                "/[@]/\tɜ, ə\n" +
                 "/A/\tɑ, ɑː\n")));
 
         assertThat(actual.entrySet().toArray(), arrayContainingInAnyOrder(expected.entrySet().toArray()));

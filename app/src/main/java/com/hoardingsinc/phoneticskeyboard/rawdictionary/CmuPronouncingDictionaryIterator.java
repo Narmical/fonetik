@@ -10,7 +10,7 @@ public class CmuPronouncingDictionaryIterator extends RawDictionaryIterator {
 
     String thisLine;
 
-    CmuPronouncingDictionaryIterator(BufferedReader reader, ArpabetToIpaConverter ipaConverter) {
+    CmuPronouncingDictionaryIterator(BufferedReader reader, IpaConverter ipaConverter) {
         super(reader, ipaConverter);
     }
 

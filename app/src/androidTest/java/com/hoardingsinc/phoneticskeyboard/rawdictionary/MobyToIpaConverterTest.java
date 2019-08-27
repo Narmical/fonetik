@@ -20,9 +20,14 @@ public class MobyToIpaConverterTest {
     MobyToIpaConverter mobyToIpaConverter = new MobyToIpaConverter(new BufferedReader(new StringReader("/&/\tæ\n" +
             "/-/\tə\n" +
             "/@/\tʌ, ə\n" +
-            "/[@]/r\tɜr, ər\n" +
+            "/[@]/\tɜ, ə\n" +
             "/A/\tɑ, ɑː\n" +
-            "b\tb\n")));
+            "b\tb\n" +
+            "r\tɹ\n" +
+            "t\tt\n" +
+            "w\tw\n" +
+            "k\tk\n" +
+            "w\tw\n")));
 
     public MobyToIpaConverterTest() throws IOException {
     }
@@ -60,8 +65,13 @@ public class MobyToIpaConverterTest {
         assertThat(mobyToIpaConverter.convertToIpa("/&/b").toArray(), arrayContainingInAnyOrder(new String[]{"æb"}));
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void mobyToIpaMissing() {
-        mobyToIpaConverter.convertToIpa("AAAE");
+    @Test
+    public void mobyToIpaFullWord() {
+        List<String> expected = new ArrayList<>();
+        expected.add("ɑɹtwɜɹk");
+        expected.add("ɑːɹtwɜɹk");
+        expected.add("ɑɹtwəɹk");
+        expected.add("ɑːɹtwəɹk");
+        assertThat(mobyToIpaConverter.convertToIpa("'/A/rt,w/[@]/rk").toArray(), arrayContainingInAnyOrder(expected.toArray()));
     }
 }

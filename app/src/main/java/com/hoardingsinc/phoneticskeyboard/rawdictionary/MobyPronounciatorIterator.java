@@ -12,7 +12,7 @@ public class MobyPronounciatorIterator extends RawDictionaryIterator {
     String thisLine;
     private List<Pair<String, String>> flowOver;
 
-    MobyPronounciatorIterator(BufferedReader reader, ArpabetToIpaConverter ipaConverter) {
+    MobyPronounciatorIterator(BufferedReader reader, IpaConverter ipaConverter) {
         super(reader, ipaConverter);
     }
 
@@ -43,13 +43,14 @@ public class MobyPronounciatorIterator extends RawDictionaryIterator {
             return pair;
         }
 
-        String[] entry = thisLine.split("  ");
+        String[] entry = thisLine.split(" ");
         String word = formatWord(entry[0]);
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
         for (String ipa : this.ipaConverter.convertToIpa(entry[1])) {
             pairs.add(new Pair<>(ipa, word));
         }
-        flowOver = pairs.subList(1, pairs.size() - 1);
+        if (pairs.size() > 1)
+            flowOver = pairs.subList(1, pairs.size() - 1);
         return pairs.get(0);
     }
 }

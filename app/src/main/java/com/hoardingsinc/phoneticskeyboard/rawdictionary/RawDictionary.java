@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 public abstract class RawDictionary implements Iterable<Pair<String, String>> {
 
     BufferedReader reader;
-    ArpabetToIpaConverter ipaConverter;
+    IpaConverter ipaConverter;
 
-    public RawDictionary(BufferedReader reader, ArpabetToIpaConverter ipaConverter) {
+    public RawDictionary(BufferedReader reader, IpaConverter ipaConverter) {
         this.reader = reader;
         this.ipaConverter = ipaConverter;
     }

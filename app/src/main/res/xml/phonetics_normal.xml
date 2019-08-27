@@ -11,9 +11,12 @@
         <Key
             android:codes="652"
             android:keyLabel="ʌ" />
-        <Key
+        <!--Key
             android:codes="593"
-            android:keyLabel="ɑ" />
+            android:keyLabel="ɑ" /-->
+        <Key
+            android:keyLabel="ɑː"
+            android:keyOutputText="ɑː" />
         <Key
             android:codes="97"
             android:keyLabel="a" />
@@ -27,9 +30,12 @@
         <Key
             android:codes="601"
             android:keyLabel="ə" />
-        <Key
+        <!--Key
             android:codes="105"
-            android:keyLabel="i" />
+            android:keyLabel="i" /-->
+        <Key
+            android:keyLabel="iː"
+            android:keyOutputText="iː" />
         <Key
             android:codes="618"
             android:keyLabel="ɪ" />
@@ -40,10 +46,14 @@
             android:keyLabel="DEL" />
     </Row>
     <Row>
-        <Key
+        <!--Key
             android:codes="596"
             android:keyEdgeFlags="left"
-            android:keyLabel="ɔ" />
+            android:keyLabel="ɔ" /-->
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ɔː"
+            android:keyOutputText="ɔː" />
         <Key
             android:codes="594"
             android:keyLabel="ɒ" />
@@ -51,8 +61,11 @@
             android:codes="111"
             android:keyLabel="o" />
         <Key
+            android:keyLabel="uː"
+            android:keyOutputText="uː" />
+        <!--Key
             android:codes="117"
-            android:keyLabel="u" />
+            android:keyLabel="u" /-->
         <Key
             android:codes="650"
             android:keyLabel="ʊ" />

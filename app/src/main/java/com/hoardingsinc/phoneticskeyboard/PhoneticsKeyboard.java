@@ -14,7 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.InMemoryPronunciationDictionary;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyPronounciator;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.CmuPronouncingDictionary;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyPronunciator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -104,7 +105,7 @@ public class PhoneticsKeyboard extends InputMethodService
             Log.d("PhoneticsKeyboard", "Building Pronunciation Dictionary");
             try {
                 mDictionary = new InMemoryPronunciationDictionary(this,
-                        new MobyPronounciator(
+                        new CmuPronouncingDictionary(
                                 new BufferedReader(
                                         new InputStreamReader(
                                                 this.getResources().openRawResource(R.raw.cmudict),

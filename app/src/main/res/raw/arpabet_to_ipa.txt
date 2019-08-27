@@ -1,7 +1,7 @@
-AA	ɑ
+AA	ɑː
 AE	æ
 AH	ʌ
-AO	ɔ
+AO	ɔː
 AW	aʊ
 AY	aɪ
 B	b
@@ -15,7 +15,7 @@ F	f
 G	g
 HH	h
 IH	ɪ
-IY	i
+IY	iː
 JH	dʒ
 K	k
 L	l
@@ -31,7 +31,7 @@ SH	ʃ
 T	t
 TH	θ
 UH	ʊ
-UW	u
+UW	uː
 V	v
 W	w
 WH	ʍ
