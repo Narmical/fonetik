@@ -169,7 +169,7 @@
             android:codes="720,58"
             android:keyLabel="ː :" />
         <Key
-            android:codes="32"
+            android:codes="32,46"
             android:isRepeatable="true"
             android:keyWidth="50%p"
             android:keyLabel="SPACE" />
