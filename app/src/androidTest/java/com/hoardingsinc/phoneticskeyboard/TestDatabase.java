@@ -26,8 +26,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class TestDatabase {
-    private PronunciationDao pronunciationDao;
     private PronunciationDB db;
+    private PronunciationDao pronunciationDao;
+
+    @After
+    public void closeDb() throws IOException {
+        db.close();
+    }
 
     @Before
     public void createDb() {
@@ -36,35 +41,17 @@ public class TestDatabase {
         pronunciationDao = db.pronunciationDao();
     }
 
-    @After
-    public void closeDb() throws IOException {
-        db.close();
-    }
-
-    @Test
-    public void testWritePronunciation() throws Exception {
-        Pronunciation pronunciation = new Pronunciation();
-        pronunciation.setIpa("Hello");
-        pronunciation.setSpellings("hello");
-        List<Pronunciation> pronunciationList = new ArrayList<>();
-        pronunciationList.add(pronunciation);
-        pronunciationDao.insertAll(pronunciationList);
-        List<Pronunciation> allPronunciations = pronunciationDao.getAll();
-        assertThat(allPronunciations, containsInAnyOrder(pronunciationList.toArray()));
-    }
-
     @Test
     public void testGetOne() throws Exception {
         Pronunciation pronunciation = new Pronunciation();
         pronunciation.setIpa("Hello");
-        pronunciation.setSpellings("hello");
+        pronunciation.setSpelling("hello");
         List<Pronunciation> pronunciationList = new ArrayList<>();
         pronunciationList.add(pronunciation);
         pronunciationDao.insertAll(pronunciationList);
         List<Pronunciation> actual = pronunciationDao.get("Hello");
         assertThat(actual.get(0).getIpa(), equalTo("Hello"));
     }
-
 
     @Test
     public void testLikePronunciation() throws Exception {
@@ -77,7 +64,7 @@ public class TestDatabase {
         for (String coda : codas) {
             Pronunciation pronunciation = new Pronunciation();
             pronunciation.setIpa("Hell" + coda);
-            pronunciation.setSpellings("hell" + coda);
+            pronunciation.setSpelling("hell" + coda);
             pronunciationList.add(pronunciation);
             expected.add(pronunciation);
         }
@@ -85,7 +72,7 @@ public class TestDatabase {
         for (String coda : codas) {
             Pronunciation pronunciation = new Pronunciation();
             pronunciation.setIpa("Hall" + coda);
-            pronunciation.setSpellings("hall" + coda);
+            pronunciation.setSpelling("hall" + coda);
             pronunciationList.add(pronunciation);
         }
 
@@ -93,5 +80,17 @@ public class TestDatabase {
         pronunciationDao.insertAll(pronunciationList);
         List<Pronunciation> actual = pronunciationDao.getLikeIpa("Hell%");
         assertThat(actual, containsInAnyOrder(expected.toArray()));
+    }
+
+    @Test
+    public void testWritePronunciation() throws Exception {
+        Pronunciation pronunciation = new Pronunciation();
+        pronunciation.setIpa("Hello");
+        pronunciation.setSpelling("hello");
+        List<Pronunciation> pronunciationList = new ArrayList<>();
+        pronunciationList.add(pronunciation);
+        pronunciationDao.insertAll(pronunciationList);
+        List<Pronunciation> allPronunciations = pronunciationDao.getAll();
+        assertThat(allPronunciations, containsInAnyOrder(pronunciationList.toArray()));
     }
 }

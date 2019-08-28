@@ -11,27 +11,30 @@ import java.util.List;
 @Dao
 public interface PronunciationDao {
 
-    @Query("SELECT * FROM pronunciation")
-    List<Pronunciation> getAll();
-
-    @Insert
-    void insertAll(List<Pronunciation> pronunciations);
-
-    @Insert
-    void insert(Pronunciation pronunciation);
-
-    @Update
-    void update(Pronunciation pronunciation);
-
     @Delete
     void delete(Pronunciation pronunciation);
 
     @Query("SELECT * FROM pronunciation WHERE ipa = :ipa")
     List<Pronunciation> get(String ipa);
 
+    @Query("SELECT * FROM pronunciation")
+    List<Pronunciation> getAll();
+
+    @Query("SELECT * FROM pronunciation WHERE spelling = :spelling")
+    Pronunciation getBySpelling(String spelling);
+
     @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa order by length(ipa) LIMIT 10")
     List<Pronunciation> getLikeIpa(String ipa);
 
+    @Insert
+    void insert(Pronunciation pronunciation);
+
+    @Insert
+    void insertAll(List<Pronunciation> pronunciations);
+
     @Query("SELECT count(distinct ipa) from pronunciation")
     int numEntries();
+
+    @Update
+    void update(Pronunciation pronunciation);
 }

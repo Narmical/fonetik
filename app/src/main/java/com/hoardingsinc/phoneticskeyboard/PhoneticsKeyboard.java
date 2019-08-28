@@ -13,7 +13,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.InMemoryPronunciationDictionary;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDictionary;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.RoomPronunciationDictionary;
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
@@ -33,16 +32,16 @@ public class PhoneticsKeyboard extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
 
     private static PronunciationDictionary mDictionary;
-    private KeyboardView kv;
-    private Keyboard keyboard;
     private boolean caps = false;
+    private Thread dictionaryBuilderThread;
+    private Keyboard keyboard;
+    private KeyboardView kv;
     private CandidateView mCandidateView;
-    private List<String> mSuggestions;
     private boolean mCompletionOn;
     private CompletionInfo[] mCompletions;
-    private boolean mPredictionOn;
     private StringBuilder mComposing;
-    private Thread dictionaryBuilderThread;
+    private boolean mPredictionOn;
+    private List<String> mSuggestions;
 
     public boolean isWordSeparator(int code) {
         String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&";
@@ -120,7 +119,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (isWordSeparator(primaryCode)) {
                     // Handle separator
                     if (mComposing.length() > 0) {
-                        if (mSuggestions.size() > 0)
+                        if (mSuggestions != null && mSuggestions.size() > 0)
                             pickSuggestionManually(0, "");
                         else
                             commitTyped(getCurrentInputConnection());
@@ -203,6 +202,7 @@ public class PhoneticsKeyboard extends InputMethodService
         } else if (mComposing.length() > 0) {
 
             if (mPredictionOn && mSuggestions != null && index >= 0) {
+                new RecordSuggestionSelected().execute(mSuggestions.get(index));
                 mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
             }
             mComposing.append(append);
@@ -368,7 +368,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private void updateCandidates() {
         if (!mCompletionOn) {
             if (mComposing.length() > 0 && mDictionary != null) {
-                new GetSggestions().execute(mComposing.toString());
+                new GetSuggestions().execute(mComposing.toString());
 
             } else {
                 setSuggestions(null, false, false);
@@ -376,11 +376,27 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
-    private class GetSggestions extends AsyncTask<String, Integer, List<String>> {
+    private class GetSuggestions extends AsyncTask<String, Integer, List<String>> {
 
         @Override
         protected List<String> doInBackground(String... strings) {
             return mDictionary.getSuggestions(strings[0], 10);
+        }
+
+        protected void onPostExecute(List<String> result) {
+            setSuggestions(result, true, true);
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+        }
+    }
+
+    private class RecordSuggestionSelected extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            mDictionary.recordSpellingSelected(strings[0]);
+            return true;
         }
 
         protected void onPostExecute(List<String> result) {

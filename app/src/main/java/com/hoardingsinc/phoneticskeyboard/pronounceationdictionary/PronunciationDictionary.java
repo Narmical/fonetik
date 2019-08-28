@@ -15,7 +15,6 @@ public abstract class PronunciationDictionary {
         Set<String> exact = exactMatch(ipa);
         if (exact != null) {
             result.addAll(exact);
-            result.sort(new StringLengthComparator());
         }
 
         SortedSet<String> lookahead = this.lookAheadMatch(ipa);
@@ -29,7 +28,20 @@ public abstract class PronunciationDictionary {
 
     public abstract int numEntries();
 
+    public abstract void recordSpellingSelected(String spelling);
+
     protected abstract SortedSet<String> lookAheadMatch(String ipa);
+
+    protected class FrequencyComparator implements Comparator<Pronunciation> {
+        public int compare(Pronunciation o1, Pronunciation o2) {
+            int result = Integer.compare(o1.getFrequency(), o2.getFrequency());
+            if (result == 0) {
+                return -1 * o1.getSpelling().compareTo(o2.getSpelling());
+            } else {
+                return -1 * result;
+            }
+        }
+    }
 
     protected class StringLengthComparator implements Comparator<String> {
         public int compare(String o1, String o2) {

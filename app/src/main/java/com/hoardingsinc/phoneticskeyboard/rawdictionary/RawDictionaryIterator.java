@@ -21,6 +21,6 @@ abstract class RawDictionaryIterator implements Iterator<Pair<String, String>> {
     }
 
     String formatWord(String word) {
-        return word.replaceAll("\\(\\d+\\)", "").toLowerCase();
+        return word.replaceAll("\\(\\d+\\)", "");
     }
 }

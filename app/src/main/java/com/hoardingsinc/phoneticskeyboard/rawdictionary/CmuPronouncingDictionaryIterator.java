@@ -36,8 +36,8 @@ public class CmuPronouncingDictionaryIterator extends RawDictionaryIterator {
     public Pair<String, String> next() {
         //Log.d("DictionaryReadLine", thisLine);
         String[] entry = thisLine.split("  ");
-        String word = formatWord(entry[0]);
+        String spelling = formatWord(entry[0]).toLowerCase();
         List<String> ipa = this.ipaConverter.convertToIpa(entry[1]);
-        return new Pair<>(ipa.get(0), word);
+        return new Pair<>(ipa.get(0), spelling);
     }
 }

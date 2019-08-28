@@ -7,36 +7,44 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Pronunciation {
+public class Pronunciation implements Comparable<Pronunciation> {
 
-    @PrimaryKey(autoGenerate = true)
-    private int uid;
+    @ColumnInfo(name = "frequency")
+    private int frequency;
     @ColumnInfo(name = "ipa")
     private String ipa;
-    @ColumnInfo(name = "spellings")
-    private String spellings;
+    @ColumnInfo(name = "spelling")
+    private String spelling;
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
 
-    @NonNull
     @Override
-    public String toString() {
-        return this.ipa + " : [" + this.spellings + "]";
+    public int compareTo(Pronunciation o) {
+        int result = Integer.compare(this.getFrequency(), o.getFrequency());
+        if (result == 0) {
+            return this.getSpelling().compareTo(o.getSpelling());
+        } else {
+            return result;
+        }
     }
 
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Pronunciation) {
             String otherIpa = ((Pronunciation) obj).getIpa();
-            return this.ipa.equals(otherIpa);
+            String otherSpelling = ((Pronunciation) obj).getSpelling();
+            return this.ipa.equalsIgnoreCase(otherIpa) &&
+                    this.spelling.equalsIgnoreCase(otherSpelling);
         }
         return false;
     }
 
-    public int getUid() {
-        return uid;
+    public int getFrequency() {
+        return frequency;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
     }
 
     public String getIpa() {
@@ -47,19 +55,30 @@ public class Pronunciation {
         this.ipa = ipa;
     }
 
-    public String getSpellings() {
-        return spellings;
+    public String getSpelling() {
+        return spelling;
     }
 
-    public void setSpellings(String spellings) {
-        this.spellings = spellings;
+    public void setSpelling(String spelling) {
+        this.spelling = spelling;
     }
 
-    public void addSpelling(String spelling) {
-        if (spellings == null || spellings == "")
-            spellings = spelling;
-        else
-            spellings = spellings + "," + spelling;
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public void incrementFrequency() {
+        this.frequency++;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.ipa + " : [" + this.spelling + "]";
     }
 
     // getters and setters

@@ -35,8 +35,12 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
 
     }
 
-    public Set<String> exactMatch(String ipa) {
-        return this.dictionary.get(ipa);
+    public SortedSet<String> exactMatch(String ipa) {
+        SortedSet sortedSet = new TreeSet<>(new StringLengthComparator());
+        Set<String> list = this.dictionary.get(ipa);
+        if (list != null)
+            sortedSet.addAll(list);
+        return sortedSet;
     }
 
     public SortedSet<String> lookAheadMatch(String ipa) {
@@ -52,6 +56,11 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
     public int numEntries() {
         return this.dictionary.size();
 
+
+    }
+
+    @Override
+    public void recordSpellingSelected(String spelling) {
 
     }
 
