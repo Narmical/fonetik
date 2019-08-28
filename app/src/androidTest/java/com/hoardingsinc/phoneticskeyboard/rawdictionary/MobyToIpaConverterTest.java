@@ -20,8 +20,8 @@ public class MobyToIpaConverterTest {
     MobyToIpaConverter mobyToIpaConverter = new MobyToIpaConverter(new BufferedReader(new StringReader("/&/\tæ\n" +
             "/-/\tə\n" +
             "/@/\tʌ, ə\n" +
-            "/[@]/\tɜ, ə\n" +
-            "/A/\tɑ, ɑː\n" +
+            "/[@]/\tɜː, ə\n" +
+            "/A/\tɑː\n" +
             "b\tb\n" +
             "r\tɹ\n" +
             "t\tt\n" +
@@ -35,7 +35,6 @@ public class MobyToIpaConverterTest {
     @Test
     public void mobyToIpaSingle() {
         List<String> expected = new ArrayList<>();
-        expected.add("ɑ");
         expected.add("ɑː");
         List<String> actual = mobyToIpaConverter.convertToIpa("/A/");
         assertThat(actual.toArray(), arrayContainingInAnyOrder(expected.toArray()));
@@ -68,9 +67,7 @@ public class MobyToIpaConverterTest {
     @Test
     public void mobyToIpaFullWord() {
         List<String> expected = new ArrayList<>();
-        expected.add("ɑɹtwɜɹk");
-        expected.add("ɑːɹtwɜɹk");
-        expected.add("ɑɹtwəɹk");
+        expected.add("ɑːɹtwɜːɹk");
         expected.add("ɑːɹtwəɹk");
         assertThat(mobyToIpaConverter.convertToIpa("'/A/rt,w/[@]/rk").toArray(), arrayContainingInAnyOrder(expected.toArray()));
     }

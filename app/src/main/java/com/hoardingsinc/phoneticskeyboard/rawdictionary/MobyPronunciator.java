@@ -9,13 +9,13 @@ import java.util.Iterator;
 
 public class MobyPronunciator extends RawDictionary {
 
-    public MobyPronunciator(BufferedReader reader, IpaConverter ipaConverter) {
+    public MobyPronunciator(BufferedReader reader, MobyToIpaConverter ipaConverter) {
         super(reader, ipaConverter);
     }
 
     @NonNull
     @Override
     public Iterator<Pair<String, String>> iterator() {
-        return new MobyPronounciatorIterator(reader, ipaConverter);
+        return new MobyPronunciatorIterator(reader, ipaConverter);
     }
 }

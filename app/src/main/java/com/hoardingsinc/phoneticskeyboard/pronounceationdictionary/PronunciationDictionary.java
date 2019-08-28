@@ -3,15 +3,16 @@ package com.hoardingsinc.phoneticskeyboard.pronounceationdictionary;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 
-abstract class PronunciationDictionary {
+public abstract class PronunciationDictionary {
 
-    public abstract List<String> exactMatch(String ipa);
+    public abstract Set<String> exactMatch(String ipa);
 
     public List<String> getSuggestions(String ipa, int maxSuggestions) {
         List<String> result = new ArrayList<>();
-        List<String> exact = exactMatch(ipa);
+        Set<String> exact = exactMatch(ipa);
         if (exact != null) {
             result.addAll(exact);
             result.sort(new StringLengthComparator());

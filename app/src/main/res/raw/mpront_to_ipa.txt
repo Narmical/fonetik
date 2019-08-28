@@ -1,11 +1,10 @@
 /&/	æ
-/(@)/	ε
+/(@)/	ɛ
 /-/	ə
 //Oi//	ɔɪ
-/Oi/	ɔɪ
 /@/	ʌ, ə
-/[@]/	ɜ, ə
-/A/	ɑ, ɑː
+/[@]/	ɜː, ə
+/A/	ɑː
 /aI/	aɪ
 /AU/	aʊ
 /D/	ð
@@ -15,11 +14,11 @@
 /hw/	hw, ʍ
 /i/	iː
 /I/	ɪ
-i	ɪ
 /j/	j
 /ju/	juː
 /N/	ŋ
-/O/	ɔ, ɔː
+/O/	ɔ
+/Oi/	ɔɪ
 /oU/	oʊ
 /Ou/	oʊ
 /S/	ʃ
@@ -28,31 +27,43 @@ i	ɪ
 /u/	uː
 /U/	ʊ
 /x/	x
+/x/	x
+/y/	ø
 /y/	ø
 /z/	ts
 /Z/	ʒ
 a	a
+A	a
 b	b
+c	s
 d	d
-e	e
+e	e, ɛ
 f	f
-g	ɡ
+g	g
 h	h
+i	i, ɪ
 k	k
 l	l
 m	m
 n	n
+N	̃
 o	o
+O	o
 p	p
 r	ɹ
 R	ʁ
 s	s
+S	s
 t	t
 u	u
+u	u
 v	v
+V	v, β, ʋ
 w	w
+W	w
+x	ɛks
 Y	y
 z	z
 Z	z
-c	s
-x	εks
+U	u
+E	e

@@ -28,20 +28,20 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class LookupWordsFromMobyPronunciator {
-    IpaConverter mobyToIpaConverter;
+    MobyToIpaConverter mobyToIpaConverter;
     Resources res = getInstrumentation().getTargetContext().getResources();
 
     private Class dictClass;
 
-    public LookupWordsFromMobyPronunciator(Class dictClass) {
+    /*public LookupWordsFromMobyPronunciator(Class dictClass) {
         this.dictClass = dictClass;
-    }
-
-    /*public LookupWordsFromMobyPronunciator() {
-        this.dictClass = InMemoryPronunciationDictionary.class;
     }*/
+
+    public LookupWordsFromMobyPronunciator() {
+        this.dictClass = InMemoryPronunciationDictionary.class;
+    }
 
     @Parameterized.Parameters(name = "{index} : {0}")
     public static Collection data() {
@@ -62,16 +62,23 @@ public class LookupWordsFromMobyPronunciator {
     @Test
     public void exactMatchOnePronunciation() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         PronunciationDictionary pronunciationDictionary = generateDictionary("artwork '/A/rt,w/[@]/rk\n");
-        assertThat(pronunciationDictionary.exactMatch("ɑɹtwəɹk"), contains("artwork"));
+        assertThat(pronunciationDictionary.exactMatch("ɑːɹtwɜːɹk"), contains("artwork"));
+        assertThat(pronunciationDictionary.exactMatch("ɑːɹtwəɹk"), contains("artwork"));
     }
 
     @Test
-    public void exactMatchMultiplePronunciations() throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void exactMatchGPronunciation() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        PronunciationDictionary pronunciationDictionary = generateDictionary("Gabe g/eI/b\n");
+        assertThat(pronunciationDictionary.lookAheadMatch("g"), contains("gabe"));
+    }
+
+    @Test
+    public void exactMatchTwoPronunciations() throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
         PronunciationDictionary pronunciationDictionary = generateDictionary(
                 "artwork '/A/rt,w/[@]/rk\n" +
                         "Arty '/A/rt/i/\n");
-        assertThat(pronunciationDictionary.exactMatch("ɑɹtwəɹk"), contains("artwork"));
-        assertThat(pronunciationDictionary.exactMatch("ɑɹtiː"), contains("arty"));
+        assertThat(pronunciationDictionary.exactMatch("ɑːɹtwɜːɹk"), contains("artwork"));
+        assertThat(pronunciationDictionary.exactMatch("ɑːɹtiː"), contains("arty"));
     }
 
     @Test
@@ -79,7 +86,7 @@ public class LookupWordsFromMobyPronunciator {
         PronunciationDictionary pronunciationDictionary = generateDictionary("their /D//(@)/r\n" +
                 "there /D//(@)/r\n" +
                 "they're /D//(@)/r\n");
-        assertThat(pronunciationDictionary.exactMatch("ðεɹ"), contains("their", "there", "they're"));
+        assertThat(pronunciationDictionary.exactMatch("ðɛɹ"), contains("their", "there", "they're"));
     }
 
     @Test

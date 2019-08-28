@@ -6,14 +6,11 @@ import android.util.Pair;
 
 import androidx.room.Room;
 
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.CmuPronouncingDictionary;
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.RawDictionary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -21,14 +18,26 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
 
     private PronunciationDao pronunciationDao;
 
-    public RoomPronunciationDictionary(Context context, RawDictionary rawDictionary) throws IOException {
-        PronunciationDB db = Room.inMemoryDatabaseBuilder(context, PronunciationDB.class).build();
+    public RoomPronunciationDictionary(Context context, RawDictionary rawDictionary) {
+        PronunciationDB db = Room.databaseBuilder(context, PronunciationDB.class, "pronunciation.db").build();
         this.pronunciationDao = db.pronunciationDao();
-        this.loadDictionary(rawDictionary);
+        if (this.pronunciationDao.numEntries() == 0) {
+            List<RawDictionary> rawDictionaries = new ArrayList<>();
+            rawDictionaries.add(rawDictionary);
+            this.loadDictionary(rawDictionaries);
+        }
     }
 
-    public List<String> exactMatch(String ipa) {
-        List<String> spellings = new ArrayList<>();
+    public RoomPronunciationDictionary(Context context, List<RawDictionary> rawDictionaries) {
+        PronunciationDB db = Room.databaseBuilder(context, PronunciationDB.class, "pronunciation.db").build();
+        this.pronunciationDao = db.pronunciationDao();
+        if (this.pronunciationDao.numEntries() == 0) {
+            this.loadDictionary(rawDictionaries);
+        }
+    }
+
+    public Set<String> exactMatch(String ipa) {
+        Set<String> spellings = new TreeSet<>(new StringLengthComparator());
         for (Pronunciation pronunciation : this.pronunciationDao.get(ipa)) {
             spellings.add(pronunciation.getSpellings());
         }
@@ -47,17 +56,28 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
         return this.pronunciationDao.numEntries();
     }
 
-    void loadDictionary(RawDictionary rawDictionary) {
-        for (Pair<String, String> entry : rawDictionary) {
-            String ipa = entry.first;
-            String word = entry.second;
+    void loadDictionary(List<RawDictionary> rawDictionaries) {
+        Log.d("RoomDb", "Database Load Start");
+        List<Pronunciation> pronunciations = new ArrayList<>();
+        for (RawDictionary rawDictionary : rawDictionaries) {
+            for (Pair<String, String> entry : rawDictionary) {
+                String ipa = entry.first;
+                String word = entry.second;
 
-            Pronunciation pronunciation = new Pronunciation();
-            pronunciation.setIpa(ipa);
-            pronunciation.setSpellings(word);
+                Log.d("RoomDb", word);
 
-            Log.i("roomdb", pronunciation.getSpellings());
-            pronunciationDao.insert(pronunciation);
+                if (word.equalsIgnoreCase("rude")) {
+                    Log.d("RoomDb", "ahhhhhh");
+                }
+
+                Pronunciation pronunciation = new Pronunciation();
+                pronunciation.setIpa(ipa);
+                pronunciation.setSpellings(word);
+
+                pronunciations.add(pronunciation);
+            }
         }
+        pronunciationDao.insertAll(pronunciations);
+        Log.d("RoomDb", "Database Load Complete");
     }
 }

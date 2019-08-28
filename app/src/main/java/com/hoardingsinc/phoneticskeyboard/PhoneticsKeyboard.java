@@ -4,6 +4,7 @@ package com.hoardingsinc.phoneticskeyboard;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,10 +13,14 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.InMemoryPronunciationDictionary;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDictionary;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.RoomPronunciationDictionary;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.CmuPronouncingDictionary;
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyPronunciator;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyToIpaConverter;
+import com.hoardingsinc.phoneticskeyboard.rawdictionary.RawDictionary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +32,7 @@ import java.util.List;
 public class PhoneticsKeyboard extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
 
-    private static InMemoryPronunciationDictionary mDictionary;
+    private static PronunciationDictionary mDictionary;
     private KeyboardView kv;
     private Keyboard keyboard;
     private boolean caps = false;
@@ -36,7 +41,13 @@ public class PhoneticsKeyboard extends InputMethodService
     private boolean mCompletionOn;
     private CompletionInfo[] mCompletions;
     private boolean mPredictionOn;
-    private StringBuilder mComposing = new StringBuilder();
+    private StringBuilder mComposing;
+    private Thread dictionaryBuilderThread;
+
+    public boolean isWordSeparator(int code) {
+        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&";
+        return separators.contains(String.valueOf((char) code));
+    }
 
     @Override
     public View onCreateCandidatesView() {
@@ -45,23 +56,14 @@ public class PhoneticsKeyboard extends InputMethodService
         return mCandidateView;
     }
 
-    public void pickSuggestionManually(int index) {
-        if (mCompletionOn && mCompletions != null && index >= 0
-                && index < mCompletions.length) {
-            CompletionInfo ci = mCompletions[index];
-            getCurrentInputConnection().commitCompletion(ci);
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-        } else if (mComposing.length() > 0) {
+    @Override
+    public View onCreateInputView() {
+        kv = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
+        keyboard = new Keyboard(this, keyboardLayoutVersion());
+        kv.setKeyboard(keyboard);
+        kv.setOnKeyboardActionListener(this);
 
-            if (mPredictionOn && mSuggestions != null && index >= 0) {
-                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
-            }
-            mComposing.append(" ");
-            commitTyped(getCurrentInputConnection());
-
-        }
+        return kv;
     }
 
     /**
@@ -86,64 +88,6 @@ public class PhoneticsKeyboard extends InputMethodService
             }
             setSuggestions(stringList, true, true);
         }
-    }
-
-    /**
-     * This is the main point where we do our initialization of the input method
-     * to begin operating on an application.  At this point we have been
-     * bound to the client, and are now receiving all of the detailed information
-     * about the target of our edits.
-     */
-    @Override
-    public void onStartInput(EditorInfo attribute, boolean restarting) {
-        super.onStartInput(attribute, restarting);
-
-        mPredictionOn = true;
-        mCompletionOn = false;
-        mCompletions = null;
-        if (mDictionary == null) {
-            Log.d("PhoneticsKeyboard", "Building Pronunciation Dictionary");
-            try {
-                mDictionary = new InMemoryPronunciationDictionary(this,
-                        new CmuPronouncingDictionary(
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                this.getResources().openRawResource(R.raw.cmudict),
-                                                "UTF8"
-                                        )
-                                ),
-                                new ArpabetToIpaConverter(
-                                        new BufferedReader(
-                                                new InputStreamReader(
-                                                        this.getResources().openRawResource(R.raw.arpabet_to_ipa),
-                                                        "UTF8"
-                                                )
-
-                                        )
-                                )
-                        )
-                );
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public View onCreateInputView() {
-        kv = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, keyboardLayoutVersion());
-        kv.setKeyboard(keyboard);
-        kv.setOnKeyboardActionListener(this);
-
-        return kv;
-    }
-
-    public boolean isWordSeparator(int code) {
-        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&";
-        return separators.contains(String.valueOf((char) code));
     }
 
     @Override
@@ -176,13 +120,94 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (isWordSeparator(primaryCode)) {
                     // Handle separator
                     if (mComposing.length() > 0) {
-                        commitTyped(getCurrentInputConnection());
+                        if (mSuggestions.size() > 0)
+                            pickSuggestionManually(0, "");
+                        else
+                            commitTyped(getCurrentInputConnection());
                     }
                     ic.commitText(String.valueOf(code), 1);
                 } else {
                     //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
                 }
+        }
+    }
+
+    @Override
+    public void onPress(int primaryCode) {
+    }
+
+    @Override
+    public void onRelease(int primaryCode) {
+    }
+
+    /**
+     * This is the main point where we do our initialization of the input method
+     * to begin operating on an application.  At this point we have been
+     * bound to the client, and are now receiving all of the detailed information
+     * about the target of our edits.
+     */
+    @Override
+    public void onStartInput(EditorInfo attribute, boolean restarting) {
+        super.onStartInput(attribute, restarting);
+
+        mPredictionOn = true;
+        mCompletionOn = false;
+        mCompletions = null;
+        mComposing = new StringBuilder();
+        if (mDictionary == null && dictionaryBuilderThread == null) {
+            Log.d("PhoneticsKeyboard", "Building Pronunciation Dictionary");
+
+            dictionaryBuilderThread = new Thread(() -> {
+                final PronunciationDictionary result = buildDictionary();
+
+                runOnUiThread(() -> mDictionary = result);
+            });
+            dictionaryBuilderThread.start();
+        }
+    }
+
+    @Override
+    public void onStartInputView(EditorInfo info, boolean restarting) {
+        super.onStartInputView(info, restarting);
+
+        setInputView(onCreateInputView());
+    }
+
+    @Override
+    public void onText(CharSequence text) {
+        //getCurrentInputConnection().commitText(text, 1);
+        mComposing.append(text);
+        getCurrentInputConnection().setComposingText(mComposing, 1);
+        //commitTyped(getCurrentInputConnection());
+        updateCandidates();
+    }
+
+    @Override
+    public void onWindowHidden() {
+        mComposing = new StringBuilder();
+    }
+
+    public void pickSuggestionManually(int index) {
+        pickSuggestionManually(index, " ");
+    }
+
+    public void pickSuggestionManually(int index, String append) {
+        if (mCompletionOn && mCompletions != null && index >= 0
+                && index < mCompletions.length) {
+            CompletionInfo ci = mCompletions[index];
+            getCurrentInputConnection().commitCompletion(ci);
+            if (mCandidateView != null) {
+                mCandidateView.clear();
+            }
+        } else if (mComposing.length() > 0) {
+
+            if (mPredictionOn && mSuggestions != null && index >= 0) {
+                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
+            }
+            mComposing.append(append);
+            commitTyped(getCurrentInputConnection());
+
         }
     }
 
@@ -197,23 +222,6 @@ public class PhoneticsKeyboard extends InputMethodService
         if (mCandidateView != null) {
             mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
         }
-    }
-
-    @Override
-    public void onPress(int primaryCode) {
-    }
-
-    @Override
-    public void onRelease(int primaryCode) {
-    }
-
-    @Override
-    public void onText(CharSequence text) {
-        //getCurrentInputConnection().commitText(text, 1);
-        mComposing.append(text);
-        getCurrentInputConnection().setComposingText(mComposing, 1);
-        //commitTyped(getCurrentInputConnection());
-        updateCandidates();
     }
 
     @Override
@@ -232,11 +240,56 @@ public class PhoneticsKeyboard extends InputMethodService
     public void swipeUp() {
     }
 
-    @Override
-    public void onStartInputView(EditorInfo info, boolean restarting) {
-        super.onStartInputView(info, restarting);
+    private PronunciationDictionary buildDictionary() {
+        PronunciationDictionary dictionary;
+        try {
+            List<RawDictionary> rawDictionaries = new ArrayList<>();
+            rawDictionaries.add(
+                    new MobyPronunciator(
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            this.getResources().openRawResource(R.raw.mpron),
+                                            "UTF8"
+                                    )
+                            ),
+                            new MobyToIpaConverter(
+                                    new BufferedReader(
+                                            new InputStreamReader(
+                                                    this.getResources().openRawResource(R.raw.mpront_to_ipa),
+                                                    "UTF8"
+                                            )
 
-        setInputView(onCreateInputView());
+                                    )
+                            )
+                    )
+            );
+            rawDictionaries.add(
+                    new CmuPronouncingDictionary(
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            this.getResources().openRawResource(R.raw.cmudict),
+                                            "UTF8"
+                                    )
+                            ),
+                            new ArpabetToIpaConverter(
+                                    new BufferedReader(
+                                            new InputStreamReader(
+                                                    this.getResources().openRawResource(R.raw.arpabet_to_ipa),
+                                                    "UTF8"
+                                            )
+
+                                    )
+                            )
+                    )
+            );
+            dictionary = new RoomPronunciationDictionary(this, rawDictionaries);
+            return dictionary;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -247,24 +300,6 @@ public class PhoneticsKeyboard extends InputMethodService
             inputConnection.commitText(mComposing, mComposing.length());
             mComposing.setLength(0);
             updateCandidates();
-        }
-    }
-
-    /**
-     * Update the list of available candidates from the current composing
-     * text.  This will need to be filled in by however you are determining
-     * candidates.
-     */
-
-    private void updateCandidates() {
-        if (!mCompletionOn) {
-            if (mComposing.length() > 0) {
-                List<String> list = this.mDictionary.getSuggestions(this.mComposing.toString(), 10);
-                Log.d("PhoneticsKeyboard", "updateCandidates: " + mComposing.toString());
-                setSuggestions(list, true, true);
-            } else {
-                setSuggestions(null, false, false);
-            }
         }
     }
 
@@ -283,16 +318,6 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
-    /**
-     * Helper to send a key down / key up pair to the current editor.
-     */
-    private void keyDownUp(int keyEventCode) {
-        getCurrentInputConnection().sendKeyEvent(
-                new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
-        getCurrentInputConnection().sendKeyEvent(
-                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
-    }
-
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         if (mPredictionOn) {
             mComposing.append((char) primaryCode);
@@ -302,6 +327,16 @@ public class PhoneticsKeyboard extends InputMethodService
             getCurrentInputConnection().commitText(
                     String.valueOf((char) primaryCode), 1);
         }
+    }
+
+    /**
+     * Helper to send a key down / key up pair to the current editor.
+     */
+    private void keyDownUp(int keyEventCode) {
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
+        getCurrentInputConnection().sendKeyEvent(
+                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
     }
 
     private int keyboardLayoutVersion() {
@@ -317,6 +352,42 @@ public class PhoneticsKeyboard extends InputMethodService
                 return R.xml.phonetics_compact;
             default:
                 return R.xml.phonetics_normal;
+        }
+    }
+
+    private void runOnUiThread(Runnable runnable) {
+        runnable.run();
+    }
+
+    /**
+     * Update the list of available candidates from the current composing
+     * text.  This will need to be filled in by however you are determining
+     * candidates.
+     */
+
+    private void updateCandidates() {
+        if (!mCompletionOn) {
+            if (mComposing.length() > 0 && mDictionary != null) {
+                new GetSggestions().execute(mComposing.toString());
+
+            } else {
+                setSuggestions(null, false, false);
+            }
+        }
+    }
+
+    private class GetSggestions extends AsyncTask<String, Integer, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(String... strings) {
+            return mDictionary.getSuggestions(strings[0], 10);
+        }
+
+        protected void onPostExecute(List<String> result) {
+            setSuggestions(result, true, true);
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
         }
     }
 }

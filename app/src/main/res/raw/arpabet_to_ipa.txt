@@ -1,14 +1,14 @@
 AA	ɑː
 AE	æ
 AH	ʌ
-AO	ɔː
+AO	ɔ
 AW	aʊ
 AY	aɪ
 B	b
 CH	tʃ
 D	d
 DH	ð
-EH	ε
+EH	ɛ
 ER	əɹ
 EY	eɪ
 F	f

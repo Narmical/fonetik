@@ -28,7 +28,7 @@ public class MobyToIpaConverter implements IpaConverter {
     public List<String> convertToIpa(String moby) {
         List<StringBuilder> pronounciations = new ArrayList<>();
         pronounciations.add(new StringBuilder());
-        Pattern pattern = Pattern.compile("(//Oi//|/.*?/|[a-z])");
+        Pattern pattern = Pattern.compile("(//Oi//|/.*?/|[a-zA-Z])");
         Matcher matcher = pattern.matcher(moby
                 .replace("'", "")
                 .replace(",", "")

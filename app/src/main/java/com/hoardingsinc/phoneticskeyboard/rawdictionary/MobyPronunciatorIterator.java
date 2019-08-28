@@ -1,5 +1,6 @@
 package com.hoardingsinc.phoneticskeyboard.rawdictionary;
 
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedReader;
@@ -7,12 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MobyPronounciatorIterator extends RawDictionaryIterator {
+public class MobyPronunciatorIterator extends RawDictionaryIterator {
 
     String thisLine;
     private List<Pair<String, String>> flowOver;
 
-    MobyPronounciatorIterator(BufferedReader reader, IpaConverter ipaConverter) {
+    MobyPronunciatorIterator(BufferedReader reader, IpaConverter ipaConverter) {
         super(reader, ipaConverter);
     }
 
@@ -25,7 +26,7 @@ public class MobyPronounciatorIterator extends RawDictionaryIterator {
         try {
             do {
                 thisLine = reader.readLine();
-            } while (thisLine != null && thisLine.startsWith(";;;"));
+            } while (thisLine != null && thisLine.contains("_"));
         } catch (IOException e) {
             this.hasNext = false;
             e.printStackTrace();
@@ -42,15 +43,15 @@ public class MobyPronounciatorIterator extends RawDictionaryIterator {
             flowOver.remove(0);
             return pair;
         }
-
+        //Log.d("DictionaryReadLine", thisLine);
         String[] entry = thisLine.split(" ");
-        String word = formatWord(entry[0]);
+        String word = formatWord(entry[0]).replace("/\\w+", "");
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
         for (String ipa : this.ipaConverter.convertToIpa(entry[1])) {
             pairs.add(new Pair<>(ipa, word));
         }
         if (pairs.size() > 1)
-            flowOver = pairs.subList(1, pairs.size() - 1);
+            flowOver = pairs.subList(1, pairs.size());
         return pairs.get(0);
     }
 }

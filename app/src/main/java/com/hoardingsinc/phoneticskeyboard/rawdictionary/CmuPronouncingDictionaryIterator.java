@@ -1,5 +1,6 @@
 package com.hoardingsinc.phoneticskeyboard.rawdictionary;
 
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedReader;
@@ -33,6 +34,7 @@ public class CmuPronouncingDictionaryIterator extends RawDictionaryIterator {
 
     @Override
     public Pair<String, String> next() {
+        //Log.d("DictionaryReadLine", thisLine);
         String[] entry = thisLine.split("  ");
         String word = formatWord(entry[0]);
         List<String> ipa = this.ipaConverter.convertToIpa(entry[1]);

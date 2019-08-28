@@ -57,7 +57,7 @@ public class LookupWordsFromCmuDictionary {
     @Test
     public void exactMatchOnePronunciation() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         PronunciationDictionary pronunciationDictionary = generateDictionary("AARONSON  EH1 R AH0 N S AH0 N\n");
-        assertThat(pronunciationDictionary.exactMatch("εɹʌnsʌn"), contains("aaronson"));
+        assertThat(pronunciationDictionary.exactMatch("ɛɹʌnsʌn"), contains("aaronson"));
     }
 
     @Test
@@ -65,8 +65,8 @@ public class LookupWordsFromCmuDictionary {
         PronunciationDictionary pronunciationDictionary = generateDictionary(
                 "AARONSON  EH1 R AH0 N S AH0 N\n" +
                         "AARONSON(1)  AA1 R AH0 N S AH0 N\n");
-        assertThat(pronunciationDictionary.exactMatch("εɹʌnsʌn"), contains("aaronson"));
-        assertThat(pronunciationDictionary.exactMatch("ɑɹʌnsʌn"), contains("aaronson"));
+        assertThat(pronunciationDictionary.exactMatch("ɛɹʌnsʌn"), contains("aaronson"));
+        assertThat(pronunciationDictionary.exactMatch("ɑːɹʌnsʌn"), contains("aaronson"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class LookupWordsFromCmuDictionary {
         PronunciationDictionary pronunciationDictionary = generateDictionary("THEIR  DH EH1 R\n" +
                 "THERE  DH EH1 R\n" +
                 "THEY'RE  DH EH1 R\n");
-        assertThat(pronunciationDictionary.exactMatch("ðεɹ"), contains("their", "there", "they're"));
+        assertThat(pronunciationDictionary.exactMatch("ðɛɹ"), contains("their", "there", "they're"));
     }
 
     @Test

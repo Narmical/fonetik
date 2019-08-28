@@ -29,7 +29,7 @@ public interface PronunciationDao {
     @Query("SELECT * FROM pronunciation WHERE ipa = :ipa")
     List<Pronunciation> get(String ipa);
 
-    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa LIMIT 10")
+    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa order by length(ipa) LIMIT 10")
     List<Pronunciation> getLikeIpa(String ipa);
 
     @Query("SELECT count(distinct ipa) from pronunciation")

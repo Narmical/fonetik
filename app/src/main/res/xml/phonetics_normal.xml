@@ -25,8 +25,8 @@
             android:codes="101"
             android:keyLabel="e" />
         <Key
-            android:codes="949"
-            android:keyLabel="ε" />
+            android:codes="603"
+            android:keyLabel="ɛ" />
         <Key
             android:codes="601"
             android:keyLabel="ə" />
@@ -52,11 +52,14 @@
             android:keyLabel="ɔ" /-->
         <Key
             android:keyEdgeFlags="left"
-            android:keyLabel="ɔː"
-            android:keyOutputText="ɔː" />
-        <Key
+            android:keyLabel="ɔ"
+            android:keyOutputText="ɔ" />
+        <!--Key
             android:codes="594"
-            android:keyLabel="ɒ" />
+            android:keyLabel="ɒ" /-->
+        <Key
+            android:keyLabel="ɜː"
+            android:keyOutputText="ɜː" />
         <Key
             android:codes="111"
             android:keyLabel="o" />
