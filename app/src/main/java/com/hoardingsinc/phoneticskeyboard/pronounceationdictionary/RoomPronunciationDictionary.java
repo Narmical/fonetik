@@ -67,9 +67,9 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
     }
 
     @Override
-    public void recordSpellingSelected(String spelling) {
+    public void recordSpellingSelected(String ipa, String spelling) {
 
-        Pronunciation pronunciation = this.pronunciationDao.getBySpelling(spelling);
+        Pronunciation pronunciation = this.pronunciationDao.getBySpelling(ipa, spelling);
         pronunciation.incrementFrequency();
         this.pronunciationDao.update(pronunciation);
 

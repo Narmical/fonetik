@@ -28,18 +28,20 @@ public abstract class PronunciationDictionary {
 
     public abstract int numEntries();
 
-    public abstract void recordSpellingSelected(String spelling);
+    public abstract void recordSpellingSelected(String ipa, String spelling);
 
     protected abstract SortedSet<String> lookAheadMatch(String ipa);
 
     protected class FrequencyComparator implements Comparator<Pronunciation> {
         public int compare(Pronunciation o1, Pronunciation o2) {
-            int result = Integer.compare(o1.getFrequency(), o2.getFrequency());
+            int result = -1 * Integer.compare(o1.getFrequency(), o2.getFrequency());
             if (result == 0) {
-                return -1 * o1.getSpelling().compareTo(o2.getSpelling());
-            } else {
-                return -1 * result;
+                result = Integer.compare(o1.getSpelling().length(), o2.getSpelling().length());
+                if (result == 0) {
+                    result = o1.compareTo(o2);
+                }
             }
+            return result;
         }
     }
 

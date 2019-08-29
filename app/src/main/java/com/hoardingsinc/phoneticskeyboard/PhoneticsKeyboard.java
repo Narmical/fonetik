@@ -202,7 +202,7 @@ public class PhoneticsKeyboard extends InputMethodService
         } else if (mComposing.length() > 0) {
 
             if (mPredictionOn && mSuggestions != null && index >= 0) {
-                new RecordSuggestionSelected().execute(mSuggestions.get(index));
+                new RecordSuggestionSelected().execute(mComposing.toString(), mSuggestions.get(index));
                 mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
             }
             mComposing.append(append);
@@ -395,7 +395,7 @@ public class PhoneticsKeyboard extends InputMethodService
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            mDictionary.recordSpellingSelected(strings[0]);
+            mDictionary.recordSpellingSelected(strings[0] + "%", strings[1]);
             return true;
         }
 

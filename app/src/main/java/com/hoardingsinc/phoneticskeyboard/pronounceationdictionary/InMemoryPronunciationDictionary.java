@@ -60,7 +60,7 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
     }
 
     @Override
-    public void recordSpellingSelected(String spelling) {
+    public void recordSpellingSelected(String ips, String spelling) {
 
     }
 

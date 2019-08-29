@@ -20,12 +20,11 @@ public class Pronunciation implements Comparable<Pronunciation> {
 
     @Override
     public int compareTo(Pronunciation o) {
-        int result = Integer.compare(this.getFrequency(), o.getFrequency());
+        int result = this.getSpelling().compareTo(o.getSpelling());
         if (result == 0) {
-            return this.getSpelling().compareTo(o.getSpelling());
-        } else {
-            return result;
+            result = this.getIpa().compareTo(o.getIpa());
         }
+        return result;
     }
 
     @Override
