@@ -23,8 +23,11 @@ public interface PronunciationDao {
     @Query("SELECT * FROM pronunciation WHERE spelling = :spelling and ipa like :ipa")
     Pronunciation getBySpelling(String ipa, String spelling);
 
-    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa order by length(ipa) LIMIT 10")
+    @Query("SELECT * FROM pronunciation WHERE ipa LIKE :ipa")
     List<Pronunciation> getLikeIpa(String ipa);
+
+    @Query("Update pronunciation set frequency = frequency + 1 where spelling = :spelling")
+    void incrementFrequency(String spelling);
 
     @Insert
     void insert(Pronunciation pronunciation);

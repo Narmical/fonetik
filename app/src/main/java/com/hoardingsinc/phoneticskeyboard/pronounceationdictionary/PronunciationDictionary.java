@@ -34,11 +34,17 @@ public abstract class PronunciationDictionary {
 
     protected class FrequencyComparator implements Comparator<Pronunciation> {
         public int compare(Pronunciation o1, Pronunciation o2) {
-            int result = -1 * Integer.compare(o1.getFrequency(), o2.getFrequency());
-            if (result == 0) {
-                result = Integer.compare(o1.getSpelling().length(), o2.getSpelling().length());
+            int result;
+            result = o1.getSpelling().compareToIgnoreCase(o2.getSpelling());
+            // don't add frequencies together for same spelling because db keeps all words with same
+            // spelling at the same frequency count
+            if (result != 0) {
+                result = -1 * Integer.compare(o1.getFrequency(), o2.getFrequency());
                 if (result == 0) {
-                    result = o1.compareTo(o2);
+                    result = Integer.compare(o1.getSpelling().length(), o2.getSpelling().length());
+                    if (result == 0) {
+                        result = o1.compareTo(o2);
+                    }
                 }
             }
             return result;

@@ -83,7 +83,11 @@ public class PhoneticsKeyboard extends InputMethodService
             List<String> stringList = new ArrayList<String>();
             for (int i = 0; i < completions.length; i++) {
                 CompletionInfo ci = completions[i];
-                if (ci != null) stringList.add(ci.getText().toString());
+                String word = ci.getText().toString();
+                if (this.caps) {
+                    word = word.substring(0, 1).toUpperCase() + word.substring(1).toUpperCase();
+                }
+                if (ci != null) stringList.add(word);
             }
             setSuggestions(stringList, true, true);
         }
@@ -95,9 +99,10 @@ public class PhoneticsKeyboard extends InputMethodService
 
         switch (primaryCode) {
             case Keyboard.KEYCODE_MODE_CHANGE:
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(
-                        INPUT_METHOD_SERVICE);
-                inputManager.showInputMethodPicker();
+                //InputMethodManager inputManager = (InputMethodManager) getSystemService(
+                //        INPUT_METHOD_SERVICE);
+                //inputManager.showInputMethodPicker();
+                this.rotateLayout();
                 break;
             case Keyboard.KEYCODE_DELETE:
                 //ic.deleteSurroundingText(1, 0);
@@ -105,18 +110,16 @@ public class PhoneticsKeyboard extends InputMethodService
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 caps = !caps;
-                keyboard.setShifted(caps);
-                kv.invalidateAllKeys();
-                break;
-            case Keyboard.KEYCODE_DONE:
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                //keyboard.setShifted(caps);
+                //kv.invalidateAllKeys();
+                updateCandidates();
                 break;
             default:
                 char code = (char) primaryCode;
                 if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                if (isWordSeparator(primaryCode)) {
+                if (isWordSeparator(primaryCode) || primaryCode == Keyboard.KEYCODE_DONE) {
                     // Handle separator
                     if (mComposing.length() > 0) {
                         if (mSuggestions != null && mSuggestions.size() > 0)
@@ -125,6 +128,8 @@ public class PhoneticsKeyboard extends InputMethodService
                             commitTyped(getCurrentInputConnection());
                     }
                     ic.commitText(String.valueOf(code), 1);
+                    if (primaryCode == Keyboard.KEYCODE_DONE)
+                        ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 } else {
                     //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
@@ -218,6 +223,15 @@ public class PhoneticsKeyboard extends InputMethodService
         } else if (isExtractViewShown()) {
             setCandidatesViewShown(true);
         }
+
+        if (this.caps && suggestions != null) {
+            for (int i = 0; i < suggestions.size(); i++) {
+                suggestions.set(i,
+                        suggestions.get(i).substring(0, 1).toUpperCase()
+                                + suggestions.get(i).substring(1));
+            }
+        }
+
         mSuggestions = suggestions;
         if (mCandidateView != null) {
             mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
@@ -355,9 +369,18 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
+    private void rotateLayout() {
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+        keyboardPreferences.rotateLayout();
+        this.keyboard = new Keyboard(this, keyboardLayoutVersion());
+        this.kv.setKeyboard(this.keyboard);
+    }
+
+
     private void runOnUiThread(Runnable runnable) {
         runnable.run();
     }
+
 
     /**
      * Update the list of available candidates from the current composing
