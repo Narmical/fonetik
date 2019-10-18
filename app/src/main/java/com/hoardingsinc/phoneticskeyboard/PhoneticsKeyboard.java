@@ -62,6 +62,14 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     @Override
+    public void onComputeInsets(InputMethodService.Insets outInsets) {
+        super.onComputeInsets(outInsets);
+        if (!isFullscreenMode()) {
+            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        }
+    }
+
+    @Override
     public View onCreateInputView() {
         kv = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         keyboard = new Keyboard(this, keyboardLayoutVersion());
@@ -202,10 +210,10 @@ public class PhoneticsKeyboard extends InputMethodService
         if (this.isWordSeparator(text)) {
             this.handleSeparator();
         }
-            mComposing.append(text);
-            getCurrentInputConnection().setComposingText(mComposing, 1);
-            //commitTyped(getCurrentInputConnection());
-            updateCandidates();
+        mComposing.append(text);
+        getCurrentInputConnection().setComposingText(mComposing, 1);
+        //commitTyped(getCurrentInputConnection());
+        updateCandidates();
     }
 
     @Override
@@ -245,11 +253,15 @@ public class PhoneticsKeyboard extends InputMethodService
             setCandidatesViewShown(true);
         }
 
-        if (this.caps && suggestions != null) {
+        if (suggestions != null) {
             for (int i = 0; i < suggestions.size(); i++) {
-                suggestions.set(i,
-                        suggestions.get(i).substring(0, 1).toUpperCase()
-                                + suggestions.get(i).substring(1));
+                if (caps) {
+                    suggestions.set(i,
+                            suggestions.get(i).substring(0, 1).toUpperCase()
+                                    + suggestions.get(i).substring(1));
+                } else {
+                    suggestions.set(i, suggestions.get(i).toLowerCase());
+                }
             }
         }
 
