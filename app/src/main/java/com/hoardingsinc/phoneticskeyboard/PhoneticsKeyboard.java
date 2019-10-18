@@ -47,6 +47,13 @@ public class PhoneticsKeyboard extends InputMethodService
         return separators.contains(String.valueOf((char) code));
     }
 
+    public boolean isWordSeparator(CharSequence text) {
+        if (text.length() == 1) {
+            return isWordSeparator(text.charAt(0));
+        }
+        return false;
+    }
+
     @Override
     public View onCreateCandidatesView() {
         mCandidateView = new CandidateView(this);
@@ -85,6 +92,8 @@ public class PhoneticsKeyboard extends InputMethodService
                 String word = ci.getText().toString();
                 if (this.caps) {
                     word = word.substring(0, 1).toUpperCase() + word.substring(1).toUpperCase();
+                } else {
+                    word = word.toLowerCase();
                 }
                 if (ci != null) stringList.add(word);
             }
@@ -125,12 +134,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 }
                 if (isWordSeparator(primaryCode) || primaryCode == Keyboard.KEYCODE_DONE) {
                     // Handle separator
-                    if (mComposing.length() > 0) {
-                        if (mSuggestions != null && mSuggestions.size() > 0)
-                            pickSuggestionManually(0, "");
-                        else
-                            commitTyped(getCurrentInputConnection());
-                    }
+                    this.handleSeparator();
                     if (primaryCode == Keyboard.KEYCODE_DONE)
                         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                     else
@@ -139,6 +143,15 @@ public class PhoneticsKeyboard extends InputMethodService
                     //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
                 }
+        }
+    }
+
+    private void handleSeparator() {
+        if (mComposing.length() > 0) {
+            if (mSuggestions != null && mSuggestions.size() > 0)
+                pickSuggestionManually(0, "");
+            else
+                commitTyped(getCurrentInputConnection());
         }
     }
 
@@ -186,10 +199,13 @@ public class PhoneticsKeyboard extends InputMethodService
     @Override
     public void onText(CharSequence text) {
         //getCurrentInputConnection().commitText(text, 1);
-        mComposing.append(text);
-        getCurrentInputConnection().setComposingText(mComposing, 1);
-        //commitTyped(getCurrentInputConnection());
-        updateCandidates();
+        if (this.isWordSeparator(text)) {
+            this.handleSeparator();
+        }
+            mComposing.append(text);
+            getCurrentInputConnection().setComposingText(mComposing, 1);
+            //commitTyped(getCurrentInputConnection());
+            updateCandidates();
     }
 
     @Override

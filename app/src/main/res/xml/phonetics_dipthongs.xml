@@ -5,47 +5,47 @@
     android:verticalGap="1px">
     <Row>
         <Key
-            android:keyLabel="eɪ"
-            android:keyOutputText="eɪ" />
-        <Key
-            android:keyLabel="aɪ"
-            android:keyOutputText="aɪ" />
-        <Key
-            android:keyLabel="oʊ"
-            android:keyOutputText="oʊ" />
-        <Key
-            android:keyLabel="aʊ"
-            android:keyOutputText="aʊ" />
-        <Key
-            android:keyLabel="ɔɪ"
-            android:keyOutputText="ɔɪ" />
-        <Key
-            android:keyLabel="ɑːɹ"
-            android:keyOutputText="ɑːɹ" />
-        <Key
-            android:keyLabel="ɔɹ"
-            android:keyOutputText="ɔɹ" />
-        <Key
-            android:keyLabel="ɛɹ"
-            android:keyOutputText="ɛɹ" />
-        <Key
-            android:keyLabel="ɜːɹ"
-            android:keyOutputText="ɜːɹ" />
-        <Key
-            android:keyLabel="əɹ"
-            android:keyOutputText="əɹ" />
-        <Key
-            android:keyLabel="ɪɹ"
-            android:keyOutputText="ɪɹ" />
-        <Key
             android:keyLabel="iːə"
             android:keyOutputText="iːə" />
         <Key
             android:keyLabel="ɪə"
             android:keyOutputText="ɪə" />
         <Key
+            android:keyLabel="ɪɹ"
+            android:keyOutputText="ɪɹ" />
+        <Key
+            android:keyLabel="ɑːɹ"
+            android:keyOutputText="ɑːɹ" />
+        <Key
+            android:keyLabel="aɪ"
+            android:keyOutputText="aɪ" />
+        <Key
+            android:keyLabel="ɔɪ"
+            android:keyOutputText="ɔɪ" />
+        <Key
+            android:keyLabel="ɔɹ"
+            android:keyOutputText="ɔɹ" />
+        <Key
+            android:keyLabel="eɪ"
+            android:keyOutputText="eɪ" />
+        <Key
+            android:keyLabel="ɛɹ"
+            android:keyOutputText="ɛɹ" />
+        <Key
+            android:keyLabel="əɹ"
+            android:keyOutputText="əɹ" />
+        <Key
+            android:keyLabel="ɜːɹ"
+            android:keyOutputText="ɜːɹ" />
+        <Key
+            android:keyLabel="oʊ"
+            android:keyOutputText="oʊ" />
+        <Key
             android:keyLabel="juː"
             android:keyOutputText="juː" />
+        <Key
+            android:keyLabel="aʊ"
+            android:keyOutputText="aʊ" />
     </Row>
     <Row>
         <Key
@@ -59,15 +59,12 @@
         <Key
             android:codes="107"
             android:keyLabel="k" />
-
         <Key
             android:codes="102"
             android:keyLabel="f" />
-
         <Key
             android:codes="952"
             android:keyLabel="θ" />
-
         <Key
             android:codes="115"
             android:keyLabel="s" />
@@ -77,26 +74,21 @@
         <Key
             android:keyLabel="tʃ"
             android:keyOutputText="tʃ" />
-
         <Key
             android:codes="119"
             android:keyLabel="w" />
         <Key
             android:codes="106"
             android:keyLabel="j" />
-
         <Key
             android:codes="108"
             android:keyLabel="l" />
-
         <Key
             android:codes="110"
             android:keyLabel="n" />
         <Key
             android:codes="331"
             android:keyLabel="ŋ" />
-
-
     </Row>
     <Row>
         <Key
@@ -126,7 +118,6 @@
         <Key
             android:keyLabel="dʒ"
             android:keyOutputText="dʒ" />
-
         <Key
             android:codes="653"
             android:keyLabel="ʍ" />
@@ -146,7 +137,6 @@
             android:keyLabel="⇐" />
     </Row>
     <Row android:rowEdgeFlags="bottom">
-
         <Key
             android:codes="-7"
             android:keyEdgeFlags="left"
@@ -165,7 +155,6 @@
         <Key
             android:codes="46"
             android:keyLabel="." />
-
         <Key
             android:codes="-4"
             android:keyWidth="14%p"

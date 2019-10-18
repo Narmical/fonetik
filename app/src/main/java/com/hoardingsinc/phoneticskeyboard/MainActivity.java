@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /*case KeyboardPreferences.LAYOUT_DIPHTHONGS:
                 radioGroup.check(R.id.radio_extended_layout);
                 break;*/
-            case KeyboardPreferences.LAYOUT_NUM_SYMB:
+            case KeyboardPreferences.LAYOUT_LEGACY:
                 radioGroup.check(R.id.radio_extended2_layout);
                 break;
             case KeyboardPreferences.LAYOUT_SHAVIAN:
