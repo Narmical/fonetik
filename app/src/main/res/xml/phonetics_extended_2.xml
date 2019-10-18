@@ -36,7 +36,7 @@
             android:codes="-5"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
-            android:keyLabel="DEL" />
+            android:keyLabel="⇐" />
     </Row>
     <Row>
         <Key

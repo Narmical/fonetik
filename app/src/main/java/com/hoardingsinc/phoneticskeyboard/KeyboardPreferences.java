@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class KeyboardPreferences {
-    public static final int LAYOUT_COMPACT = 2;
+    public static final int LAYOUT_COMPACT = 3;
     public static final int LAYOUT_EXTENDED = 1;
     public static final int LAYOUT_NORMAL = 0;
-    public static final int LAYOUT_NUM_SYMB = 3;
+    public static final int LAYOUT_NUM_SYMB = 2;
     private static final String PREFIX_LAYOUT = "layout";
     private static final String PREFS_NAME = "Preferences";
     private Context mContext;

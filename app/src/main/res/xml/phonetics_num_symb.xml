@@ -5,52 +5,7 @@
     android:verticalGap="1px">
     <Row>
         <Key
-            android:keyLabel="eɪ"
-            android:keyOutputText="eɪ" />
-        <Key
-            android:keyLabel="aɪ"
-            android:keyOutputText="aɪ" />
-        <Key
-            android:keyLabel="oʊ"
-            android:keyOutputText="oʊ" />
-        <Key
-            android:keyLabel="aʊ"
-            android:keyOutputText="aʊ" />
-        <Key
-            android:keyLabel="ɔɪ"
-            android:keyOutputText="ɔɪ" />
-        <Key
-            android:keyLabel="ɑːɹ"
-            android:keyOutputText="ɑːɹ" />
-        <Key
-            android:keyLabel="ɔɹ"
-            android:keyOutputText="ɔɹ" />
-        <Key
-            android:keyLabel="ɛɹ"
-            android:keyOutputText="ɛɹ" />
-        <Key
-            android:keyLabel="ɜːɹ"
-            android:keyOutputText="ɜːɹ" />
-        <Key
-            android:keyLabel="əɹ"
-            android:keyOutputText="əɹ" />
-        <Key
-            android:keyLabel="ɪɹ"
-            android:keyOutputText="ɪɹ" />
-        <Key
-            android:keyLabel="iːə"
-            android:keyOutputText="iːə" />
-        <Key
-            android:keyLabel="ɪə"
-            android:keyOutputText="ɪə" />
-        <Key
-            android:keyLabel="juː"
-            android:keyOutputText="juː" />
-    </Row>
-    <Row>
-        <Key
             android:codes="49"
-            android:horizontalGap='3%p'
             android:keyEdgeFlags="left"
             android:keyLabel="1" />
         <Key
@@ -70,34 +25,36 @@
 
         <Key
             android:codes="54"
-            android:keyLabel="5" />
-        <Key
-            android:codes="55"
             android:keyLabel="6" />
         <Key
-            android:keyLabel="56"
-            android:keyOutputText="7" />
-
+            android:codes="55"
+            android:keyLabel="7" />
         <Key
-            android:codes="57"
+            android:codes="56"
             android:keyLabel="8" />
         <Key
-            android:codes="58"
+            android:codes="57"
             android:keyLabel="9" />
-
         <Key
             android:codes="48"
             android:keyLabel="0" />
         <Key
-            android:codes="60"
-            android:keyLabel="n" />
+            android:keyLabel="%"
+            android:keyOutputText="%" />
         <Key
-            android:codes="331"
-            android:keyLabel="ŋ" />
+            android:keyLabel="^"
+            android:keyOutputText="^" />
+        <Key
+            android:keyLabel="&amp;"
+            android:keyOutputText="&amp;" />
+        <Key
+            android:keyLabel="*"
+            android:keyOutputText="*" />
     </Row>
     <Row>
         <Key
             android:codes="97"
+            android:horizontalGap='3%p'
             android:keyEdgeFlags="left"
             android:keyLabel="a" />
         <Key
@@ -113,54 +70,99 @@
             android:codes="117"
             android:keyLabel="u" />
         <Key
-            android:codes="114"
-            android:keyLabel="r" />
+            android:codes="99"
+            android:keyLabel="c" />
         <Key
             android:codes="113"
             android:keyLabel="q" />
         <Key
+            android:codes="114"
+            android:keyLabel="r" />
+        <Key
             android:codes="121"
             android:keyLabel="y" />
         <Key
-            android:codes="99"
-            android:keyLabel="c" />
-
+            android:codes="120"
+            android:keyLabel="x" />
+        <Key
+            android:keyLabel="$"
+            android:keyOutputText="$" />
+        <Key
+            android:keyLabel="\@"
+            android:keyOutputText="\@" />
+        <Key
+            android:keyLabel='#'
+            android:keyOutputText='#' />
+    </Row>
+    <Row>
+        <Key
+            android:keyLabel="-"
+            android:keyOutputText="-" />
+        <Key
+            android:keyLabel="'"
+            android:keyOutputText="'" />
+        <Key
+            android:keyLabel='"'
+            android:keyOutputText='"' />
+        <Key
+            android:keyLabel=":"
+            android:keyOutputText=":" />
+        <Key
+            android:keyLabel=";"
+            android:keyOutputText=";" />
+        <Key
+            android:keyLabel="!"
+            android:keyOutputText="!" />
+        <Key
+            android:keyLabel="\?"
+            android:keyOutputText="\?" />
+        <Key
+            android:keyLabel="("
+            android:keyOutputText="(" />
+        <Key
+            android:keyLabel=")"
+            android:keyOutputText=")" />
+        <Key
+            android:keyLabel="["
+            android:keyOutputText="[" />
+        <Key
+            android:keyLabel="]"
+            android:keyOutputText="]" />
+        <Key
+            android:keyLabel="&lt;"
+            android:keyOutputText="&lt;" />
+        <Key
+            android:keyLabel="&gt;"
+            android:keyOutputText="&gt;" />
         <Key
             android:codes="-5"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
-            android:keyLabel="DEL" />
+            android:keyLabel="⇐" />
     </Row>
+
+
     <Row android:rowEdgeFlags="bottom">
+        <Key
+            android:codes="-8"
+            android:keyEdgeFlags="left"
+            android:keyLabel="æ" />
         <Key
             android:codes="-2"
             android:keyEdgeFlags="left"
-            android:keyIcon="@drawable/ic_keyboard_black_24dp" />
-        <Key
-            android:codes="63"
-            android:keyLabel="\?" />
-        <Key
-            android:codes="33"
-            android:keyLabel="!" />
+            android:keyLabel="eɪ" />
         <Key
             android:codes="44"
             android:keyLabel="," />
         <Key
             android:codes="32"
-            android:horizontalGap='4px'
             android:isRepeatable="true"
-            android:keyWidth="35%p"
+            android:keyWidth="58%p"
             android:keyLabel="SPACE" />
         <Key
             android:codes="46"
-            android:horizontalGap='4px'
             android:keyLabel="." />
-        <Key
-            android:codes="39"
-            android:keyLabel="'" />
-        <Key
-            android:codes="58"
-            android:keyLabel=":" />
+
         <Key
             android:codes="-4"
             android:keyWidth="14%p"

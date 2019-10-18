@@ -143,38 +143,29 @@
             android:codes="-5"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
-            android:keyLabel="DEL" />
+            android:keyLabel="⇐" />
     </Row>
     <Row android:rowEdgeFlags="bottom">
+
         <Key
-            android:codes="-2"
+            android:codes="-7"
             android:keyEdgeFlags="left"
-            android:keyIcon="@drawable/ic_keyboard_black_24dp" />
+            android:keyLabel="!#1" />
         <Key
-            android:codes="63"
-            android:keyLabel="\?" />
-        <Key
-            android:codes="33"
-            android:keyLabel="!" />
+            android:codes="-8"
+            android:keyLabel="æ" />
         <Key
             android:codes="44"
             android:keyLabel="," />
         <Key
             android:codes="32"
-            android:horizontalGap='4px'
             android:isRepeatable="true"
-            android:keyWidth="35%p"
+            android:keyWidth="58%p"
             android:keyLabel="SPACE" />
         <Key
             android:codes="46"
-            android:horizontalGap='4px'
             android:keyLabel="." />
-        <Key
-            android:codes="39"
-            android:keyLabel="'" />
-        <Key
-            android:codes="58"
-            android:keyLabel=":" />
+
         <Key
             android:codes="-4"
             android:keyWidth="14%p"

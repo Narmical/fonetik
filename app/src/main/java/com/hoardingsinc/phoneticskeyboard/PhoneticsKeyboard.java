@@ -113,6 +113,11 @@ public class PhoneticsKeyboard extends InputMethodService
                 kv.invalidateAllKeys();
                 updateCandidates();
                 break;
+            case -7:
+                this.numberSymbolLayout();
+                break;
+            case -8:
+                this.monothongLayout();
             default:
                 char code = (char) primaryCode;
                 if (Character.isLetter(code) && caps) {
@@ -369,18 +374,32 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
+    private void monothongLayout() {
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+        keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NORMAL);
+        this.switchLayout();
+    }
+
+    private void numberSymbolLayout() {
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+        keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NUM_SYMB);
+        this.switchLayout();
+    }
+
     private void rotateLayout() {
         KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
         keyboardPreferences.rotateLayout();
-        this.keyboard = new Keyboard(this, keyboardLayoutVersion());
-        this.kv.setKeyboard(this.keyboard);
+        this.switchLayout();
     }
-
 
     private void runOnUiThread(Runnable runnable) {
         runnable.run();
     }
 
+    private void switchLayout() {
+        this.keyboard = new Keyboard(this, keyboardLayoutVersion());
+        this.kv.setKeyboard(this.keyboard);
+    }
 
     /**
      * Update the list of available candidates from the current composing
