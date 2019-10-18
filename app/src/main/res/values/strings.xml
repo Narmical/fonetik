@@ -33,9 +33,9 @@
     <string name="pronunroid_name">Pronunroid</string>
     <string name="open_settings">Open settings</string>
     <string name="open_keyboard_selection">Keyboard selection</string>
-    <string name="radio_compact">Compact</string>
+    <string name="radio_compact">Shavian</string>
     <string name="radio_extended">Extended</string>
     <string name="radio_normal">Normal</string>
     <string name="preferred_layout">Preferred layout:</string>
-    <string name="extended_2">Extended 2</string>
+    <string name="extended_2">Legacy</string>
 </resources>

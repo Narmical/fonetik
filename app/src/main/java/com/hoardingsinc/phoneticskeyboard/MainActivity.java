@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.radio_normal_layout:
                 keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NORMAL);
                 break;
-            case R.id.radio_extended_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_EXTENDED);
-                break;
+            /*case R.id.radio_extended_layout:
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_DIPHTHONGS);
+                break;*/
             case R.id.radio_extended2_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NUM_SYMB);
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_LEGACY);
                 break;
             case R.id.radio_compact_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_COMPACT);
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_SHAVIAN);
                 break;
         }
     }
@@ -80,13 +80,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case KeyboardPreferences.LAYOUT_NORMAL:
                 radioGroup.check(R.id.radio_normal_layout);
                 break;
-            case KeyboardPreferences.LAYOUT_EXTENDED:
+            /*case KeyboardPreferences.LAYOUT_DIPHTHONGS:
                 radioGroup.check(R.id.radio_extended_layout);
-                break;
+                break;*/
             case KeyboardPreferences.LAYOUT_NUM_SYMB:
                 radioGroup.check(R.id.radio_extended2_layout);
                 break;
-            case KeyboardPreferences.LAYOUT_COMPACT:
+            case KeyboardPreferences.LAYOUT_SHAVIAN:
                 radioGroup.check(R.id.radio_compact_layout);
                 break;
         }

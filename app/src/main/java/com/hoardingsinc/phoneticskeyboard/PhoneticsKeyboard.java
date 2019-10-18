@@ -363,12 +363,14 @@ public class PhoneticsKeyboard extends InputMethodService
         switch (keyboardPreferences.getLayout()) {
             case KeyboardPreferences.LAYOUT_NORMAL:
                 return R.xml.phonetics_normal;
-            case KeyboardPreferences.LAYOUT_EXTENDED:
+            case KeyboardPreferences.LAYOUT_DIPHTHONGS:
                 return R.xml.phonetics_dipthongs;
             case KeyboardPreferences.LAYOUT_NUM_SYMB:
                 return R.xml.phonetics_num_symb;
-            case KeyboardPreferences.LAYOUT_COMPACT:
-                return R.xml.phonetics_compact;
+            case KeyboardPreferences.LAYOUT_SHAVIAN:
+                return R.xml.phonetics_shavian;
+            case KeyboardPreferences.LAYOUT_LEGACY:
+                return R.xml.phonetics_legacy;
             default:
                 return R.xml.phonetics_normal;
         }
