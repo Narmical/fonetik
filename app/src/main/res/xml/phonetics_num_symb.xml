@@ -167,6 +167,6 @@
             android:codes="-4"
             android:keyWidth="14%p"
             android:keyEdgeFlags="right"
-            android:keyLabel="GO" />
+            android:keyLabel="↵" />
     </Row>
 </Keyboard>
