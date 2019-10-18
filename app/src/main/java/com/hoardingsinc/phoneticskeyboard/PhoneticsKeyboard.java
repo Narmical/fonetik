@@ -135,6 +135,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 break;
             case -8:
                 this.monothongLayout();
+                break;
             default:
                 char code = (char) primaryCode;
                 if (Character.isLetter(code) && caps) {
