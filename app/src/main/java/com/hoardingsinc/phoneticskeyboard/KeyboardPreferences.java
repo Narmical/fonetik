@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 public class KeyboardPreferences {
     public static final int LAYOUT_COMPACT = 2;
     public static final int LAYOUT_EXTENDED = 1;
-    public static final int LAYOUT_EXTENDED_2 = 3;
     public static final int LAYOUT_NORMAL = 0;
+    public static final int LAYOUT_NUM_SYMB = 3;
     private static final String PREFIX_LAYOUT = "layout";
     private static final String PREFS_NAME = "Preferences";
     private Context mContext;
@@ -21,7 +21,7 @@ public class KeyboardPreferences {
     }
 
     public void rotateLayout() {
-        saveLayout((getLayout() + 1) % 2);
+        saveLayout((getLayout() + 1) % 3);
     }
 
     public void saveLayout(int layout) {

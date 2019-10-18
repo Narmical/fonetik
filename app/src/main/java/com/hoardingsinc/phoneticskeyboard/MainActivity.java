@@ -18,6 +18,48 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_open_settings:
+                startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+                break;
+            case R.id.button_open_keyboard_selection:
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(
+                        INPUT_METHOD_SERVICE);
+                inputManager.showInputMethodPicker();
+                break;
+            case R.id.button_pronunroid_ad:
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(
+                        "https://play.google.com/store/apps/details?id=com.hoardingsinc.pronunroid")));
+                break;
+        }
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        if (!checked) {
+            return;
+        }
+
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+
+        switch (view.getId()) {
+            case R.id.radio_normal_layout:
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NORMAL);
+                break;
+            case R.id.radio_extended_layout:
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_EXTENDED);
+                break;
+            case R.id.radio_extended2_layout:
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NUM_SYMB);
+                break;
+            case R.id.radio_compact_layout:
+                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_COMPACT);
+                break;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -41,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case KeyboardPreferences.LAYOUT_EXTENDED:
                 radioGroup.check(R.id.radio_extended_layout);
                 break;
-            case KeyboardPreferences.LAYOUT_EXTENDED_2:
+            case KeyboardPreferences.LAYOUT_NUM_SYMB:
                 radioGroup.check(R.id.radio_extended2_layout);
                 break;
             case KeyboardPreferences.LAYOUT_COMPACT:
@@ -55,47 +97,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.setOnClickListener(this);
         b = findViewById(R.id.button_pronunroid_ad);
         b.setOnClickListener(this);
-    }
-
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        if (!checked) {
-            return;
-        }
-
-        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
-
-        switch (view.getId()) {
-            case R.id.radio_normal_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NORMAL);
-                break;
-            case R.id.radio_extended_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_EXTENDED);
-                break;
-            case R.id.radio_extended2_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_EXTENDED_2);
-                break;
-            case R.id.radio_compact_layout:
-                keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_COMPACT);
-                break;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_open_settings:
-                startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
-                break;
-            case R.id.button_open_keyboard_selection:
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(
-                        INPUT_METHOD_SERVICE);
-                inputManager.showInputMethodPicker();
-                break;
-            case R.id.button_pronunroid_ad:
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(
-                        "https://play.google.com/store/apps/details?id=com.hoardingsinc.pronunroid")));
-                break;
-        }
     }
 }

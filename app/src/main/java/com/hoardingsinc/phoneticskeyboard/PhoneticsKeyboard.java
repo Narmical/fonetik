@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDictionary;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.RoomPronunciationDictionary;
@@ -110,8 +109,8 @@ public class PhoneticsKeyboard extends InputMethodService
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 caps = !caps;
-                //keyboard.setShifted(caps);
-                //kv.invalidateAllKeys();
+                keyboard.setShifted(caps);
+                kv.invalidateAllKeys();
                 updateCandidates();
                 break;
             default:
@@ -127,9 +126,10 @@ public class PhoneticsKeyboard extends InputMethodService
                         else
                             commitTyped(getCurrentInputConnection());
                     }
-                    ic.commitText(String.valueOf(code), 1);
                     if (primaryCode == Keyboard.KEYCODE_DONE)
                         ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                    else
+                        ic.commitText(String.valueOf(code), 1);
                 } else {
                     //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
@@ -359,9 +359,9 @@ public class PhoneticsKeyboard extends InputMethodService
             case KeyboardPreferences.LAYOUT_NORMAL:
                 return R.xml.phonetics_normal;
             case KeyboardPreferences.LAYOUT_EXTENDED:
-                return R.xml.phonetics_extended;
-            case KeyboardPreferences.LAYOUT_EXTENDED_2:
-                return R.xml.phonetics_extended_2;
+                return R.xml.phonetics_dipthongs;
+            case KeyboardPreferences.LAYOUT_NUM_SYMB:
+                return R.xml.phonetics_num_symb;
             case KeyboardPreferences.LAYOUT_COMPACT:
                 return R.xml.phonetics_compact;
             default:
