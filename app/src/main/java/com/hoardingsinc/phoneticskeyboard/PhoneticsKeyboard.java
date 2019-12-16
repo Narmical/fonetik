@@ -14,16 +14,7 @@ import android.view.inputmethod.InputConnection;
 
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDictionary;
 import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.RoomPronunciationDictionary;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.ArpabetToIpaConverter;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.CmuPronouncingDictionary;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyPronunciator;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.MobyToIpaConverter;
-import com.hoardingsinc.phoneticskeyboard.rawdictionary.RawDictionary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +32,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private StringBuilder mComposing;
     private boolean mPredictionOn;
     private List<String> mSuggestions;
+    private EditorInfo sEditorInfo;
 
     public boolean isWordSeparator(int code) {
         String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&";
@@ -144,10 +136,28 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (isWordSeparator(primaryCode) || primaryCode == Keyboard.KEYCODE_DONE) {
                     // Handle separator
                     this.handleSeparator();
-                    if (primaryCode == Keyboard.KEYCODE_DONE)
-                        ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-                    else
+                    if (primaryCode == Keyboard.KEYCODE_DONE) {
+                        //ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));}
+                        switch (sEditorInfo.imeOptions & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
+                            case EditorInfo.IME_ACTION_GO:
+                                ic.performEditorAction(EditorInfo.IME_ACTION_GO);
+                                break;
+                            case EditorInfo.IME_ACTION_NEXT:
+                                ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
+                                break;
+                            case EditorInfo.IME_ACTION_SEARCH:
+                                ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
+                                break;
+                            case EditorInfo.IME_ACTION_SEND:
+                                ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
+                                break;
+                            default:
+                                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                                break;
+                        }
+                    } else {
                         ic.commitText(String.valueOf(code), 1);
+                    }
                 } else {
                     //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
@@ -181,6 +191,7 @@ public class PhoneticsKeyboard extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        this.sEditorInfo = attribute;
 
         mPredictionOn = true;
         mCompletionOn = false;
@@ -201,8 +212,9 @@ public class PhoneticsKeyboard extends InputMethodService
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
         super.onStartInputView(info, restarting);
-
+        this.sEditorInfo = info;
         setInputView(onCreateInputView());
+
     }
 
     @Override
