@@ -118,7 +118,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 //InputMethodManager inputManager = (InputMethodManager) getSystemService(
                 //        INPUT_METHOD_SERVICE);
                 //inputManager.showInputMethodPicker();
-                this.rotateLayout();
+                this.diphthonLayout();
                 break;
             case Keyboard.KEYCODE_DELETE:
                 //ic.deleteSurroundingText(1, 0);
@@ -408,6 +408,12 @@ public class PhoneticsKeyboard extends InputMethodService
     private void monothongLayout() {
         KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
         keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_NORMAL);
+        this.switchLayout();
+    }
+
+    private void diphthonLayout() {
+        KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
+        keyboardPreferences.saveLayout(KeyboardPreferences.LAYOUT_DIPHTHONGS);
         this.switchLayout();
     }
 

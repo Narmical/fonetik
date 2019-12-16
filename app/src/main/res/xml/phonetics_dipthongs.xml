@@ -1,6 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:horizontalGap="1px"
-    android:keyWidth="7%p"
+    android:keyWidth="10%p"
     android:keyHeight="60dp"
     android:verticalGap="1px">
     <Row>
@@ -14,101 +14,150 @@
             android:keyLabel="ɪɹ"
             android:keyOutputText="ɪɹ" />
         <Key
-            android:keyLabel="ɑːɹ"
-            android:keyOutputText="ɑːɹ" />
-        <Key
-            android:keyLabel="aɪ"
-            android:keyOutputText="aɪ" />
-        <Key
-            android:keyLabel="ɔɪ"
-            android:keyOutputText="ɔɪ" />
-        <Key
             android:keyLabel="ɔɹ"
             android:keyOutputText="ɔɹ" />
         <Key
-            android:keyLabel="eɪ"
-            android:keyOutputText="eɪ" />
-        <Key
+            android:keyLabel="ɑːɹ"
+            android:keyOutputText="ɑːɹ" />
+         <Key
+            android:keyLabel="ɔɪ"
+            android:keyOutputText="ɔɪ" />
+         <Key
             android:keyLabel="ɛɹ"
             android:keyOutputText="ɛɹ" />
         <Key
             android:keyLabel="əɹ"
             android:keyOutputText="əɹ" />
+
+        <Key
+            android:keyLabel="aʊ"
+            android:keyOutputText="aʊ" />
+        <Key
+            android:keyLabel="juː"
+            android:keyOutputText="juː" />
+
+    </Row>
+    <Row>
+        <!--Key
+           android:codes="105"
+           android:keyLabel="i" /-->
+        <Key
+            android:keyLabel="uː"
+            android:keyOutputText="uː" />
+        <Key
+            android:keyLabel="iː"
+            android:keyOutputText="iː" />
+         <!--Key
+            android:codes="593"
+            android:keyLabel="ɑ" /-->
+
+
+        <!--Key android:codes="604" android:keyLabel="ɜ"/-->
+        <!--Key
+    android:codes="596"
+    android:keyEdgeFlags="left"
+    android:keyLabel="ɔ" /-->
+        <Key
+            android:keyLabel="ɔ"
+            android:keyOutputText="ɔ" />
+
+        <Key
+            android:codes="601"
+            android:keyLabel="ə" />
+        <!--Key
+            android:codes="594"
+            android:keyLabel="ɒ" /-->
         <Key
             android:keyLabel="ɜːɹ"
             android:keyOutputText="ɜːɹ" />
+        <!--Key
+            android:codes="117"
+            android:keyLabel="u" /-->
+        <Key
+            android:codes="650"
+            android:keyLabel="ʊ" />
+        <Key
+            android:keyLabel="aɪ"
+            android:keyOutputText="aɪ" />
+        <Key
+            android:keyLabel="eɪ"
+            android:keyOutputText="eɪ" />
         <Key
             android:keyLabel="oʊ"
             android:keyOutputText="oʊ" />
         <Key
-            android:keyLabel="juː"
-            android:keyOutputText="juː" />
-        <Key
-            android:keyLabel="aʊ"
-            android:keyOutputText="aʊ" />
+            android:keyLabel="ː"
+            android:keyOutputText="ː" />
+
     </Row>
     <Row>
         <Key
-            android:codes="112"
-            android:horizontalGap='3%p'
-            android:keyEdgeFlags="left"
-            android:keyLabel="p" />
-        <Key
-            android:codes="116"
-            android:keyLabel="t" />
-        <Key
-            android:codes="107"
-            android:keyLabel="k" />
-        <Key
-            android:codes="102"
-            android:keyLabel="f" />
-        <Key
-            android:codes="952"
-            android:keyLabel="θ" />
-        <Key
-            android:codes="115"
-            android:keyLabel="s" />
-        <Key
-            android:codes="643"
-            android:keyLabel="ʃ" />
-        <Key
-            android:keyLabel="tʃ"
-            android:keyOutputText="tʃ" />
+            android:codes="653"
+            android:keyLabel="ʍ" />
         <Key
             android:codes="119"
             android:keyLabel="w" />
         <Key
+            android:codes="603"
+            android:keyLabel="ɛ" />
+        <Key
+            android:codes="633"
+            android:keyLabel="ɹ" />
+        <Key
+            android:codes="116"
+            android:keyLabel="t" />
+        <Key
+            android:codes="240"
+            android:keyLabel="ð" />
+        <Key
+            android:codes="652"
+            android:keyLabel="ʌ" />
+        <Key
+            android:codes="618"
+            android:keyLabel="ɪ" />
+        <Key
+            android:keyLabel="ɑː"
+            android:keyOutputText="ɑː" />
+        <Key
+            android:codes="112"
+            android:keyLabel="p" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="230"
+            android:keyLabel="æ" />
+        <Key
+            android:codes="115"
+            android:keyLabel="s" />
+        <Key
+            android:codes="100"
+            android:keyLabel="d" />
+        <Key
+            android:codes="102"
+            android:keyLabel="f" />
+        <Key
+            android:codes="103"
+            android:keyLabel="g" />
+        <Key
+            android:codes="104"
+            android:keyLabel="h" />
+        <Key
             android:codes="106"
             android:keyLabel="j" />
+        <Key
+            android:codes="107"
+            android:keyLabel="k" />
         <Key
             android:codes="108"
             android:keyLabel="l" />
         <Key
-            android:codes="110"
-            android:keyLabel="n" />
-        <Key
-            android:codes="331"
-            android:keyLabel="ŋ" />
+            android:codes="952"
+            android:keyLabel="θ" />
     </Row>
     <Row>
         <Key
             android:codes="-1"
             android:keyLabel="⇧" />
-        <Key
-            android:codes="98"
-            android:keyLabel="b" />
-        <Key
-            android:codes="100"
-            android:keyLabel="d" />
-        <Key
-            android:codes="103"
-            android:keyLabel="g" />
-        <Key
-            android:codes="118"
-            android:keyLabel="v" />
-        <Key
-            android:codes="240"
-            android:keyLabel="ð" />
         <Key
             android:codes="122"
             android:keyLabel="z" />
@@ -116,20 +165,23 @@
             android:codes="658"
             android:keyLabel="ʒ" />
         <Key
-            android:keyLabel="dʒ"
-            android:keyOutputText="dʒ" />
+            android:codes="643"
+            android:keyLabel="ʃ" />
         <Key
-            android:codes="653"
-            android:keyLabel="ʍ" />
+            android:codes="118"
+            android:keyLabel="v" />
         <Key
-            android:codes="104"
-            android:keyLabel="h" />
+            android:codes="98"
+            android:keyLabel="b" />
         <Key
-            android:codes="633"
-            android:keyLabel="ɹ" />
+            android:codes="110"
+            android:keyLabel="n" />
         <Key
             android:codes="109"
             android:keyLabel="m" />
+        <Key
+            android:codes="331"
+            android:keyLabel="ŋ" />
         <Key
             android:codes="-5"
             android:isRepeatable="true"
@@ -150,14 +202,14 @@
         <Key
             android:codes="32"
             android:isRepeatable="true"
-            android:keyWidth="58%p"
+            android:keyWidth="40%p"
             android:keyLabel="SPACE" />
         <Key
             android:codes="46"
             android:keyLabel="." />
         <Key
             android:codes="-4"
-            android:keyWidth="14%p"
+            android:keyWidth="20%p"
             android:keyEdgeFlags="right"
             android:keyLabel="↵" />
     </Row>

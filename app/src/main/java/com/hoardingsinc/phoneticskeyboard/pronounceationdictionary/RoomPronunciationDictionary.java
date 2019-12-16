@@ -20,9 +20,9 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
     private PronunciationDao pronunciationDao;
 
     public RoomPronunciationDictionary(Context context, RawDictionary rawDictionary) {
-        PronunciationDB db = Room.databaseBuilder(context, PronunciationDB.class, "pronunciation.db").build();
+        PronunciationDB db = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "pronunciation.db").build();
         this.pronunciationDao = db.pronunciationDao();
-        if (this.pronunciationDao.numEntries() == 0) {
+        if (this.pronunciationDao.numEntries() == 0 ) {
             List<RawDictionary> rawDictionaries = new ArrayList<>();
             rawDictionaries.add(rawDictionary);
             this.loadDictionary(rawDictionaries);
@@ -30,7 +30,7 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
     }
 
     public RoomPronunciationDictionary(Context context, List<RawDictionary> rawDictionaries) {
-        PronunciationDB db = Room.databaseBuilder(context, PronunciationDB.class, "pronunciation.db").build();
+        PronunciationDB db = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "pronunciation.db").build();
         this.pronunciationDao = db.pronunciationDao();
         if (this.pronunciationDao.numEntries() == 0) {
             this.loadDictionary(rawDictionaries);

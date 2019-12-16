@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -14,8 +15,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDB;
+import com.hoardingsinc.phoneticskeyboard.pronounceationdictionary.PronunciationDictionary;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Thread dictionaryBuilderThread;
 
     @Override
     public void onClick(View v) {
@@ -32,7 +39,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(
                         "https://play.google.com/store/apps/details?id=com.hoardingsinc.pronunroid")));
                 break;
+            case R.id.build_room_dict:
+                Log.d("PhoneticsKeyboard", "Nuke Pronunciation Dictionary");
+
+                dictionaryBuilderThread = new Thread(this::buildDictionary);
+                dictionaryBuilderThread.start();
+
+                break;
         }
+
+    }
+
+    private void buildDictionary() {
+        PronunciationDB db = Room.databaseBuilder(this.getApplicationContext(), PronunciationDB.class,
+                "pronunciation.db").build();
+        db.clearAllTables();
+        Log.d("PhoneticsKeyboard", "Nuked Pronunciation Dictionary");
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -96,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b = findViewById(R.id.button_open_keyboard_selection);
         b.setOnClickListener(this);
         b = findViewById(R.id.button_pronunroid_ad);
+        b.setOnClickListener(this);
+        b = findViewById(R.id.build_room_dict);
         b.setOnClickListener(this);
     }
 }

@@ -38,4 +38,5 @@
     <string name="radio_normal">Normal</string>
     <string name="preferred_layout">Preferred layout:</string>
     <string name="extended_2">Legacy</string>
+    <string name="nuke_dictionary">Nuke Dictionary</string>
 </resources>
