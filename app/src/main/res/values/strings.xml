@@ -6,19 +6,21 @@
 
     <string name="presentation">
         <![CDATA[
-        Hi there!
+        This is a keyboard designed to help who have such a hard time with spellingthat sometimes
+        their guesses can\'t even get close enough for auto correct to suggest something useful.
+        This is quite common for people with dyslexia or dysgraphia,
         <br/><br/>
-        This is a test. Some people have shown interest in having a keyboard for phonetics and I have
-        tried to build one. I do not have any use for it, so I am very interested in hearing from
-        someone who is looking for this kind of keyboard. Please, e-mail me at
-        <a href="mailto:hoardingsinc@gmail.com?subject=Keyboard-Feedback">hoardingsinc@gmail.com</a>
-        with suggestions or problems you have.
+        This keyboard allows you to type words phonetically, using the international phonetic
+        alphabet (IPA). As you type the auto correct will suggest to you correctly spelled words
+        that start with the pronunciation of the ipa symbols you typed
         <br/><br/>
         To use this keyboard you have to 1) enable it in the settings of the device and 2) select
         it from the list of enabled keyboards when you are entering text. The two buttons below will
-        take you directly to the two required screens. Once you are in the keyboard, many Android
-        devices provide a button in the bottom of the screen to change between keyboards. If not,
-        you can use the button in the bottom left of the phonetic keyboard itself.
+        take you directly to the two required screens.
+        <br/><br/>
+        You also need to build the pronunciation database on the first use. This should hawe started
+        on its own, and you should see a progress bar below. If it hasn\'t, you can touch the build
+        dictionary button.
         ]]>
     </string>
     <string name="pronunroid_ad">
