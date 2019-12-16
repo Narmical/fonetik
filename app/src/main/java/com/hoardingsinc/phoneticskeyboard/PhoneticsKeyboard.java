@@ -290,54 +290,8 @@ public class PhoneticsKeyboard extends InputMethodService
 
     private PronunciationDictionary buildDictionary() {
         PronunciationDictionary dictionary;
-        try {
-            List<RawDictionary> rawDictionaries = new ArrayList<>();
-            rawDictionaries.add(
-                    new MobyPronunciator(
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            this.getResources().openRawResource(R.raw.mpron),
-                                            "UTF8"
-                                    )
-                            ),
-                            new MobyToIpaConverter(
-                                    new BufferedReader(
-                                            new InputStreamReader(
-                                                    this.getResources().openRawResource(R.raw.mpront_to_ipa),
-                                                    "UTF8"
-                                            )
-
-                                    )
-                            )
-                    )
-            );
-            rawDictionaries.add(
-                    new CmuPronouncingDictionary(
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            this.getResources().openRawResource(R.raw.cmudict),
-                                            "UTF8"
-                                    )
-                            ),
-                            new ArpabetToIpaConverter(
-                                    new BufferedReader(
-                                            new InputStreamReader(
-                                                    this.getResources().openRawResource(R.raw.arpabet_to_ipa),
-                                                    "UTF8"
-                                            )
-
-                                    )
-                            )
-                    )
-            );
-            dictionary = new RoomPronunciationDictionary(this, rawDictionaries);
-            return dictionary;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        dictionary = new RoomPronunciationDictionary(this);
+        return dictionary;
     }
 
     /**

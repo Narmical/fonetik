@@ -1,11 +1,13 @@
 package com.hoardingsinc.phoneticskeyboard.pronounceationdictionary;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
 import androidx.room.Room;
 
+import com.hoardingsinc.phoneticskeyboard.MainActivity;
 import com.hoardingsinc.phoneticskeyboard.rawdictionary.RawDictionary;
 
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import java.util.stream.Collectors;
 public class RoomPronunciationDictionary extends PronunciationDictionary {
 
     private PronunciationDao pronunciationDao;
+
+    public RoomPronunciationDictionary(Context context) {
+        PronunciationDB db = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "pronunciation.db").build();
+        this.pronunciationDao = db.pronunciationDao();
+    }
 
     public RoomPronunciationDictionary(Context context, RawDictionary rawDictionary) {
         PronunciationDB db = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "pronunciation.db").build();
@@ -93,19 +100,21 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
         //return spellings.stream().map(Pronunciation::getSpelling).collect(Collectors.toList());
     }
 
-    void loadDictionary(List<RawDictionary> rawDictionaries) {
+    public void loadDictionary(List<RawDictionary> rawDictionaries) {
+        loadDictionary(rawDictionaries, null, 0);
+    }
+
+    public void loadDictionary(List<RawDictionary> rawDictionaries, MainActivity activity, int dictSize) {
         Log.d("RoomDb", "Database Load Start");
+        int progress = 0;
         Set<Pronunciation> pronunciations = new TreeSet<>();
         for (RawDictionary rawDictionary : rawDictionaries) {
             for (Pair<String, String> entry : rawDictionary) {
+                progress = progress + 1;
                 String ipa = entry.first;
                 String word = entry.second;
 
                 Log.d("RoomDb", word);
-
-                if (word.equalsIgnoreCase("rude")) {
-                    Log.d("RoomDb", "ahhhhhh");
-                }
 
                 Pronunciation pronunciation = new Pronunciation();
                 pronunciation.setIpa(ipa);
@@ -113,9 +122,27 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
                 pronunciation.setFrequency(0);
 
                 pronunciations.add(pronunciation);
+                if (activity != null) {
+                    final int progressPercent = progress *100 / dictSize;
+                    Log.d("RoomDb", progressPercent + "%");
+                    activity.runOnUiThread(() -> {
+                        activity.progressBarText.setText("loading " + word + "[" + ipa + "]");
+                        activity.progressBar.setProgress(progressPercent);
+                    });
+                }
             }
         }
+        activity.runOnUiThread(() -> {
+            activity.progressBarText.setText("Indexing pronunciation database");
+            activity.progressBar.setProgress(100);
+        });
         pronunciationDao.insertAll(new ArrayList<>(pronunciations));
+        if (activity != null) {
+            activity.runOnUiThread(() -> {
+                activity.progressBarText.setText("Dictionary Build Complete!");
+                activity.progressBar.setProgress(100);
+            });
+        }
         Log.d("RoomDb", "Database Load Complete");
     }
 }
