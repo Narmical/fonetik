@@ -311,7 +311,7 @@ public class PhoneticsKeyboard extends InputMethodService
      */
     private void commitTyped(InputConnection inputConnection) {
         if (mComposing.length() > 0) {
-            inputConnection.commitText(mComposing, mComposing.length());
+            inputConnection.commitText(mComposing, 1);
             mComposing.setLength(0);
             updateCandidates();
         }
