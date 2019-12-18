@@ -142,7 +142,6 @@ public class PhoneticsKeyboard extends InputMethodService
                         this.shift(false);
                     }
                     if (primaryCode == Keyboard.KEYCODE_DONE) {
-                        this.shift(true);
                         switch (sEditorInfo.imeOptions & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
                             case EditorInfo.IME_ACTION_GO:
                                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
