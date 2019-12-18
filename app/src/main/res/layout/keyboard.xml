@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<android.inputmethodservice.KeyboardView
+<com.hoardingsinc.phoneticskeyboard.KeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
     android:id="@+id/keyboard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:keyPreviewLayout ="@layout/preview"
-    android:keyBackground="@drawable/key_background"
-    android:keyTextColor="#000b2f"
-    android:shadowColor="@android:color/transparent"
+    auto:keyPreviewLayout ="@layout/preview"
+    auto:keyBackground="@drawable/key_background"
+    auto:keyTextColor="#000b2f"
+    auto:shadowColor="@android:color/transparent"
     />

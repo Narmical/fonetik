@@ -2,8 +2,6 @@ package com.hoardingsinc.phoneticskeyboard;
 
 
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -216,7 +214,7 @@ public class PhoneticsKeyboard extends InputMethodService
     public void onStartInputView(EditorInfo info, boolean restarting) {
         super.onStartInputView(info, restarting);
         this.sEditorInfo = info;
-        setInputView(onCreateInputView());
+        //setInputView(onCreateInputView());
 
     }
 
