@@ -123,6 +123,8 @@
     <Row>
         <Key
             android:codes="-1"
+            android:isModifier="true"
+            android:isSticky="true"
             android:keyLabel="⇧" />
         <Key
             android:codes="122"

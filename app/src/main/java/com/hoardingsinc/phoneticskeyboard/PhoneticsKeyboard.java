@@ -67,8 +67,15 @@ public class PhoneticsKeyboard extends InputMethodService
         keyboard = new Keyboard(this, keyboardLayoutVersion());
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
-
         return kv;
+    }
+
+    private void shift(boolean go) {
+        caps = go;
+    }
+
+    private void toggleShift() {
+        caps = !caps;
     }
 
     /**
@@ -107,19 +114,13 @@ public class PhoneticsKeyboard extends InputMethodService
 
         switch (primaryCode) {
             case Keyboard.KEYCODE_MODE_CHANGE:
-                //InputMethodManager inputManager = (InputMethodManager) getSystemService(
-                //        INPUT_METHOD_SERVICE);
-                //inputManager.showInputMethodPicker();
                 this.diphthonLayout();
                 break;
             case Keyboard.KEYCODE_DELETE:
-                //ic.deleteSurroundingText(1, 0);
                 handleBackspace();
                 break;
             case Keyboard.KEYCODE_SHIFT:
-                caps = !caps;
-                keyboard.setShifted(caps);
-                kv.invalidateAllKeys();
+                this.toggleShift();
                 updateCandidates();
                 break;
             case -7:
@@ -135,9 +136,13 @@ public class PhoneticsKeyboard extends InputMethodService
                 }
                 if (isWordSeparator(primaryCode) || primaryCode == Keyboard.KEYCODE_DONE) {
                     // Handle separator
-                    this.handleSeparator();
+                    this.autoSelectFirstSpelling();
+
+                    if (caps) {
+                        this.shift(false);
+                    }
                     if (primaryCode == Keyboard.KEYCODE_DONE) {
-                        //ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));}
+                        this.shift(true);
                         switch (sEditorInfo.imeOptions & (EditorInfo.IME_MASK_ACTION | EditorInfo.IME_FLAG_NO_ENTER_ACTION)) {
                             case EditorInfo.IME_ACTION_GO:
                                 ic.performEditorAction(EditorInfo.IME_ACTION_GO);
@@ -159,13 +164,12 @@ public class PhoneticsKeyboard extends InputMethodService
                         ic.commitText(String.valueOf(code), 1);
                     }
                 } else {
-                    //ic.commitText(String.valueOf(code), 1);
                     handleCharacter(primaryCode, keyCodes);
                 }
         }
     }
 
-    private void handleSeparator() {
+    private void autoSelectFirstSpelling() {
         if (mComposing.length() > 0) {
             if (mSuggestions != null && mSuggestions.size() > 0)
                 pickSuggestionManually(0, "");
@@ -219,13 +223,11 @@ public class PhoneticsKeyboard extends InputMethodService
 
     @Override
     public void onText(CharSequence text) {
-        //getCurrentInputConnection().commitText(text, 1);
         if (this.isWordSeparator(text)) {
-            this.handleSeparator();
+            this.autoSelectFirstSpelling();
         }
         mComposing.append(text);
         getCurrentInputConnection().setComposingText(mComposing, 1);
-        //commitTyped(getCurrentInputConnection());
         updateCandidates();
     }
 
@@ -256,6 +258,7 @@ public class PhoneticsKeyboard extends InputMethodService
             commitTyped(getCurrentInputConnection());
 
         }
+        this.shift(false);
     }
 
     public void setSuggestions(List<String> suggestions, boolean completions,
