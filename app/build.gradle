@@ -34,7 +34,7 @@ android {
     useLibrary 'android.test.mock'
 
     defaultConfig {
-        applicationId "com.hoardingsinc.phoneticskeyboard"
+        applicationId "com.narmical.phoneticskeyboard"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         minSdkVersion 24
         targetSdkVersion 29
