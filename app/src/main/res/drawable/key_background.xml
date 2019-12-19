@@ -7,6 +7,10 @@
         android:state_selected="false"
         />
 
+    <item android:drawable="@drawable/key_activated"
+        android:state_active="true"
+        />
+
     <!-- Pressed state -->
     <item android:drawable="@drawable/key_pressed"
         android:state_pressed="true" />

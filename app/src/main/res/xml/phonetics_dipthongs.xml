@@ -5,8 +5,8 @@
     android:verticalGap="1px">
     <Row>
         <Key
-            android:keyLabel="iːə"
-            android:keyOutputText="iːə" />
+            android:keyLabel="iə"
+            android:keyOutputText="iə" />
         <Key
             android:keyLabel="ɪə"
             android:keyOutputText="ɪə" />
@@ -17,8 +17,8 @@
             android:keyLabel="ɔɹ"
             android:keyOutputText="ɔɹ" />
         <Key
-            android:keyLabel="ɑːɹ"
-            android:keyOutputText="ɑːɹ" />
+            android:keyLabel="ɑɹ"
+            android:keyOutputText="ɑɹ" />
          <Key
             android:keyLabel="ɔɪ"
             android:keyOutputText="ɔɪ" />
@@ -33,8 +33,8 @@
             android:keyLabel="aʊ"
             android:keyOutputText="aʊ" />
         <Key
-            android:keyLabel="juː"
-            android:keyOutputText="juː" />
+            android:keyLabel="ju"
+            android:keyOutputText="ju" />
 
     </Row>
     <Row>
@@ -42,11 +42,11 @@
            android:codes="105"
            android:keyLabel="i" /-->
         <Key
-            android:keyLabel="uː"
-            android:keyOutputText="uː" />
+            android:keyLabel="u"
+            android:keyOutputText="u" />
         <Key
-            android:keyLabel="iː"
-            android:keyOutputText="iː" />
+            android:keyLabel="i"
+            android:keyOutputText="i" />
          <!--Key
             android:codes="593"
             android:keyLabel="ɑ" /-->
@@ -68,8 +68,8 @@
             android:codes="594"
             android:keyLabel="ɒ" /-->
         <Key
-            android:keyLabel="ɜːɹ"
-            android:keyOutputText="ɜːɹ" />
+            android:keyLabel="ɜɹ"
+            android:keyOutputText="ɜɹ" />
         <!--Key
             android:codes="117"
             android:keyLabel="u" /-->
@@ -116,8 +116,8 @@
             android:codes="618"
             android:keyLabel="ɪ" />
         <Key
-            android:keyLabel="ɑː"
-            android:keyOutputText="ɑː" />
+            android:keyLabel="ɑ"
+            android:keyOutputText="ɑ" />
         <Key
             android:codes="112"
             android:keyLabel="p" />
