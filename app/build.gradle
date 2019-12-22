@@ -24,7 +24,7 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'README.txt'
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     // Gradle automatically adds 'android.test.runner' as a dependency.

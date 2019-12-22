@@ -1,8 +1,10 @@
-# PhoneticKeyboard
-A phonetic keyboard for Android
+# Fonetik
+## An android keyboard where you type with sounds and auto correct suggests correctly spelled english words
 
-This is a proof of concept: an attempt to create a keyboard for writing phonetic transcriptions of English words using the IPA (International Phonetic Alphabet).
+This keyboard uses the international phonetic alphabet (IPA) as its keys. As you type the auto correct will present words that start with the pronunciation that you have entered.
 
-I've developed it in my spare time because some people showed interested in it. It works in my device in the applications I have tested it. However, I don't know if it will work in your device. It will depend on the application you are using and the font that the application chooses, which I can't control; if the font doesn't have the phonetic symbols, there's nothing I can do.
+I had this bright idea because I have dysgraphia and normal spell check leaves me guessing sometimes. I can't even get close enough to have the right word show up sometimes. I hope this is also useful for people with dyslexia.
 
-[![Get it on Google Play](https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.hoardingsinc.phoneticskeyboard)
+With this keyboard you can directly enter the sounds of the word, and you will be suggested words that start with those sounds. There is aa bit of a leaning curve in leaning IPA and then getting used to thinking about the pronunciations.
+
+The pronunciations are taken from the CMU Pronunciation dictionary and thus conform to General American

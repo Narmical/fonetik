@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Phonetic Keyboard</string>
-    <string name="phonetics_keyboard">Phonetics Keyboard</string>
-    <string name="subtype_ph">Phonetics</string>
-    <string name="title_activity_main">Phonetic Keyboard</string>
+    <string name="app_name">Fonetik Keyboard</string>
+    <string name="phonetics_keyboard">Fonetik Keyboard</string>
+    <string name="subtype_ph">Fonetik</string>
+    <string name="title_activity_main">Fonetik Keyboard</string>
 
     <string name="presentation">
         <![CDATA[
