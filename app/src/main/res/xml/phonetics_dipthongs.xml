@@ -1,7 +1,8 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="10%p"
+    android:keyWidth="9.5%p"
+    android:horizontalGap="0.5%p"
     android:keyHeight="60dp"
-    android:verticalGap="1px">
+    android:verticalGap="0.25%p">
     <Row>
         <Key
             android:keyLabel="iə"
@@ -201,14 +202,14 @@
         <Key
             android:codes="32"
             android:isRepeatable="true"
-            android:keyWidth="40%p"
+            android:keyWidth="39.5%p"
             android:keyLabel="SPACE" />
         <Key
             android:codes="46"
             android:keyLabel="." />
         <Key
             android:codes="-4"
-            android:keyWidth="20%p"
+            android:keyWidth="19.5%p"
             android:keyEdgeFlags="right"
             android:keyLabel="↵" />
     </Row>
