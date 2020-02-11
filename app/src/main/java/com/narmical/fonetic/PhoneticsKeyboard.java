@@ -129,6 +129,9 @@ public class PhoneticsKeyboard extends InputMethodService
             case -8:
                 this.monothongLayout();
                 break;
+            case -9:
+                this.qwertyLayout();
+                break;
             default:
                 char code = (char) primaryCode;
                 if (Character.isLetter(code) && caps) {
@@ -358,7 +361,7 @@ public class PhoneticsKeyboard extends InputMethodService
         KeyboardPreferences keyboardPreferences = new KeyboardPreferences(this);
         switch (keyboardPreferences.getLayout()) {
             case KeyboardPreferences.LAYOUT_NORMAL:
-                return R.xml.phonetics_normal;
+                return R.xml.phonetics_mixed;
             case KeyboardPreferences.LAYOUT_DIPHTHONGS:
                 return R.xml.phonetics_dipthongs;
             case KeyboardPreferences.LAYOUT_NUM_SYMB:
@@ -370,7 +373,7 @@ public class PhoneticsKeyboard extends InputMethodService
             case KeyboardPreferences.LAYOUT_QWERTY:
                 return R.xml.phonetics_qwerty;
             default:
-                return R.xml.phonetics_normal;
+                return R.xml.phonetics_mixed;
         }
     }
 
