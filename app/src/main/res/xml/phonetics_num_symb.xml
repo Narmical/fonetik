@@ -143,8 +143,8 @@
             android:keyEdgeFlags="left"
             android:keyLabel="æ" />
         <Key
-            android:codes="-2"
-            android:keyLabel="eɪ" />
+            android:codes="-9"
+            android:keyLabel="qwe" />
         <Key
             android:codes="44"
             android:keyLabel="," />
