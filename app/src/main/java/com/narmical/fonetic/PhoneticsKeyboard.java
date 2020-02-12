@@ -495,7 +495,8 @@ public class PhoneticsKeyboard extends InputMethodService
 
         @Override
         protected List<String> doInBackground(String... strings) {
-            List<String> list = mDictionary.getSuggestions(strings[0], 10);
+            List<String> list = mDictionary.getSuggestions(strings[0],
+                    KeyboardPreferences.MAX_SUGGESTIONS);
             list.add(0, "✔");
             if (isWordSeparator(strings[0]) && strings[0].length() == 1) {
                 list.add(1, strings[0]);

@@ -134,7 +134,7 @@ public class CandidateView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int measuredWidth = resolveSize(50, widthMeasureSpec);
+        int measuredWidth = resolveSize(KeyboardPreferences.MAX_SUGGESTIONS, widthMeasureSpec);
 
         // Get the desired height of the icon menu view (last row of items does
         // not have a divider below)

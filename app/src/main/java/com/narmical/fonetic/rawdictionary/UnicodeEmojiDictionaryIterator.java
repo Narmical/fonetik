@@ -5,14 +5,13 @@ import android.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
-
-    String thisLine;
 
     UnicodeEmojiDictionaryIterator(BufferedReader reader) {
         super(reader, null);
@@ -22,6 +21,8 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
     public boolean hasNext() {
         if (!this.hasNext)
             return false;
+        if (flowOver != null && flowOver.size() > 0)
+            return true;
         try {
             do {
                 thisLine = reader.readLine();
@@ -36,12 +37,11 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
     }
 
     @Override
-    public Pair<String, String> next() {
+    public List<Pair<String, String>> _next(String thisLine) {
         String[] entry = thisLine.split("[;#]");
 
         String[] description = entry[2].split("E\\d+.\\d+ ");
-        if(description.length < 2)
-        {
+        if (description.length < 2) {
             Log.i("Emoji", thisLine);
         }
 
@@ -49,7 +49,10 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
         for (String codePoint : entry[0].trim().split(" ")) {
             spelling.appendCodePoint(Integer.valueOf(codePoint, 16));
         }
-        //List<String> ipa = this.ipaConverter.convertToIpa(description);
-        return new Pair<>(description[1], spelling.toString());
+        ArrayList<Pair<String, String>> pairs = new ArrayList<>();
+        for (String keyword : description[1].split(" ")) {
+            pairs.add(new Pair<>(keyword, spelling.toString()));
+        }
+        return pairs;
     }
 }

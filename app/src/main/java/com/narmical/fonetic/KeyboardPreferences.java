@@ -13,6 +13,7 @@ class KeyboardPreferences {
     private static final String PREFIX_LAYOUT = "layout";
     private static final String PREFS_NAME = "Preferences";
     private Context mContext;
+    static final int MAX_SUGGESTIONS = 25;
 
     KeyboardPreferences(Context context) {
         mContext = context;

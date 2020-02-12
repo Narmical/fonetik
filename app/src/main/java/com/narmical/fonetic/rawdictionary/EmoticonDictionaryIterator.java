@@ -39,4 +39,9 @@ public class EmoticonDictionaryIterator extends RawDictionaryIterator {
                 appendCodePoint(Integer.valueOf(entry[1], 16)).toString();
         return new Pair<>(entry[0], spelling);
     }
+
+    @Override
+    public List<Pair<String,String>> _next(String thisLine){
+        return null;
+    }
 }

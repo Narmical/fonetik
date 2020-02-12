@@ -8,7 +8,6 @@ import java.util.List;
 
 public class CmuPronouncingDictionaryIterator extends RawDictionaryIterator {
 
-    String thisLine;
 
     CmuPronouncingDictionaryIterator(BufferedReader reader, IpaConverter ipaConverter) {
         super(reader, ipaConverter);
@@ -37,5 +36,10 @@ public class CmuPronouncingDictionaryIterator extends RawDictionaryIterator {
         String spelling = formatWord(entry[0]).toLowerCase();
         List<String> ipa = this.ipaConverter.convertToIpa(entry[1]);
         return new Pair<>(ipa.get(0), spelling);
+    }
+
+    @Override
+    public List<Pair<String,String>> _next(String thisLine){
+        return null;
     }
 }
