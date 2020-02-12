@@ -1,6 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="9.5%p"
     android:horizontalGap="0.5%p"
+    android:keyWidth="9.5%p"
     android:keyHeight="60dp"
     android:verticalGap="0.25%p">
     <Row>
@@ -13,10 +13,9 @@
         <Key
             android:keyLabel="ɔ"
             android:keyOutputText="ɔ" />
-
         <Key
-            android:codes="601"
-            android:keyLabel="ə" />
+            android:keyLabel="ɔɪ"
+            android:keyOutputText="ɔɪ" />
         <Key
             android:keyLabel="ɜɹ"
             android:keyOutputText="ɜɹ" />
