@@ -130,8 +130,9 @@
             android:keyLabel="m" />
         <Key
             android:codes="-5"
+            android:horizontalGap="5.5%p"
             android:isRepeatable="true"
-            android:keyEdgeFlags="left"
+            android:keyEdgeFlags="right"
             android:keyLabel="⇐" />
     </Row>
     <Row android:rowEdgeFlags="bottom">
