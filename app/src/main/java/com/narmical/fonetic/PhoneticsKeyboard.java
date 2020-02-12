@@ -5,7 +5,6 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.CompletionInfo;
@@ -24,6 +23,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private static PronunciationDictionary mDictionary;
     private boolean caps = false;
     private Thread dictionaryBuilderThread;
+    private boolean justPickedSuggestion;
     private Keyboard keyboard;
     private KeyboardView kv;
     private CandidateView mCandidateView;
@@ -35,7 +35,18 @@ public class PhoneticsKeyboard extends InputMethodService
     private EditorInfo sEditorInfo;
 
     public boolean isWordSeparator(int code) {
-        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&";
+        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&'\"";
+        return separators.contains(String.valueOf((char) code));
+    }
+
+    public boolean isEndPunctuation(int code) {
+        String separators = ".,;:!?)]}'\"";
+        return separators.contains(String.valueOf((char) code));
+    }
+
+
+    public boolean isEmojiCharacter(int code) {
+        String separators = ".,;:()[]*&@/<>_+=|&'\"tTDd8Bb";
         return separators.contains(String.valueOf((char) code));
     }
 
@@ -44,6 +55,38 @@ public class PhoneticsKeyboard extends InputMethodService
             return isWordSeparator(text.charAt(0));
         }
         return false;
+    }
+
+    public boolean doesNotStartWithWordSeparator(CharSequence text) {
+        if (text.length() == 0) {
+            return false;
+        } else {
+            return !isWordSeparator(text.charAt(0));
+        }
+    }
+
+    public boolean startsWithEmojiSeperator(CharSequence text) {
+        if (text.length() == 0) {
+            return false;
+        } else {
+            return isEmojiCharacter(text.charAt(0));
+        }
+    }
+
+    public boolean doesNotStartWithEmojiSeparator(CharSequence text) {
+        if (text.length() == 0) {
+            return false;
+        } else {
+            return !isEmojiCharacter(text.charAt(0));
+        }
+    }
+
+    public boolean startsWithWordSeparator(CharSequence text) {
+        if (text.length() == 0) {
+            return false;
+        } else {
+            return !doesNotStartWithWordSeparator(text);
+        }
     }
 
     @Override
@@ -137,9 +180,11 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                if (isWordSeparator(primaryCode) || primaryCode == Keyboard.KEYCODE_DONE) {
+                if ((isWordSeparator(primaryCode) && doesNotStartWithEmojiSeparator(mComposing)) ||
+                        primaryCode == Keyboard.KEYCODE_DONE ||
+                        primaryCode == 32) {
                     // Handle separator
-                    this.autoSelectFirstSpelling();
+                    this.autoSelectFirstSpelling("");
 
                     if (caps) {
                         this.shift(false);
@@ -165,16 +210,27 @@ public class PhoneticsKeyboard extends InputMethodService
                     } else {
                         ic.commitText(String.valueOf(code), 1);
                     }
+                } else if (!isWordSeparator(primaryCode) && startsWithWordSeparator(mComposing)) {
+                    ic.commitText(mComposing, 1);
+                    mComposing.setLength(0);
+                    handleCharacter(primaryCode);
+                    this.justPickedSuggestion = false;
+                } else if (ic.getTextBeforeCursor(1, 0).equals(" ") && mComposing.length() == 0
+                        && isEndPunctuation(primaryCode) && this.justPickedSuggestion) {
+                    ic.commitText("", -1);
+                    ic.commitText(code + " ", 1);
+                    this.justPickedSuggestion = false;
                 } else {
-                    handleCharacter(primaryCode, keyCodes);
+                    handleCharacter(primaryCode);
+                    this.justPickedSuggestion = false;
                 }
         }
     }
 
-    private void autoSelectFirstSpelling() {
+    private void autoSelectFirstSpelling(String append) {
         if (mComposing.length() > 0) {
-            if (mSuggestions != null && mSuggestions.size() > 0)
-                pickSuggestionManually(0, "");
+            if (mSuggestions != null && mSuggestions.size() > 1)
+                pickSuggestionManually(1, append);
             else
                 commitTyped(getCurrentInputConnection());
         }
@@ -224,12 +280,9 @@ public class PhoneticsKeyboard extends InputMethodService
 
     @Override
     public void onText(CharSequence text) {
-        if (this.isWordSeparator(text)) {
-            this.autoSelectFirstSpelling();
+        for (int i = 0; i < text.length(); i++) {
+            this.onKey((int) text.charAt(i), null);
         }
-        mComposing.append(text);
-        getCurrentInputConnection().setComposingText(mComposing, 1);
-        updateCandidates();
     }
 
     @Override
@@ -242,7 +295,10 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     public void pickSuggestionManually(int index, String append) {
-        if (mCompletionOn && mCompletions != null && index >= 0
+        this.justPickedSuggestion = true;
+        if (index == 0) {
+            commitTyped(getCurrentInputConnection());
+        } else if (mCompletionOn && mCompletions != null && index >= 1
                 && index < mCompletions.length) {
             CompletionInfo ci = mCompletions[index];
             getCurrentInputConnection().commitCompletion(ci);
@@ -259,6 +315,7 @@ public class PhoneticsKeyboard extends InputMethodService
             commitTyped(getCurrentInputConnection());
 
         }
+
         this.shift(false);
     }
 
@@ -336,7 +393,7 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
-    private void handleCharacter(int primaryCode, int[] keyCodes) {
+    private void handleCharacter(int primaryCode) {
         if (mPredictionOn) {
             mComposing.append((char) primaryCode);
             getCurrentInputConnection().setComposingText(mComposing, 1);
@@ -438,7 +495,12 @@ public class PhoneticsKeyboard extends InputMethodService
 
         @Override
         protected List<String> doInBackground(String... strings) {
-            return mDictionary.getSuggestions(strings[0], 10);
+            List<String> list = mDictionary.getSuggestions(strings[0], 10);
+            list.add(0, "✔");
+            if (isWordSeparator(strings[0]) && strings[0].length() == 1) {
+                list.add(1, strings[0]);
+            }
+            return list;
         }
 
         protected void onPostExecute(List<String> result) {

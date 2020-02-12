@@ -31,7 +31,7 @@ public class BuildDictFromFilesTest {
         Set<String> expected = new TreeSet<>();
         BufferedReader rawFile = new BufferedReader(
                 new InputStreamReader(
-                        this.res.openRawResource(R.raw.cmudict)));
+                        this.res.openRawResource(R.raw.cmu_dict)));
 
         String thisLine;
         while ((thisLine = rawFile.readLine()) != null) {
@@ -46,7 +46,7 @@ public class BuildDictFromFilesTest {
                 new CmuPronouncingDictionary(
                         new BufferedReader(
                                 new InputStreamReader(
-                                        this.res.openRawResource(R.raw.cmudict)
+                                        this.res.openRawResource(R.raw.cmu_dict)
                                 )
                         ),
                         new ArpabetToIpaConverter(
@@ -68,7 +68,7 @@ public class BuildDictFromFilesTest {
         Set<String> expected = new TreeSet<>();
         BufferedReader rawFile = new BufferedReader(
                 new InputStreamReader(
-                        this.res.openRawResource(R.raw.mpron)));
+                        this.res.openRawResource(R.raw.mpron_dict)));
 
         String thisLine;
         while ((thisLine = rawFile.readLine()) != null) {
@@ -83,7 +83,7 @@ public class BuildDictFromFilesTest {
                 new MobyPronunciator(
                         new BufferedReader(
                                 new InputStreamReader(
-                                        this.res.openRawResource(R.raw.mpron)
+                                        this.res.openRawResource(R.raw.mpron_dict)
                                 )
                         ),
                         new MobyToIpaConverter(
@@ -105,7 +105,7 @@ public class BuildDictFromFilesTest {
         Set<String> expected = new TreeSet<>();
         BufferedReader rawFile = new BufferedReader(
                 new InputStreamReader(
-                        this.res.openRawResource(R.raw.cmudict)));
+                        this.res.openRawResource(R.raw.cmu_dict)));
 
         String thisLine;
         while ((thisLine = rawFile.readLine()) != null) {
@@ -120,7 +120,7 @@ public class BuildDictFromFilesTest {
                 new CmuPronouncingDictionary(
                         new BufferedReader(
                                 new InputStreamReader(
-                                        this.res.openRawResource(R.raw.cmudict)
+                                        this.res.openRawResource(R.raw.cmu_dict)
                                 )
                         ),
                         new ArpabetToIpaConverter(
@@ -142,7 +142,7 @@ public class BuildDictFromFilesTest {
         Set<String> expected = new TreeSet<>();
         BufferedReader rawFile = new BufferedReader(
                 new InputStreamReader(
-                        this.res.openRawResource(R.raw.mpron)));
+                        this.res.openRawResource(R.raw.mpron_dict)));
 
         String thisLine;
         while ((thisLine = rawFile.readLine()) != null) {
@@ -157,7 +157,7 @@ public class BuildDictFromFilesTest {
                 new MobyPronunciator(
                         new BufferedReader(
                                 new InputStreamReader(
-                                        this.res.openRawResource(R.raw.mpron)
+                                        this.res.openRawResource(R.raw.mpron_dict)
                                 )
                         ),
                         new MobyToIpaConverter(

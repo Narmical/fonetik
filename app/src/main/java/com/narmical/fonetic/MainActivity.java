@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import com.narmical.fonetic.pronounceationdictionary.PronunciationDao;
 import com.narmical.fonetic.pronounceationdictionary.RoomPronunciationDictionary;
 import com.narmical.fonetic.rawdictionary.ArpabetToIpaConverter;
 import com.narmical.fonetic.rawdictionary.CmuPronouncingDictionary;
+import com.narmical.fonetic.rawdictionary.EmoticonDictionary;
 import com.narmical.fonetic.rawdictionary.MobyPronunciator;
 import com.narmical.fonetic.rawdictionary.MobyToIpaConverter;
 import com.narmical.fonetic.rawdictionary.RawDictionary;
@@ -32,7 +32,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -85,10 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (pronunciationDao.numEntries() == 0 || this.rebuild == true) {
             db.clearAllTables();
             runOnUiThread(() -> this.progressBar.setVisibility(View.VISIBLE));
-                        RoomPronunciationDictionary dictionary = new RoomPronunciationDictionary(this);
+            RoomPronunciationDictionary dictionary = new RoomPronunciationDictionary(this);
             try {
 
-                int dictSize = this.preCountDictSize(R.raw.mpron) + this.preCountDictSize(R.raw.cmudict);
+                int dictSize = this.preCountDictSize(R.raw.mpron_dict) +
+                        this.preCountDictSize(R.raw.cmu_dict) +
+                        this.preCountDictSize(R.raw.emoticon_to_emoji_dict);
 
 
                 List<RawDictionary> rawDictionaries = new ArrayList<>();
@@ -96,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new MobyPronunciator(
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                this.getResources().openRawResource(R.raw.mpron),
+                                                this.getResources().openRawResource(R.raw.mpron_dict
+                                                ),
                                                 StandardCharsets.UTF_8
                                         )
                                 ),
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new CmuPronouncingDictionary(
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                this.getResources().openRawResource(R.raw.cmudict),
+                                                this.getResources().openRawResource(R.raw.cmu_dict),
                                                 StandardCharsets.UTF_8
                                         )
                                 ),
@@ -126,6 +128,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         StandardCharsets.UTF_8
                                                 )
 
+                                        )
+                                )
+                        )
+                );
+                rawDictionaries.add(
+                        new EmoticonDictionary(
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                this.getResources().openRawResource(R.raw.emoticon_to_emoji_dict),
+                                                StandardCharsets.UTF_8
                                         )
                                 )
                         )
