@@ -9,6 +9,7 @@ import com.narmical.fonetic.rawdictionary.ArpabetToIpaConverter;
 import com.narmical.fonetic.rawdictionary.CmuPronouncingDictionary;
 import com.narmical.fonetic.rawdictionary.MobyPronunciator;
 import com.narmical.fonetic.rawdictionary.MobyToIpaConverter;
+import com.narmical.fonetic.rawdictionary.UnicodeEmojiDictionary;
 
 import org.junit.Test;
 
@@ -128,6 +129,66 @@ public class BuildDictFromFilesTest {
                                         new InputStreamReader(
                                                 this.res.openRawResource(R.raw.arpabet_to_ipa)
                                         )
+                                )
+                        )
+                )
+        );
+
+        // assert that dict object has name number of unique pronunciations as the input file
+        assertThat(dict.numEntries(), equalTo(expected.size()));
+    }
+
+    @Test
+    public void processUnicodeEmojiDictInMemory() throws IOException {
+        Set<String> expected = new TreeSet<>();
+        BufferedReader rawFile = new BufferedReader(
+                new InputStreamReader(
+                        this.res.openRawResource(R.raw.unicode_emoji_dict)));
+
+        String thisLine;
+        while ((thisLine = rawFile.readLine()) != null) {
+            if (!thisLine.startsWith("#") && !thisLine.equals("\n") && !thisLine.equals("")) {
+                String[] tokens = thisLine.split(";");
+                expected.add(tokens[0].trim());
+            }
+        }
+
+        InMemoryPronunciationDictionary dict = new InMemoryPronunciationDictionary(
+                ApplicationProvider.getApplicationContext(),
+                new UnicodeEmojiDictionary(
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        this.res.openRawResource(R.raw.unicode_emoji_dict)
+                                )
+                        )
+                )
+        );
+
+        // assert that dict object has name number of unique pronunciations as the input file
+        assertThat(dict.numEntries(), equalTo(expected.size()));
+    }
+
+    @Test
+    public void processUnicodeEmojiDictRoomDb() throws IOException {
+        Set<String> expected = new TreeSet<>();
+        BufferedReader rawFile = new BufferedReader(
+                new InputStreamReader(
+                        this.res.openRawResource(R.raw.unicode_emoji_dict)));
+
+        String thisLine;
+        while ((thisLine = rawFile.readLine()) != null) {
+            if (!thisLine.startsWith("#") && !thisLine.equals("\n") && !thisLine.equals("")) {
+                String[] tokens = thisLine.split("#");
+                expected.add(tokens[1]);
+            }
+        }
+
+        RoomPronunciationDictionary dict = new RoomPronunciationDictionary(
+                ApplicationProvider.getApplicationContext(),
+                new UnicodeEmojiDictionary(
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        this.res.openRawResource(R.raw.unicode_emoji_dict)
                                 )
                         )
                 )

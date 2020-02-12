@@ -4042,8 +4042,8 @@
 2122                                       ; unqualified         # ™ E0.6 trade mark
 
 # subgroup: keycap
-0023 FE0F 20E3                             ; fully-qualified     # #️⃣ E0.6 keycap: #
-0023 20E3                                  ; unqualified         # #⃣ E0.6 keycap: #
+0023 FE0F 20E3                             ; fully-qualified     # ️⃣ E0.6 keycap: #
+0023 20E3                                  ; unqualified         # ⃣ E0.6 keycap: #
 002A FE0F 20E3                             ; fully-qualified     # *️⃣ E2.0 keycap: *
 002A 20E3                                  ; unqualified         # *⃣ E2.0 keycap: *
 0030 FE0F 20E3                             ; fully-qualified     # 0️⃣ E0.6 keycap: 0

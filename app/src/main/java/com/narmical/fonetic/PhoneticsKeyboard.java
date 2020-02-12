@@ -40,7 +40,7 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     public boolean isEndPunctuation(int code) {
-        String separators = ".,;:!?)]}'\"";
+        String separators = ".,;:!?)]}";
         return separators.contains(String.valueOf((char) code));
     }
 

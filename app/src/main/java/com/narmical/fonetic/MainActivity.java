@@ -23,6 +23,7 @@ import com.narmical.fonetic.rawdictionary.EmoticonDictionary;
 import com.narmical.fonetic.rawdictionary.MobyPronunciator;
 import com.narmical.fonetic.rawdictionary.MobyToIpaConverter;
 import com.narmical.fonetic.rawdictionary.RawDictionary;
+import com.narmical.fonetic.rawdictionary.UnicodeEmojiDictionary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -89,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 int dictSize = this.preCountDictSize(R.raw.mpron_dict) +
                         this.preCountDictSize(R.raw.cmu_dict) +
-                        this.preCountDictSize(R.raw.emoticon_to_emoji_dict);
+                        this.preCountDictSize(R.raw.emoticon_to_emoji_dict)+
+                        this.preCountDictSize(R.raw.unicode_emoji_dict);
 
 
                 List<RawDictionary> rawDictionaries = new ArrayList<>();
@@ -137,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 new BufferedReader(
                                         new InputStreamReader(
                                                 this.getResources().openRawResource(R.raw.emoticon_to_emoji_dict),
+                                                StandardCharsets.UTF_8
+                                        )
+                                )
+                        )
+                );
+                rawDictionaries.add(
+                        new UnicodeEmojiDictionary(
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                this.getResources().openRawResource(R.raw.unicode_emoji_dict),
                                                 StandardCharsets.UTF_8
                                         )
                                 )
