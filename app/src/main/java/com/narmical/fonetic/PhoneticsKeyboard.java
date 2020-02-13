@@ -185,7 +185,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                if ((isWordSeparator(primaryCode) && !isAllEmojiCharacters(mComposing)) ||
+                if ((isWordSeparator(primaryCode) && !isAllEmojiCharacters(mComposing) && mComposing.length() > 0) ||
                         primaryCode == Keyboard.KEYCODE_DONE ||
                         primaryCode == 32) {
                     // Handle separator
@@ -223,7 +223,11 @@ public class PhoneticsKeyboard extends InputMethodService
                 } else if (ic.getTextBeforeCursor(1, 0).equals(" ") && mComposing.length() == 0
                         && isEndPunctuation(primaryCode) && this.justPickedSuggestion) {
                     ic.commitText("", -1);
-                    ic.commitText(code + " ", 1);
+                    if (code == '-') {
+                        ic.commitText(String.valueOf(code), 1);
+                    } else {
+                        ic.commitText(code + " ", 1);
+                    }
                     this.justPickedSuggestion = false;
                 } else {
                     handleCharacter(primaryCode);
