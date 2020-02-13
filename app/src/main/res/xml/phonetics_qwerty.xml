@@ -137,11 +137,9 @@
     </Row>
     <Row android:rowEdgeFlags="bottom">
         <Key
-            android:codes="-7"
-            android:keyEdgeFlags="left"
-            android:keyLabel="!#1" />
-        <Key
             android:codes="-8"
+            android:keyWidth="19.5%p"
+            android:keyEdgeFlags="left"
             android:keyLabel="æ" />
         <Key
             android:codes="44"

@@ -1,6 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="9.5%p"
     android:horizontalGap="0.5%p"
+    android:keyWidth="9.5%p"
     android:keyHeight="60dp"
     android:verticalGap="0.25%p">
     <Row>
@@ -140,11 +140,9 @@
     <Row android:rowEdgeFlags="bottom">
         <Key
             android:codes="-8"
+            android:keyWidth="19.5%p"
             android:keyEdgeFlags="left"
             android:keyLabel="æ" />
-        <Key
-            android:codes="-9"
-            android:keyLabel="qwe" />
         <Key
             android:codes="44"
             android:keyLabel="," />

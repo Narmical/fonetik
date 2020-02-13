@@ -35,12 +35,12 @@ public class PhoneticsKeyboard extends InputMethodService
     private EditorInfo sEditorInfo;
 
     public boolean isWordSeparator(int code) {
-        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&'\"";
+        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&'\"-";
         return separators.contains(String.valueOf((char) code));
     }
 
     public boolean isEndPunctuation(int code) {
-        String separators = ".,;:!?)]}";
+        String separators = ".,;:!?)]}-";
         return separators.contains(String.valueOf((char) code));
     }
 
@@ -73,11 +73,16 @@ public class PhoneticsKeyboard extends InputMethodService
         }
     }
 
-    public boolean doesNotStartWithEmojiSeparator(CharSequence text) {
+    public boolean isAllEmojiCharacters(CharSequence text) {
         if (text.length() == 0) {
             return false;
         } else {
-            return !isEmojiCharacter(text.charAt(0));
+            for (int i = 0; i < text.length(); i++) {
+                if (!isEmojiCharacter(text.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
@@ -180,7 +185,7 @@ public class PhoneticsKeyboard extends InputMethodService
                 if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                if ((isWordSeparator(primaryCode) && doesNotStartWithEmojiSeparator(mComposing)) ||
+                if ((isWordSeparator(primaryCode) && !isAllEmojiCharacters(mComposing)) ||
                         primaryCode == Keyboard.KEYCODE_DONE ||
                         primaryCode == 32) {
                     // Handle separator
