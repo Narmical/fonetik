@@ -105,10 +105,11 @@
         <Key
             android:codes="-1"
             android:keyEdgeFlags="left"
+            android:keyWidth="14.12%p"
             android:keyLabel="⇧" />
         <Key
             android:codes="122"
-            android:horizontalGap="5.5%p"
+
             android:keyLabel="z" />
         <Key
             android:keyLabel="x"
@@ -130,7 +131,7 @@
             android:keyLabel="m" />
         <Key
             android:codes="-5"
-            android:horizontalGap="5.5%p"
+            android:keyWidth="15%p"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
             android:keyLabel="⇐" />

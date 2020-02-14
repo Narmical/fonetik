@@ -9,6 +9,7 @@ import com.narmical.fonetic.rawdictionary.ArpabetToIpaConverter;
 import com.narmical.fonetic.rawdictionary.CmuPronouncingDictionary;
 import com.narmical.fonetic.rawdictionary.MobyPronunciator;
 import com.narmical.fonetic.rawdictionary.MobyToIpaConverter;
+import com.narmical.fonetic.rawdictionary.RawDictionary;
 import com.narmical.fonetic.rawdictionary.UnicodeEmojiDictionary;
 
 import org.junit.Test;
@@ -16,6 +17,8 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -153,16 +156,16 @@ public class BuildDictFromFilesTest {
             }
         }
 
-        InMemoryPronunciationDictionary dict = new InMemoryPronunciationDictionary(
-                ApplicationProvider.getApplicationContext(),
-                new UnicodeEmojiDictionary(
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        this.res.openRawResource(R.raw.unicode_emoji_dict)
-                                )
+        InMemoryPronunciationDictionary dict = new InMemoryPronunciationDictionary();
+        List<RawDictionary> rawDictionaries = new ArrayList<>();
+        rawDictionaries.add(new UnicodeEmojiDictionary(
+                new BufferedReader(
+                        new InputStreamReader(
+                                this.res.openRawResource(R.raw.unicode_emoji_dict)
                         )
                 )
-        );
+        ));
+        dict.loadDictionary(rawDictionaries);
 
         // assert that dict object has name number of unique pronunciations as the input file
         assertThat(dict.numEntries(), equalTo(expected.size()));
@@ -183,16 +186,16 @@ public class BuildDictFromFilesTest {
             }
         }
 
-        RoomPronunciationDictionary dict = new RoomPronunciationDictionary(
-                ApplicationProvider.getApplicationContext(),
-                new UnicodeEmojiDictionary(
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        this.res.openRawResource(R.raw.unicode_emoji_dict)
-                                )
+        RoomPronunciationDictionary dict = new RoomPronunciationDictionary(ApplicationProvider.getApplicationContext());
+        List<RawDictionary> rawDictionaries = new ArrayList<>();
+        rawDictionaries.add(new UnicodeEmojiDictionary(
+                new BufferedReader(
+                        new InputStreamReader(
+                                this.res.openRawResource(R.raw.unicode_emoji_dict)
                         )
                 )
-        );
+        ));
+        dict.loadDictionary(rawDictionaries);
 
         // assert that dict object has name number of unique pronunciations as the input file
         assertThat(dict.numEntries(), equalTo(expected.size()));

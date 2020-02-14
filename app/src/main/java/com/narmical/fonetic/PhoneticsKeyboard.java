@@ -35,7 +35,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private EditorInfo sEditorInfo;
 
     public boolean isWordSeparator(int code) {
-        String separators = "\u0020.,;:!?\n()[]*&@{}/<>_+=|&'\"-";
+        String separators = "\u0020.,;!?\n()[]*&@{}/<>_+=|&'\"-";
         return separators.contains(String.valueOf((char) code));
     }
 

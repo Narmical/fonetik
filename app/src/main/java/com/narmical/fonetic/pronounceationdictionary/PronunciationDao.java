@@ -17,6 +17,10 @@ public interface PronunciationDao {
     @Query("SELECT * FROM pronunciation WHERE ipa = :ipa")
     List<Pronunciation> get(String ipa);
 
+    @Query("SELECT * FROM pronunciation WHERE spelling = :spelling")
+    List<Pronunciation> reverseLookup(String spelling);
+
+
     @Query("SELECT * FROM pronunciation")
     List<Pronunciation> getAll();
 

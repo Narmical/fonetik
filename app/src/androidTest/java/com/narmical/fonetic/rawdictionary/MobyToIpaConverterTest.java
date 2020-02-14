@@ -33,7 +33,7 @@ public class MobyToIpaConverterTest {
     public void mobyToIpaSingle() {
         List<String> expected = new ArrayList<>();
         expected.add("ɑː");
-        List<String> actual = mobyToIpaConverter.convertToIpa("/A/");
+        List<String> actual = mobyToIpaConverter.convert("/A/");
         assertThat(actual.toArray(), arrayContainingInAnyOrder(expected.toArray()));
     }
 
@@ -44,7 +44,7 @@ public class MobyToIpaConverterTest {
         expected.add("əə");
         expected.add("ʌə");
         expected.add("ʌʌ");
-        assertThat(mobyToIpaConverter.convertToIpa("/@//@/").toArray(), arrayContainingInAnyOrder(expected.toArray()));
+        assertThat(mobyToIpaConverter.convert("/@//@/").toArray(), arrayContainingInAnyOrder(expected.toArray()));
     }
 
     @Test
@@ -52,13 +52,13 @@ public class MobyToIpaConverterTest {
         String[] auxSymbols = new String[]{"'", ","};
 
         for (String symbol : auxSymbols) {
-            assertThat(mobyToIpaConverter.convertToIpa("/&/" + symbol + "/&/").toArray(), arrayContainingInAnyOrder(new String[]{"ææ"}));
+            assertThat(mobyToIpaConverter.convert("/&/" + symbol + "/&/").toArray(), arrayContainingInAnyOrder(new String[]{"ææ"}));
         }
     }
 
     @Test
     public void mobyToIpaTwo() {
-        assertThat(mobyToIpaConverter.convertToIpa("/&/b").toArray(), arrayContainingInAnyOrder(new String[]{"æb"}));
+        assertThat(mobyToIpaConverter.convert("/&/b").toArray(), arrayContainingInAnyOrder(new String[]{"æb"}));
     }
 
     @Test
@@ -66,6 +66,6 @@ public class MobyToIpaConverterTest {
         List<String> expected = new ArrayList<>();
         expected.add("ɑːɹtwɜːɹk");
         expected.add("ɑːɹtwəɹk");
-        assertThat(mobyToIpaConverter.convertToIpa("'/A/rt,w/[@]/rk").toArray(), arrayContainingInAnyOrder(expected.toArray()));
+        assertThat(mobyToIpaConverter.convert("'/A/rt,w/[@]/rk").toArray(), arrayContainingInAnyOrder(expected.toArray()));
     }
 }

@@ -22,7 +22,7 @@ public class ArpabetToIpaConverter implements IpaConverter {
     }
 
     @Override
-    public List<String> convertToIpa(String arpabet) {
+    public List<String> convert(String arpabet) {
         StringBuilder ipa = new StringBuilder();
         for (String arpa : arpabet.split(" ")) {
 

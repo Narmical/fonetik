@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 int dictSize = this.preCountDictSize(R.raw.mpron_dict) +
                         this.preCountDictSize(R.raw.cmu_dict) +
-                        this.preCountDictSize(R.raw.emoticon_to_emoji_dict)+
+                        this.preCountDictSize(R.raw.emoticon_to_emoji_dict) +
                         this.preCountDictSize(R.raw.unicode_emoji_dict);
 
 

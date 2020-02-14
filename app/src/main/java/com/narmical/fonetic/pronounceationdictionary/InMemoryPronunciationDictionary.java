@@ -13,11 +13,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class InMemoryPronunciationDictionary extends PronunciationDictionary {
 
 
     private Map<String, Set<String>> dictionary;
+
+    public InMemoryPronunciationDictionary() {
+
+    }
 
     public InMemoryPronunciationDictionary(Context context, RawDictionary rawDictionary) throws IOException {
         if (rawDictionary != null) {
@@ -35,6 +40,7 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
 
     }
 
+    @Override
     public SortedSet<String> exactMatch(String ipa) {
         SortedSet sortedSet = new TreeSet<>(new StringLengthComparator());
         Set<String> list = this.dictionary.get(ipa);
@@ -43,6 +49,7 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
         return sortedSet;
     }
 
+    @Override
     public SortedSet<String> lookAheadMatch(String ipa) {
         SortedSet<String> lookahead = new TreeSet<>(new StringLengthComparator());
         for (Map.Entry<String, Set<String>> entry : this.dictionary.entrySet()) {
@@ -51,6 +58,11 @@ public class InMemoryPronunciationDictionary extends PronunciationDictionary {
             }
         }
         return lookahead;
+    }
+
+    @Override
+    public Set<String> reverseLookup(String spelling) {
+        return new TreeSet<>();
     }
 
     public int numEntries() {

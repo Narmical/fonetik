@@ -10,6 +10,8 @@ public abstract class PronunciationDictionary {
 
     public abstract Set<String> exactMatch(String ipa);
 
+    public abstract Set<String> reverseLookup(String spelling);
+
     public List<String> getSuggestions(String ipa, int maxSuggestions) {
         List<String> result = new ArrayList<>();
         Set<String> exact = exactMatch(ipa);

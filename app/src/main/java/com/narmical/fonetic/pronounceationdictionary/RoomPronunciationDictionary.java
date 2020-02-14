@@ -1,7 +1,6 @@
 package com.narmical.fonetic.pronounceationdictionary;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.room.Room;
@@ -10,7 +9,9 @@ import com.narmical.fonetic.MainActivity;
 import com.narmical.fonetic.rawdictionary.RawDictionary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -28,7 +29,7 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
     public RoomPronunciationDictionary(Context context, RawDictionary rawDictionary) {
         PronunciationDB db = Room.databaseBuilder(context.getApplicationContext(), PronunciationDB.class, "pronunciation.db").build();
         this.pronunciationDao = db.pronunciationDao();
-        if (this.pronunciationDao.numEntries() == 0 ) {
+        if (this.pronunciationDao.numEntries() == 0) {
             List<RawDictionary> rawDictionaries = new ArrayList<>();
             rawDictionaries.add(rawDictionary);
             this.loadDictionary(rawDictionaries);
@@ -86,6 +87,13 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
         return spellings;
     }
 
+    @Override
+    public Set<String> reverseLookup(String spelling) {
+        SortedSet<Pronunciation> ipas = new TreeSet<>(new FrequencyComparator());
+        ipas.addAll(this.pronunciationDao.reverseLookup(spelling));
+        return ipas.stream().map(Pronunciation::getSpelling).collect(Collectors.toSet());
+    }
+
     private SortedSet<Pronunciation> _exactMatch(String ipa) {
         SortedSet<Pronunciation> spellings = new TreeSet<>(new FrequencyComparator());
         spellings.addAll(this.pronunciationDao.get(ipa));
@@ -104,9 +112,10 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
     }
 
     public void loadDictionary(List<RawDictionary> rawDictionaries, MainActivity activity, int dictSize) {
-                int progress = 0;
-        Set<Pronunciation> pronunciations = new TreeSet<>();
+        int progress = 0;
+        Map<String, List<Pronunciation>> pronunciations = new HashMap<>();
         for (RawDictionary rawDictionary : rawDictionaries) {
+            rawDictionary.setPronoucations(pronunciations);
             for (Pair<String, String> entry : rawDictionary) {
                 progress = progress + 1;
                 String ipa = entry.first;
@@ -118,26 +127,35 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
                 pronunciation.setSpelling(word);
                 pronunciation.setFrequency(0);
 
-                pronunciations.add(pronunciation);
+                if (!pronunciations.containsKey(word))
+                    pronunciations.put(word, new ArrayList<>());
+                pronunciations.get(word).add(pronunciation);
+
                 if (activity != null) {
-                    final int progressPercent = progress *100 / dictSize;
-                                        activity.runOnUiThread(() -> {
+                    final int progressPercent = progress * 100 / dictSize;
+                    activity.runOnUiThread(() -> {
                         activity.progressBarText.setText("loading " + word + "[" + ipa + "]");
                         activity.progressBar.setProgress(progressPercent);
                     });
                 }
             }
+
         }
-        activity.runOnUiThread(() -> {
-            activity.progressBarText.setText("Indexing pronunciation database");
-            activity.progressBar.setProgress(100);
-        });
-        pronunciationDao.insertAll(new ArrayList<>(pronunciations));
+
         if (activity != null) {
             activity.runOnUiThread(() -> {
-                activity.progressBarText.setText("Dictionary Build Complete!");
-                activity.progressBar.setProgress(100);
+                activity.progressBarText.setText("Indexing pronunciation database");
             });
         }
-            }
+        List pronunciationList =  new ArrayList<>();
+        pronunciations.entrySet().forEach(list->pronunciationList.addAll(list.getValue()));
+
+        pronunciationDao.insertAll(pronunciationList);
+
+        activity.runOnUiThread(() -> {
+            activity.progressBarText.setText("Dictionary Build Complete!");
+            activity.progressBar.setProgress(100);
+        });
+
+    }
 }

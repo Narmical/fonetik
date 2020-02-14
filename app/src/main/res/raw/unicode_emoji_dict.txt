@@ -2700,33 +2700,33 @@
 1F48F                                      ; fully-qualified     # 💏 E0.6 kiss
 1F469 200D 2764 FE0F 200D 1F48B 200D 1F468 ; fully-qualified     # 👩‍❤️‍💋‍👨 E2.0 kiss: woman, man
 1F469 200D 2764 200D 1F48B 200D 1F468      ; minimally-qualified # 👩‍❤‍💋‍👨 E2.0 kiss: woman, man
-1F468 200D 2764 FE0F 200D 1F48B 200D 1F468 ; fully-qualified     # 👨‍❤️‍💋‍👨 E2.0 kiss: man, man
-1F468 200D 2764 200D 1F48B 200D 1F468      ; minimally-qualified # 👨‍❤‍💋‍👨 E2.0 kiss: man, man
-1F469 200D 2764 FE0F 200D 1F48B 200D 1F469 ; fully-qualified     # 👩‍❤️‍💋‍👩 E2.0 kiss: woman, woman
-1F469 200D 2764 200D 1F48B 200D 1F469      ; minimally-qualified # 👩‍❤‍💋‍👩 E2.0 kiss: woman, woman
+1F468 200D 2764 FE0F 200D 1F48B 200D 1F468 ; fully-qualified     # 👨‍❤️‍💋‍👨 E2.0 kiss: man, man, gay
+1F468 200D 2764 200D 1F48B 200D 1F468      ; minimally-qualified # 👨‍❤‍💋‍👨 E2.0 kiss: man, man, gay
+1F469 200D 2764 FE0F 200D 1F48B 200D 1F469 ; fully-qualified     # 👩‍❤️‍💋‍👩 E2.0 kiss: woman, woman, lesbian
+1F469 200D 2764 200D 1F48B 200D 1F469      ; minimally-qualified # 👩‍❤‍💋‍👩 E2.0 kiss: woman, woman, lesbian
 1F491                                      ; fully-qualified     # 💑 E0.6 couple with heart
 1F469 200D 2764 FE0F 200D 1F468            ; fully-qualified     # 👩‍❤️‍👨 E2.0 couple with heart: woman, man
 1F469 200D 2764 200D 1F468                 ; minimally-qualified # 👩‍❤‍👨 E2.0 couple with heart: woman, man
-1F468 200D 2764 FE0F 200D 1F468            ; fully-qualified     # 👨‍❤️‍👨 E2.0 couple with heart: man, man
-1F468 200D 2764 200D 1F468                 ; minimally-qualified # 👨‍❤‍👨 E2.0 couple with heart: man, man
-1F469 200D 2764 FE0F 200D 1F469            ; fully-qualified     # 👩‍❤️‍👩 E2.0 couple with heart: woman, woman
-1F469 200D 2764 200D 1F469                 ; minimally-qualified # 👩‍❤‍👩 E2.0 couple with heart: woman, woman
+1F468 200D 2764 FE0F 200D 1F468            ; fully-qualified     # 👨‍❤️‍👨 E2.0 couple with heart: man, man, gay
+1F468 200D 2764 200D 1F468                 ; minimally-qualified # 👨‍❤‍👨 E2.0 couple with heart: man, man, gay
+1F469 200D 2764 FE0F 200D 1F469            ; fully-qualified     # 👩‍❤️‍👩 E2.0 couple with heart: woman, woman, lesbian
+1F469 200D 2764 200D 1F469                 ; minimally-qualified # 👩‍❤‍👩 E2.0 couple with heart: woman, woman, lesbian
 1F46A                                      ; fully-qualified     # 👪 E0.6 family
 1F468 200D 1F469 200D 1F466                ; fully-qualified     # 👨‍👩‍👦 E2.0 family: man, woman, boy
 1F468 200D 1F469 200D 1F467                ; fully-qualified     # 👨‍👩‍👧 E2.0 family: man, woman, girl
 1F468 200D 1F469 200D 1F467 200D 1F466     ; fully-qualified     # 👨‍👩‍👧‍👦 E2.0 family: man, woman, girl, boy
 1F468 200D 1F469 200D 1F466 200D 1F466     ; fully-qualified     # 👨‍👩‍👦‍👦 E2.0 family: man, woman, boy, boy
 1F468 200D 1F469 200D 1F467 200D 1F467     ; fully-qualified     # 👨‍👩‍👧‍👧 E2.0 family: man, woman, girl, girl
-1F468 200D 1F468 200D 1F466                ; fully-qualified     # 👨‍👨‍👦 E2.0 family: man, man, boy
-1F468 200D 1F468 200D 1F467                ; fully-qualified     # 👨‍👨‍👧 E2.0 family: man, man, girl
-1F468 200D 1F468 200D 1F467 200D 1F466     ; fully-qualified     # 👨‍👨‍👧‍👦 E2.0 family: man, man, girl, boy
-1F468 200D 1F468 200D 1F466 200D 1F466     ; fully-qualified     # 👨‍👨‍👦‍👦 E2.0 family: man, man, boy, boy
-1F468 200D 1F468 200D 1F467 200D 1F467     ; fully-qualified     # 👨‍👨‍👧‍👧 E2.0 family: man, man, girl, girl
-1F469 200D 1F469 200D 1F466                ; fully-qualified     # 👩‍👩‍👦 E2.0 family: woman, woman, boy
-1F469 200D 1F469 200D 1F467                ; fully-qualified     # 👩‍👩‍👧 E2.0 family: woman, woman, girl
-1F469 200D 1F469 200D 1F467 200D 1F466     ; fully-qualified     # 👩‍👩‍👧‍👦 E2.0 family: woman, woman, girl, boy
-1F469 200D 1F469 200D 1F466 200D 1F466     ; fully-qualified     # 👩‍👩‍👦‍👦 E2.0 family: woman, woman, boy, boy
-1F469 200D 1F469 200D 1F467 200D 1F467     ; fully-qualified     # 👩‍👩‍👧‍👧 E2.0 family: woman, woman, girl, girl
+1F468 200D 1F468 200D 1F466                ; fully-qualified     # 👨‍👨‍👦 E2.0 family: man, man, gay, boy
+1F468 200D 1F468 200D 1F467                ; fully-qualified     # 👨‍👨‍👧 E2.0 family: man, man, gay, girl
+1F468 200D 1F468 200D 1F467 200D 1F466     ; fully-qualified     # 👨‍👨‍👧‍👦 E2.0 family: man, man, gay, girl, boy
+1F468 200D 1F468 200D 1F466 200D 1F466     ; fully-qualified     # 👨‍👨‍👦‍👦 E2.0 family: man, man, gay, boy, boy
+1F468 200D 1F468 200D 1F467 200D 1F467     ; fully-qualified     # 👨‍👨‍👧‍👧 E2.0 family: man, man, gay, girl, girl
+1F469 200D 1F469 200D 1F466                ; fully-qualified     # 👩‍👩‍👦 E2.0 family: woman, woman, lesbian, boy
+1F469 200D 1F469 200D 1F467                ; fully-qualified     # 👩‍👩‍👧 E2.0 family: woman, woman, lesbian, girl
+1F469 200D 1F469 200D 1F467 200D 1F466     ; fully-qualified     # 👩‍👩‍👧‍👦 E2.0 family: woman, woman, lesbian, girl, boy
+1F469 200D 1F469 200D 1F466 200D 1F466     ; fully-qualified     # 👩‍👩‍👦‍👦 E2.0 family: woman, woman, lesbian, boy, boy
+1F469 200D 1F469 200D 1F467 200D 1F467     ; fully-qualified     # 👩‍👩‍👧‍👧 E2.0 family: woman, woman, lesbian, girl, girl
 1F468 200D 1F466                           ; fully-qualified     # 👨‍👦 E4.0 family: man, boy
 1F468 200D 1F466 200D 1F466                ; fully-qualified     # 👨‍👦‍👦 E4.0 family: man, boy, boy
 1F468 200D 1F467                           ; fully-qualified     # 👨‍👧 E4.0 family: man, girl

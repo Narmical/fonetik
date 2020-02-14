@@ -25,7 +25,7 @@ public class MobyToIpaConverter implements IpaConverter {
     }
 
     @Override
-    public List<String> convertToIpa(String moby) {
+    public List<String> convert(String moby) {
         List<StringBuilder> pronounciations = new ArrayList<>();
         pronounciations.add(new StringBuilder());
         Pattern pattern = Pattern.compile("(//Oi//|/.*?/|[a-zA-Z])");

@@ -37,7 +37,7 @@ public class MobyPronunciatorIterator extends RawDictionaryIterator {
         String[] entry = thisLine.split(" ");
         String spelling = formatWord(entry[0]).replaceAll("/\\w+", "");
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
-        for (String ipa : this.ipaConverter.convertToIpa(entry[1])) {
+        for (String ipa : this.ipaConverter.convert(entry[1])) {
             pairs.add(new Pair<>(ipa, spelling));
         }
         return pairs;

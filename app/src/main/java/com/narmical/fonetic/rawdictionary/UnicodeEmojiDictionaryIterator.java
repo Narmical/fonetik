@@ -6,15 +6,12 @@ import android.util.Pair;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
 
-    UnicodeEmojiDictionaryIterator(BufferedReader reader) {
-        super(reader, null);
+    UnicodeEmojiDictionaryIterator(BufferedReader reader, IpaConverter ipaConverter) {
+        super(reader, ipaConverter);
     }
 
     @Override
@@ -52,6 +49,10 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
         for (String keyword : description[1].split(" ")) {
             pairs.add(new Pair<>(keyword, spelling.toString()));
+            for (String keyIpa : this.ipaConverter.convert(keyword
+                    .replaceAll("\\W", ""))) {
+                pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
+            }
         }
         return pairs;
     }
