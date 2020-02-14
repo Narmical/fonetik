@@ -3,8 +3,6 @@ package com.narmical.fonetic.rawdictionary;
 import android.util.Pair;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +35,10 @@ abstract class RawDictionaryIterator implements Iterator<Pair<String, String>> {
 
         if (pairs.size() > 1)
             flowOver = pairs.subList(1, pairs.size());
-        return pairs.get(0);
+        if (pairs.size() != 0)
+            return pairs.get(0);
+        else
+            return null;
     }
 
     abstract protected List<Pair<String, String>> _next(String thisLine);

@@ -47,10 +47,10 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
             spelling.appendCodePoint(Integer.valueOf(codePoint, 16));
         }
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
-        for (String keyword : description[1].split(" ")) {
-            for (String keyIpa : this.ipaConverter.convert(keyword
-                    .replaceAll("\\W", ""))) {
-                pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
+        for (String keyword : description[1].split("\\W")) {
+            for (String keyIpa : this.ipaConverter.convert(keyword)) {
+                if (!keyIpa.equals(""))
+                    pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
             }
         }
         return pairs;

@@ -3,7 +3,7 @@ package com.narmical.fonetic.rawdictionary;
 import com.narmical.fonetic.pronounceationdictionary.Pronunciation;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ public class MapConverter implements IpaConverter {
         if (this.map.containsKey(spelling))
             return this.map.get(spelling).stream().map(Pronunciation::getIpa).collect(Collectors.toList());
         else
-            return new ArrayList<>();
+            return Arrays.asList(spelling);
     }
 
 }
