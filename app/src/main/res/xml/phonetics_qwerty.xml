@@ -3,7 +3,7 @@
     android:keyWidth="9.5%p"
     android:keyHeight="60dp"
     android:verticalGap="0.25%p">
-    <Row>
+    <Row android:rowEdgeFlags="top">
         <Key
             android:codes="49"
             android:keyEdgeFlags="left"
@@ -39,7 +39,7 @@
             android:codes="48"
             android:keyLabel="0" />
     </Row>
-    <Row android:rowEdgeFlags="top">
+    <Row >
         <Key
             android:keyLabel="q"
             android:keyOutputText="q" />
