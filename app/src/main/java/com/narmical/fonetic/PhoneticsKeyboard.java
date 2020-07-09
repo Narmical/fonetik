@@ -15,6 +15,7 @@ import com.narmical.fonetic.pronounceationdictionary.PronunciationDictionary;
 import com.narmical.fonetic.pronounceationdictionary.RoomPronunciationDictionary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PhoneticsKeyboard extends InputMethodService
@@ -22,6 +23,7 @@ public class PhoneticsKeyboard extends InputMethodService
 
     private static char emojiControlCharacter = ':';
     private static PronunciationDictionary mDictionary;
+    private static List<String> digraphs;
     private boolean caps = false;
     private Thread dictionaryBuilderThread;
     private boolean justPickedSuggestion;
@@ -33,6 +35,13 @@ public class PhoneticsKeyboard extends InputMethodService
     private boolean mPredictionOn;
     private List<String> mSuggestions;
     private EditorInfo sEditorInfo;
+
+    public PhoneticsKeyboard() {
+        String[] digraph_array = {
+                "ɔɪ", "ɜɹ", "aɪ", "eɪ", "oʊ", "aʊ"
+        };
+        digraphs = Arrays.asList(digraph_array);
+    }
 
     public boolean isWordSeparator(int code) {
         String separators = "\u0020.,;!?\n()[]*&@{}/<>_+=|&'\"-";
@@ -390,7 +399,15 @@ public class PhoneticsKeyboard extends InputMethodService
 
     private void handleBackspace() {
         final int length = mComposing.length();
-        if (length > 1) {
+        if (length > 2 &&
+                digraphs.contains("" + mComposing.charAt(mComposing.length() - 2) + mComposing.charAt(mComposing.length() - 1)
+                )) {
+
+            mComposing.delete(length - 2, length);
+            getCurrentInputConnection().setComposingText(mComposing, 1);
+            updateCandidates();
+        }
+        else if (length > 1) {
             mComposing.delete(length - 1, length);
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateCandidates();
