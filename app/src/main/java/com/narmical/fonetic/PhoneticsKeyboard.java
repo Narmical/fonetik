@@ -20,6 +20,7 @@ import java.util.List;
 public class PhoneticsKeyboard extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener {
 
+    private static char emojiControlCharacter = ':';
     private static PronunciationDictionary mDictionary;
     private boolean caps = false;
     private Thread dictionaryBuilderThread;
@@ -28,7 +29,6 @@ public class PhoneticsKeyboard extends InputMethodService
     private KeyboardView kv;
     private CandidateView mCandidateView;
     private boolean mCompletionOn;
-    private CompletionInfo[] mCompletions;
     private StringBuilder mComposing;
     private boolean mPredictionOn;
     private List<String> mSuggestions;
@@ -40,7 +40,7 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     public boolean isEndPunctuation(int code) {
-        String separators = ".,;:!?)]}-";
+        String separators = ".,;!?)]}-";
         return separators.contains(String.valueOf((char) code));
     }
 
@@ -135,7 +135,6 @@ public class PhoneticsKeyboard extends InputMethodService
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
         if (mCompletionOn) {
-            mCompletions = completions;
             if (completions == null) {
                 setSuggestions(null, false, false);
                 return;
@@ -212,8 +211,11 @@ public class PhoneticsKeyboard extends InputMethodService
                                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                                 break;
                         }
-                    } else {
+                    } else if (code == '-' || code == ' ') {
                         ic.commitText(String.valueOf(code), 1);
+
+                    } else {
+                        ic.commitText(code + " ", 1);
                     }
                 } else if (!isWordSeparator(primaryCode) && startsWithWordSeparator(mComposing)) {
                     ic.commitText(mComposing, 1);
@@ -266,7 +268,6 @@ public class PhoneticsKeyboard extends InputMethodService
 
         mPredictionOn = true;
         mCompletionOn = false;
-        mCompletions = null;
         mComposing = new StringBuilder();
         if (mDictionary == null && dictionaryBuilderThread == null) {
 
@@ -300,28 +301,20 @@ public class PhoneticsKeyboard extends InputMethodService
     }
 
     public void pickSuggestionManually(int index) {
-        pickSuggestionManually(index, " ");
+        pickSuggestionManually(index, (mComposing == null || mComposing.length() == 0 || mComposing.charAt(0) == PhoneticsKeyboard.emojiControlCharacter) ? "" : " ");
     }
 
     public void pickSuggestionManually(int index, String append) {
         this.justPickedSuggestion = true;
         if (index == 0) {
             commitTyped(getCurrentInputConnection());
-        } else if (mCompletionOn && mCompletions != null && index >= 1
-                && index < mCompletions.length) {
-            CompletionInfo ci = mCompletions[index];
-            getCurrentInputConnection().commitCompletion(ci);
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-        } else if (mComposing.length() > 0) {
+        } else {
 
+            boolean keepSuggestions = mComposing.length() == 0 || mComposing.charAt(0) == PhoneticsKeyboard.emojiControlCharacter;
             if (mPredictionOn && mSuggestions != null && index >= 0) {
                 new RecordSuggestionSelected().execute(mComposing.toString(), mSuggestions.get(index));
-                mComposing.replace(0, mComposing.length(), mSuggestions.get(index));
             }
-            mComposing.append(append);
-            commitTyped(getCurrentInputConnection());
+            commitTyped(getCurrentInputConnection(), mSuggestions.get(index) + append, keepSuggestions);
 
         }
 
@@ -380,10 +373,18 @@ public class PhoneticsKeyboard extends InputMethodService
      * Helper function to commit any text being composed in to the editor.
      */
     private void commitTyped(InputConnection inputConnection) {
-        if (mComposing.length() > 0) {
-            inputConnection.commitText(mComposing, 1);
+        commitTyped(inputConnection, mComposing.toString(), false);
+    }
+
+    private void commitTyped(InputConnection inputConnection, String toCommit, Boolean keepSuggestions) {
+        if (toCommit.length() > 0) {
+            inputConnection.commitText(toCommit, 1);
             mComposing.setLength(0);
-            updateCandidates();
+            if (keepSuggestions) {
+                //getCurrentInputConnection().setComposingText(mComposing, 1);
+            } else {
+                updateCandidates();
+            }
         }
     }
 

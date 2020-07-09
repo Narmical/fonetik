@@ -185,7 +185,7 @@ public class CandidateView extends View {
             mWordX[i] = x;
             mWordWidth[i] = wordWidth;
             paint.setColor(mColorNormal);
-            if (touchX + scrollX >= x && touchX + scrollX < x + wordWidth && !scrolled) {
+            if (touchX != CandidateView.OUT_OF_BOUNDS && touchX + scrollX >= x && touchX + scrollX < x + wordWidth && !scrolled) {
                 if (canvas != null) {
                     canvas.translate(x, 0);
                     mSelectionHighlight.setBounds(0, bgPadding.top, wordWidth, height);

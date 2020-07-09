@@ -23,7 +23,8 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
         try {
             do {
                 thisLine = reader.readLine();
-            } while (thisLine != null && (thisLine.equals("") || thisLine.startsWith("#")));
+            } while (thisLine != null && (thisLine.equals("") || thisLine.startsWith("#") ||
+                    thisLine.contains("skin tone")));
         } catch (IOException e) {
             this.hasNext = false;
             e.printStackTrace();
@@ -48,9 +49,11 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
         }
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
         for (String keyword : description[1].split("\\W")) {
-            for (String keyIpa : this.ipaConverter.convert(keyword)) {
-                if (!keyIpa.equals(""))
-                    pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
+            if (!keyword.equals("")) {
+                for (String keyIpa : this.ipaConverter.convert(keyword)) {
+                    if (!keyIpa.equals(""))
+                        pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
+                }
             }
         }
         return pairs;
