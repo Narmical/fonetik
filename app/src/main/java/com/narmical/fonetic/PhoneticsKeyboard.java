@@ -24,7 +24,7 @@ public class PhoneticsKeyboard extends InputMethodService
     private static char emojiControlCharacter = ':';
     private static PronunciationDictionary mDictionary;
     private static List<String> digraphs;
-    private boolean caps = false;
+    private boolean caps = true;
     private Thread dictionaryBuilderThread;
     private boolean justPickedSuggestion;
     private Keyboard keyboard;
@@ -222,8 +222,9 @@ public class PhoneticsKeyboard extends InputMethodService
                         }
                     } else if (code == '-' || code == ' ') {
                         ic.commitText(String.valueOf(code), 1);
-
                     } else {
+                        if (code == '.')
+                            shift(true);
                         ic.commitText(code + " ", 1);
                     }
                 } else if (!isWordSeparator(primaryCode) && startsWithWordSeparator(mComposing)) {
@@ -406,8 +407,7 @@ public class PhoneticsKeyboard extends InputMethodService
             mComposing.delete(length - 2, length);
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateCandidates();
-        }
-        else if (length > 1) {
+        } else if (length > 1) {
             mComposing.delete(length - 1, length);
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateCandidates();
