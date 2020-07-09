@@ -7,6 +7,7 @@ import androidx.room.Room;
 
 import com.narmical.fonetic.MainActivity;
 import com.narmical.fonetic.rawdictionary.RawDictionary;
+import com.narmical.fonetic.rawdictionary.WordFrequency;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,11 +108,11 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
         //return spellings.stream().map(Pronunciation::getSpelling).collect(Collectors.toList());
     }
 
-    public void loadDictionary(List<RawDictionary> rawDictionaries) {
-        loadDictionary(rawDictionaries, null, 0);
+    void loadDictionary(List<RawDictionary> rawDictionaries) {
+        loadDictionary(rawDictionaries, null, 0, null);
     }
 
-    public void loadDictionary(List<RawDictionary> rawDictionaries, MainActivity activity, int dictSize) {
+    public void loadDictionary(List<RawDictionary> rawDictionaries, MainActivity activity, int dictSize, WordFrequency wordFrequency) {
         int progress = 0;
         Map<String, List<Pronunciation>> pronunciations = new HashMap<>();
         for (RawDictionary rawDictionary : rawDictionaries) {
@@ -125,7 +126,11 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
                 Pronunciation pronunciation = new Pronunciation();
                 pronunciation.setIpa(ipa);
                 pronunciation.setSpelling(word);
-                pronunciation.setFrequency(0);
+                if (wordFrequency == null) {
+                    pronunciation.setFrequency(0);
+                } else {
+                    pronunciation.setFrequency(wordFrequency.getFrequencyRank(word));
+                }
 
                 if (!pronunciations.containsKey(word))
                     pronunciations.put(word, new ArrayList<>());
@@ -147,8 +152,8 @@ public class RoomPronunciationDictionary extends PronunciationDictionary {
                 activity.progressBarText.setText("Indexing pronunciation database");
             });
         }
-        List pronunciationList =  new ArrayList<>();
-        pronunciations.entrySet().forEach(list->pronunciationList.addAll(list.getValue()));
+        List pronunciationList = new ArrayList<>();
+        pronunciations.entrySet().forEach(list -> pronunciationList.addAll(list.getValue()));
 
         pronunciationDao.insertAll(pronunciationList);
 

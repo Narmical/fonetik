@@ -24,6 +24,7 @@ import com.narmical.fonetic.rawdictionary.MobyPronunciator;
 import com.narmical.fonetic.rawdictionary.MobyToIpaConverter;
 import com.narmical.fonetic.rawdictionary.RawDictionary;
 import com.narmical.fonetic.rawdictionary.UnicodeEmojiDictionary;
+import com.narmical.fonetic.rawdictionary.WordFrequency;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -154,7 +155,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 )
                         )
                 );
-                dictionary.loadDictionary(rawDictionaries, this, dictSize);
+                dictionary.loadDictionary(rawDictionaries, this, dictSize,
+                        new WordFrequency(new BufferedReader(
+                                new InputStreamReader(
+                                        this.getResources().openRawResource(R.raw.word_frequency),
+                                        StandardCharsets.UTF_8
+                                )
+                        )));
             } catch (
                     UnsupportedEncodingException e) {
                 e.printStackTrace();
