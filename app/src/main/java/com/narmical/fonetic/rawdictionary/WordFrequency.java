@@ -4,12 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class WordFrequency {
 
     private Map<String, Integer> wordFrequency;
-    private Pattern arpabetPattern = Pattern.compile("([A-Z]+)");
     private int count = 0;
 
     public WordFrequency(BufferedReader wordFrequency) throws IOException {
@@ -19,7 +17,7 @@ public class WordFrequency {
     }
 
     public int getFrequencyRank(String spelling) {
-        if (this.wordFrequency.containsKey(spelling))
+        if (this.wordFrequency.containsKey(spelling.toLowerCase()))
             return this.count - this.wordFrequency.get(spelling.toLowerCase()) + 1;
         else
             return 0;

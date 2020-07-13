@@ -50,7 +50,7 @@ public class UnicodeEmojiDictionaryIterator extends RawDictionaryIterator {
         ArrayList<Pair<String, String>> pairs = new ArrayList<>();
         for (String keyword : description[1].split("\\W")) {
             if (!keyword.equals("")) {
-                for (String keyIpa : this.ipaConverter.convert(keyword)) {
+                for (String keyIpa : this.ipaConverter.convert(keyword.toLowerCase())) {
                     if (!keyIpa.equals(""))
                         pairs.add(new Pair<>(":" + keyIpa, spelling.toString()));
                 }

@@ -993,8 +993,8 @@
 #1F468 1F3FF 200D 2695                      ; minimally-qualified # 👨🏿‍⚕ E4.0 man health worker: dark skin tone
 1F469 200D 2695 FE0F                       ; fully-qualified     # 👩‍⚕️ E4.0 woman health worker
 #1F469 200D 2695                            ; minimally-qualified # 👩‍⚕ E4.0 woman health worker
-1F469 1F3FB 200D 2695 FE0F                 ; fully-qualified     # 👩🏻‍⚕️ E4.0 woman health worker: light skin tone
-#1F469 1F3FB 200D 2695                      ; minimally-qualified # 👩🏻‍⚕ E4.0 woman health worker: light skin tone kris
+1F469 1F3FB 200D 2695 FE0F                 ; fully-qualified     # 👩🏻‍⚕️ E4.0 woman health worker: light kris
+#1F469 1F3FB 200D 2695                      ; minimally-qualified # 👩🏻‍⚕ E4.0 woman health worker: light kris
 1F469 1F3FC 200D 2695 FE0F                 ; fully-qualified     # 👩🏼‍⚕️ E4.0 woman health worker: medium-light skin tone
 #1F469 1F3FC 200D 2695                      ; minimally-qualified # 👩🏼‍⚕ E4.0 woman health worker: medium-light skin tone
 1F469 1F3FD 200D 2695 FE0F                 ; fully-qualified     # 👩🏽‍⚕️ E4.0 woman health worker: medium skin tone
@@ -1197,7 +1197,7 @@
 1F468 1F3FF 200D 1F4BB                     ; fully-qualified     # 👨🏿‍💻 E4.0 man technologist: dark skin tone
 1F469 200D 1F4BB                           ; fully-qualified     # 👩‍💻 E4.0 woman technologist
 1F469 1F3FB 200D 1F4BB                     ; fully-qualified     # 👩🏻‍💻 E4.0 woman technologist: light skin tone
-1F469 1F3FC 200D 1F4BB                     ; fully-qualified     # 👩🏼‍💻 E4.0 woman technologist: medium-light skin tone heather
+1F469 1F3FC 200D 1F4BB                     ; fully-qualified     # 👩🏼‍💻 E4.0 woman technologist: medium-light heather
 1F469 1F3FD 200D 1F4BB                     ; fully-qualified     # 👩🏽‍💻 E4.0 woman technologist: medium skin tone
 1F469 1F3FE 200D 1F4BB                     ; fully-qualified     # 👩🏾‍💻 E4.0 woman technologist: medium-dark skin tone
 1F469 1F3FF 200D 1F4BB                     ; fully-qualified     # 👩🏿‍💻 E4.0 woman technologist: dark skin tone
